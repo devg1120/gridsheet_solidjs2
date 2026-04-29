@@ -1,6 +1,7 @@
 import { StoreType } from "../types";
 import { Dispatcher } from "../store";
 import { JSXElement } from "solid-js";
+import { createSignal } from "solid-js";
 
 export type PluginContextType = {
     provided: boolean;
@@ -13,8 +14,8 @@ export type PluginContextType = {
 export const PluginContext = createContext({} as PluginContextType);
 
 export function useInitialPluginContext(): PluginContextType {
-    const [store, setStore] = useState<StoreType | undefined>(undefined);
-    const [sync, setSync] = useState<Dispatcher>();
+    const [store, setStore] = createSignal<StoreType | undefined>(undefined);
+    const [sync, setSync] = createSignal<Dispatcher>();
     return {
         provided: true,
         store,

@@ -27,9 +27,11 @@ export const Cell: FC<Props> = (
         const colId = x2c(x);
         const address = `${colId}${rowId}`;
         const { store, dispatch } = useContext(Context);
-        const isFirstPointed = useRef(true);
+        //const isFirstPointed = useRef(true);
+        const isFirstPointed = true;
 
-        const cellRef = useRef<HTMLTableCellElement>(null);
+        //const cellRef = useRef<HTMLTableCellElement>(null);
+        const cellRef = null;
         const {
             tableReactive: tableRef,
             editingAddress,
@@ -364,7 +366,8 @@ export const Cell: FC<Props> = (
                 </div>
             </td>
         );
-    },
+//    },
+    } //FIX
 );
 
 

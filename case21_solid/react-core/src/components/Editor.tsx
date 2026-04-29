@@ -10,6 +10,7 @@ import { COLOR_PALETTE } from "../lib/palette";
 import { EditorEventWithNativeEvent, ModeType } from "../types";
 import { Fixed } from "./Fixed";
 import { parseHTML, parseText } from "../lib/paste";
+import { createSignal, createEffect } from "solid-js";
 
 type Props = {
     mode: ModeType;
@@ -17,8 +18,8 @@ type Props = {
 
 export const Editor: FC<Props> = ({ mode }: Props) => {
     const { store, dispatch } = useContext(Context);
-    const [selected, setSelected] = useState(0);
-    const [shiftKey, setShiftKey] = useState(false);
+    const [selected, setSelected] = createSignal(0);
+    const [shiftKey, setShiftKey] = createSignal(false);
     const {
         choosing,
         inputting,
@@ -90,11 +91,11 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
         })
         .map(({ option }) => option);
 
-    useEffect(() => {
+    createEffect(() => {
         editorRef?.current?.focus?.({ preventScroll: true });
     }, [editorRef]);
 
-    useEffect(() => {
+    createEffect(() => {
         if (table.wire.lastFocused == null) {
             return;
         }
@@ -107,12 +108,12 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
 
         dispatch(setEditingAddress(""));
     }, [table.wire.lastFocused, editorRef, largeEditorRef, dispatch]);
-    useEffect(() => {
+    createEffect(() => {
         table.wire.editingSheetId = sheetId;
         table.wire.editingAddress = editingAddress;
     }, [editingAddress, table, sheetId]);
 
-    useEffect(() => {
+    createEffect(() => {
         //table.wire.transmit();
         expandInput(editorRef.current);
     }, [inputting, editingAddress, editorRef]);
@@ -129,9 +130,9 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
         cell,
         refEvaluation: "RAW",
     });
-    const [before, setBefore] = useState<string>(valueString);
+    const [before, setBefore] = createSignal<string>(valueString);
 
-    const selectValue = useCallback(
+    const selectValue = 
         (selected: number) => {
             const option = filteredOptions[selected];
             if (option) {
@@ -144,31 +145,27 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
                 dispatch(setInputting(""));
                 setSelected(0);
             }
-        },
-        [filteredOptions, table, address],
-    );
+        };
 
-    useEffect(() => {
+    createEffect(() => {
         setBefore(valueString);
         dispatch(setInputting(valueString));
         resetInput(editorRef.current, table, choosing);
-    }, [choosing, valueString, dispatch, editorRef, table]);
+    };
 
     const { y: top, x: left, height, width } = editorRect;
 
-    const writeCell = useCallback(
+    const writeCell = 
         (value: string) => {
             if (before !== value) {
                 dispatch(write({ value }));
             }
             setBefore(value);
-        },
-        [before],
-    );
+        }
 
     const numLines = valueString.split("\n").length;
-    const [isKeyDown, setIsKeyDown] = useState(false);
-    const handleKeyDown = useCallback(
+    const [isKeyDown, setIsKeyDown] = createSignal(false);
+    const handleKeyDown = 
         (e: EditorEventWithNativeEvent) => {
             if (isKeyDown) {
                 return;
@@ -474,33 +471,14 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
             }
             setSelected(0);
             return false;
-        },
-        [
-            isKeyDown,
-            editing,
-            filteredOptions,
-            selected,
-            editingOnEnter,
-            selectingZone,
-            before,
-            table,
-            choosing,
-            store,
-            cell,
-            address,
-            writeCell,
-            searchQuery,
-        ],
-    );
+        }
 
-    const handleFocus = useCallback(
+    const handleFocus =
         (e: React.FocusEvent<HTMLTextAreaElement>) => {
             table.wire.lastFocused = e.currentTarget;
-        },
-        [table],
-    );
+        }
 
-    const handleDoubleClick = useCallback(
+    const handleDoubleClick = 
         (e: React.MouseEvent<HTMLTextAreaElement>) => {
             if (prevention.hasOperation(cell?.prevention, prevention.Write)) {
                 console.warn("This cell is protected from writing.");
@@ -517,11 +495,9 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
                     input.setSelectionRange(length, length);
                 });
             }
-        },
-        [cell, editing, valueString, address],
-    );
+        }
 
-    const handleBlur = useCallback(
+    const handleBlur = 
         (e: React.FocusEvent<HTMLTextAreaElement>) => {
             if (isRefInsertable(e.currentTarget)) {
                 return true;
@@ -531,22 +507,18 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
                 }
             }
             dispatch(setEditingAddress(""));
-        },
-        [editing, writeCell],
-    );
+        }
 
-    const handleChange = useCallback(
+    const handleChange =
         (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             if (prevention.hasOperation(cell?.prevention, prevention.Write)) {
                 return;
             }
             dispatch(setInputting(e.currentTarget.value));
             setSelected(0);
-        },
-        [cell],
-    );
+        }
 
-    const handlePaste = useCallback(
+    const handlePaste =
         (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
             if (editing) {
                 return true;
@@ -567,11 +539,9 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
             e.preventDefault();
             e.stopPropagation();
             return false;
-        },
-        [editing, shiftKey],
-    );
+        }
 
-    const handleKeyUpInternal = useCallback(
+    const handleKeyUpInternal =
         (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
             setShiftKey(false);
             const selectingArea = zoneToArea(store.selectingZone);
@@ -583,19 +553,15 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
                     selectingTo: { y: selectingArea.bottom, x: selectingArea.right },
                 },
             });
-        },
-        [store.selectingZone, choosing],
-    );
+        }
 
-    const handleOptionMouseDown = useCallback(
+    const handleOptionMouseDown =
         (e: React.MouseEvent<HTMLLIElement>, index: number) => {
             selectValue(index);
             e.preventDefault();
             e.stopPropagation();
             return false;
-        },
-        [selectValue],
-    );
+        }
 
     return (
         <Fixed

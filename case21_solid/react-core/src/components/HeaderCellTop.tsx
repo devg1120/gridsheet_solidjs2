@@ -42,20 +42,18 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
 
     const editingAnywhere = !!(table?.wire.editingAddress || editingAddress);
 
-    const writeCell = useCallback(
+    const writeCell = 
         (value: string) => {
             dispatch(write({ value, point: choosing }));
-        },
-        [choosing],
-    );
+        }
 
-    const handleResizeMouseDown = useCallback((e: React.MouseEvent) => {
+    const handleResizeMouseDown = (e: React.MouseEvent) => {
         dispatch(setResizingPositionX([x, e.clientX, e.clientX]));
         e.stopPropagation();
         safePreventDefault(e);
-    }, []);
+    }
 
-    const handleDragStart = useCallback(
+    const handleDragStart =
         (e: React.MouseEvent | React.TouchEvent) => {
             e.stopPropagation();
             safePreventDefault(e);
@@ -119,20 +117,9 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
                 return false;
             }
             return true;
-        },
-        [
-            dragging,
-            editingAnywhere,
-            xSheetFocused,
-            colId,
-            lastFocused,
-            selectingZone,
-            choosing,
-            autofillDraggingTo,
-        ],
-    );
+        }
 
-    const handleDragEnd = useCallback(
+    const handleDragEnd =
         (e: React.MouseEvent | React.TouchEvent) => {
             e.stopPropagation();
             if (e.type.startsWith("touch")) {
@@ -145,11 +132,9 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
                 editorRef.current!.focus();
                 return false;
             }
-        },
-        [autofillDraggingTo],
-    );
+        }
 
-    const handleDragging = useDebounceCallback(
+    const handleDragging =
         (e: React.MouseEvent | React.TouchEvent) => {
             if (!isTouching(e) || !table) {
                 return false;
@@ -183,9 +168,7 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
                 }
             }
             return false;
-        },
-        100,
-    );
+        }
 
     if (!table) {
         return (

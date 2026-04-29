@@ -5,6 +5,7 @@ import * as prevention from "../lib/operation";
 import { insertTextAtCursor } from "../lib/input";
 import { editorStyle } from "./Editor";
 import { ScrollHandle } from "./ScrollHandle";
+import { createSignal } from "solid-js";
 
 type FormulaBarProps = {
     ready: boolean;
@@ -13,7 +14,7 @@ type FormulaBarProps = {
 //export const FormulaBar = ({ ready }: FormulaBarProps) => {
 export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => {
     const { store, dispatch } = useContext(Context);
-    const [before, setBefore] = useState("");
+    const [before, setBefore] = createSignal("");
     const {
         choosing,
         editorRef,
@@ -22,12 +23,13 @@ export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => 
         inputting,
         editingAddress: editingCell,
     } = store;
-    const table = tableRef.current;
-    const hlRef = useRef<HTMLDivElement | null>(null);
+    const table = tableRef;
+    //const hlRef = useRef<HTMLDivElement | null>(null);
+    const hlRef = null;
 
     const address = choosing.x === -1 ? "" : p2a(choosing);
     const cell = table?.getCellByPoint(choosing, "SYSTEM");
-    useEffect(() => {
+    createEffect(() => {
         if (!table) {
             return;
         }
@@ -42,18 +44,16 @@ export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => 
         setBefore(value as string);
     }, [address, table]);
 
-    const writeCell = useCallback(
+    const writeCell = 
         (value: string) => {
             if (before !== value) {
                 dispatch(write({ value }));
             }
             dispatch(setEditingAddress(""));
             editorRef.current!.focus();
-        },
-        [before],
-    );
+        }
 
-    useEffect(() => {
+    createEffect(() => {
         const observer = new ResizeObserver((entries) => {
             entries.forEach(updateScroll);
         });
@@ -68,31 +68,29 @@ export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => 
     const largeInput = largeEditorRef.current;
 
     //const handleInput = useCallback((e: KeyboardEvent<HTMLTextAreaElement>) => {
-    const handleInput = useCallback((e: InputEvent<HTMLTextAreaElement>) => {
+    const handleInput = (e: InputEvent<HTMLTextAreaElement>) => {
         dispatch(setInputting(e.currentTarget.value));
-    }, []);
+    }
 
-    const updateScroll = useCallback(() => {
+    const updateScroll = () => {
         if (!hlRef.current || !largeEditorRef.current) {
             return;
         }
         hlRef.current.style.height = `${largeEditorRef.current.clientHeight}px`;
         hlRef.current.scrollLeft = largeEditorRef.current.scrollLeft;
         hlRef.current.scrollTop = largeEditorRef.current.scrollTop;
-    }, []);
+    }
 
-    const handleFocus = useCallback(
+    const handleFocus = 
         (e: React.FocusEvent<HTMLTextAreaElement>) => {
             if (!largeInput || !table) {
                 return;
             }
             dispatch(setEditingAddress(address));
             table.wire.lastFocused = e.currentTarget;
-        },
-        [largeInput, address, table],
-    );
+        }
 
-    const handleBlur = useCallback(
+    const handleBlur = 
         (e: React.FocusEvent<HTMLTextAreaElement>) => {
             if (e.currentTarget.value!.startsWith("=")) {
                 return true;
@@ -101,11 +99,9 @@ export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => 
                     writeCell(e.currentTarget.value);
                 }
             }
-        },
-        [editingCell, writeCell],
-    );
+        }
 
-    const handleKeyDown = useCallback(
+    const handleKeyDown = 
         (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
             if (e.ctrlKey || !table) {
                 return true;
@@ -165,9 +161,7 @@ export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => 
             }
             updateScroll();
             return false;
-        },
-        [table, choosing, before, writeCell, updateScroll],
-    );
+        }
 
     const style: React.CSSProperties = ready ? {} : { visibility: "hidden" };
     if (!table) {

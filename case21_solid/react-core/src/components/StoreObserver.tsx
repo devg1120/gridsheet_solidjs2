@@ -3,6 +3,7 @@ import { Context } from "../store";
 import { setStore, updateTable } from "../store/actions";
 import { usePluginContext } from "./PluginBase";
 import { Table } from "../lib/table";
+import { createEffect } from "solid-js";
 
 type StoreObserverProps = OptionsType & {
     sheetName?: string;
@@ -24,7 +25,7 @@ export const StoreObserver: FC<StoreObserverProps> = ({
     const { tableReactive: tableRef } = store;
     const table = tableRef.current;
 
-    useEffect(() => {
+    createEffect(() => {
         if (!table) {
             return;
         }
@@ -37,7 +38,7 @@ export const StoreObserver: FC<StoreObserverProps> = ({
         }
     }, [sheetName]);
 
-    useEffect(() => {
+    createEffect(() => {
         if (!table) {
             return;
         }
@@ -65,35 +66,35 @@ export const StoreObserver: FC<StoreObserverProps> = ({
         }
     }, [store, table, connector]);
 
-    useEffect(() => {
+    createEffect(() => {
         if (sheetHeight) {
             dispatch(setStore({ sheetHeight }));
         }
     }, [sheetHeight, dispatch]);
-    useEffect(() => {
+    createEffect(() => {
         if (sheetWidth) {
             dispatch(setStore({ sheetWidth }));
         }
     }, [sheetWidth]);
-    useEffect(() => {
+    createEffect(() => {
         if (typeof editingOnEnter !== "undefined") {
             dispatch(setStore({ editingOnEnter }));
         }
     }, [editingOnEnter]);
-    useEffect(() => {
+    createEffect(() => {
         if (typeof showAddress !== "undefined") {
             dispatch(setStore({ showAddress }));
         }
     }, [showAddress]);
 
-    useEffect(() => {
+    createEffect(() => {
         if (mode) {
             dispatch(setStore({ mode }));
         }
     }, [mode]);
 
     const [pluginProvided, pluginContext] = usePluginContext();
-    useEffect(() => {
+    createEffect(() => {
         if (!pluginProvided) {
             return;
         }

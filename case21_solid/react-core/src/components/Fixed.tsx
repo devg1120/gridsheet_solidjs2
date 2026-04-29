@@ -1,5 +1,6 @@
 import { useBrowser } from "./hooks";
-import { createPortal } from "react-dom";
+//import { createPortal } from "react-dom";
+import { Portal } from "solid-js/web";
 import { JSXElement } from "solid-js";
 
 type Props = {
@@ -19,10 +20,18 @@ export const Fixed: FC<Props> = ({
     if (document == null) {
         return null;
     }
+   /*
     return createPortal(
         <div {...attrs} class={`gs-fixed ${className}`} style={style}>
             {children}
         </div>,
         document.body,
     );
+    */
+        <Portal>
+        <div {...attrs} class={`gs-fixed ${className}`} style={style}>
+            {children}
+        </div>,
+        </Portal>
+
 };

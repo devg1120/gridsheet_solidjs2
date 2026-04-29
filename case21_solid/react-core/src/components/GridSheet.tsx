@@ -24,13 +24,19 @@ export const useConnector = () => useRef<Connector | null>(null);
 
 export function GridSheet(params) {
     const { sheetResize, showFormulaBar = true, mode = "light" } = params.options;
-    const rootRef = useRef<HTMLDivElement>(null);
-    const mainRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLTextAreaElement>(null);
-    const editorRef = useRef<HTMLTextAreaElement>(null);
-    const largeEditorRef = useRef<HTMLTextAreaElement>(null); //GUSA
-    const tabularRef = useRef<HTMLDivElement>(null);
+    //const rootRef = useRef<HTMLDivElement>(null);
+    //const mainRef = useRef<HTMLDivElement>(null);
+    //const searchInputRef = useRef<HTMLTextAreaElement>(null);
+    //const editorRef = useRef<HTMLTextAreaElement>(null);
+    //const largeEditorRef = useRef<HTMLTextAreaElement>(null); //GUSA
+    //const tabularRef = useRef<HTMLDivElement>(null);
 
+    const rootRef = null;
+    const mainRef = null;
+    const searchInputRef = null;
+    const editorRef = null;
+    const largeEditorRef = null; //GUSA
+    const tabularRef = null;
     const internalConnector = useConnector();
     const connector = params.connector ?? internalConnector;
 
@@ -39,14 +45,16 @@ export function GridSheet(params) {
 
 
     // useRef to manage sheetId and avoid Strict Mode issues
-    const sheetIdRef = useRef<number | null>(null);
+    //const sheetIdRef = useRef<number | null>(null);
+    const sheetIdRef = null;
     if (sheetIdRef.current === null) {
         sheetIdRef.current = ++hub.wire.sheetHead;
     }
     const sheetId = sheetIdRef.current;
 
     // Initialize tableReactive
-    const tableReactive = useRef<Table | null>(null);
+    //const tableReactive = useRef<Table | null>(null);
+    const tableReactive = null;
 
     const [initialState] = createSignal<StoreType>(() => {
         if (!params.sheetName) {

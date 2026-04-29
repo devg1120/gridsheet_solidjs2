@@ -4,6 +4,7 @@ import { getAreaInTabular } from "../lib/virtualization";
 import { insertRef, isFocus } from "../lib/input";
 import { areaToRange, zoneToArea } from "../lib/structs";
 import { isXSheetFocused } from "../store/helpers";
+import { createEffect } from "solid-js";
 
 type Props = {
     className?: string;
@@ -33,7 +34,8 @@ export const ScrollHandle = memo<Props>(   //GUSA
         vertical = 0,
         className = "",
     }: Props) => {
-        const scrollRef = useRef<number | null>(null);
+        //const scrollRef = useRef<number | null>(null);
+        const scrollRef = null;
         const { store, dispatch } = useContext(Context);
         const {
             tabularRef,
@@ -51,7 +53,7 @@ export const ScrollHandle = memo<Props>(   //GUSA
         const xSheetFocused = isXSheetFocused(store);
         const editingAnywhere = !!(table?.wire.editingAddress || editingAddress);
 
-        const getDestEdge = useCallback(
+        const getDestEdge =
             (e: React.MouseEvent) => {
                 if (!table) {
                     return { x: -1, y: -1 };
@@ -72,11 +74,9 @@ export const ScrollHandle = memo<Props>(   //GUSA
                     y = vertical > 0 ? area.bottom : area.top;
                 }
                 return { x, y };
-            },
-            [table, horizontal, vertical, selectingZone],
-        );
+            }
 
-        const scrollStep = useCallback(
+        const scrollStep =
             (e: React.MouseEvent) => {
                 if (!isScrolling || tabularRef.current === null || !table) {
                     return;
@@ -114,21 +114,9 @@ export const ScrollHandle = memo<Props>(   //GUSA
                 }
                 currentSpeed = Math.min(currentSpeed + acceleration, maxSpeed);
                 scrollRef.current = requestAnimationFrame(() => scrollStep(e));
-            },
-            [
-                isScrolling,
-                table,
-                horizontal,
-                vertical,
-                autofillDraggingTo,
-                editingAnywhere,
-                selectingZone,
-                xSheetFocused,
-                getDestEdge,
-            ],
-        );
+            }
 
-        const handleMouseEnter = useCallback(
+        const handleMouseEnter =
             (e: React.MouseEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -147,11 +135,9 @@ export const ScrollHandle = memo<Props>(   //GUSA
                     }
                 }
                 scrollRef.current = requestAnimationFrame(() => scrollStep(e));
-            },
-            [isScrolling, horizontal, vertical, scrollStep],
-        );
+            }
 
-        const stopScroll = useCallback(() => {
+        const stopScroll = () => {
             if (scrollRef.current !== null) {
                 cancelAnimationFrame(scrollRef.current);
                 scrollRef.current = null;
@@ -161,9 +147,9 @@ export const ScrollHandle = memo<Props>(   //GUSA
                 // Pressing Enter on a search result will not focus the editor.
                 editorRef.current?.focus?.();
             }
-        }, []);
+        }
 
-        const handleMouseUp = useCallback(
+        const handleMouseUp =
             (e: React.MouseEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -185,24 +171,20 @@ export const ScrollHandle = memo<Props>(   //GUSA
                         dispatch(drag({ y: -1, x: -1 })); // Reset dragging
                     }
                 }
-            },
-            [autofillDraggingTo, editingAnywhere, getDestEdge],
-        );
+            }
 
-        const handleMouseUpWrapper = useCallback(
+        const handleMouseUpWrapper =
             (e: React.MouseEvent) => {
                 stopScroll();
                 dispatch(setDragging(false));
                 requestAnimationFrame(() => handleMouseUp(e));
-            },
-            [stopScroll, handleMouseUp],
-        );
+            }
 
-        const handleMouseLeave = useCallback(() => {
+        const handleMouseLeave =() => {
             stopScroll();
-        }, [stopScroll]);
+        }
 
-        useEffect(() => {
+        createEffect(() => {
             return stopScroll;
         }, [stopScroll]);
 

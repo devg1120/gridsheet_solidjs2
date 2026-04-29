@@ -40,12 +40,10 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
 
     const editingAnywhere = !!(table?.wire.editingAddress || editingAddress);
 
-    const writeCell = useCallback(
+    const writeCell = 
         (value: string) => {
             dispatch(write({ value, point: choosing }));
-        },
-        [choosing],
-    );
+        }
 
     const handleResizeMouseDown = useCallback((e: React.MouseEvent) => {
         dispatch(setResizingPositionY([y, e.clientY, e.clientY]));
@@ -53,7 +51,7 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
         safePreventDefault(e);
     }, []);
 
-    const handleDragStart = useCallback(
+    const handleDragStart =
         (e: React.MouseEvent | React.TouchEvent) => {
             e.stopPropagation();
             safePreventDefault(e);
@@ -117,20 +115,9 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
                 return false;
             }
             return true;
-        },
-        [
-            dragging,
-            editingAnywhere,
-            xSheetFocused,
-            rowId,
-            lastFocused,
-            selectingZone,
-            choosing,
-            autofillDraggingTo,
-        ],
-    );
+        }
 
-    const handleDragEnd = useCallback(
+    const handleDragEnd =
         (e: React.MouseEvent | React.TouchEvent) => {
             e.stopPropagation();
             if (e.type.startsWith("touch")) {
@@ -143,11 +130,9 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
                 editorRef.current!.focus();
                 return false;
             }
-        },
-        [autofillDraggingTo],
-    );
+        }
 
-    const handleDragging = useDebounceCallback(
+    const handleDragging =
         (e: React.MouseEvent | React.TouchEvent) => {
             if (!isTouching(e) || !table) {
                 return false;
@@ -182,11 +167,9 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
                 }
             }
             return false;
-        },
-        100,
-    );
+        }
 
-    const handleContextMenu = useCallback(
+    const handleContextMenu =
         (e: React.MouseEvent<HTMLTableCellElement>) => {
             if (contextMenuItems.length > 0) {
                 e.stopPropagation();
@@ -195,9 +178,7 @@ export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
                 return false;
             }
             return true;
-        },
-        [contextMenuItems.length],
-    );
+        }
 
     if (!table) {
         return null;
