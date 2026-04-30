@@ -70,7 +70,7 @@ export function ScrollHandle({ style, horizontal = 0, vertical = 0, className = 
             searchInputRef,
             editingAddress,
         } = store;
-        const table = tableRef.current;
+        const table = tableRef;
 
         let isScrolling = false;
         const xSheetFocused = isXSheetFocused(store);
@@ -211,7 +211,7 @@ export function ScrollHandle({ style, horizontal = 0, vertical = 0, className = 
             return stopScroll;
         }, [stopScroll]);
 
-        if (!editorRef.current || (!dragging && !autofillDraggingTo)) {
+        if (!editorRef || (!dragging && !autofillDraggingTo)) {
             return <div class={`gs-scroll-handle gs-hidden ${className}`} />;
         }
 

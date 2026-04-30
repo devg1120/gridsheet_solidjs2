@@ -91,7 +91,7 @@ export const initSearchStatement = (table: Table, store: StoreType) => {
 
 export const isXSheetFocused = (store: StoreType) => {
     const { sheetId, tableReactive: tableRef } = store;
-    const table = tableRef.current;
+    const table = tableRef;
     if (!table) {
         return false;
     }
