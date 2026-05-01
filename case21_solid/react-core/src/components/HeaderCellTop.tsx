@@ -32,7 +32,7 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
         autofillDraggingTo,
         dragging,
         contextMenuItems,
-    } = store;
+    } = store()();
     const table = tableRef.current;
 
     const col = table?.getCellByPoint({ y: 0, x }, "SYSTEM");

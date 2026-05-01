@@ -23,8 +23,18 @@ export const createConnector = () => createRef<Connector | null>();
 //export const useConnector = () => useRef<Connector | null>(null);
 export const useConnector = () =>   null;
 
-export function GridSheet(params) {
-    const { sheetResize, showFormulaBar = true, mode = "light" } = params.options;
+//export function GridSheet(params) {
+export function GridSheet({
+  initialCells,
+  sheetName = "",
+  connector: initialConnector,
+  options = {},
+  className,
+  style,
+  hub: initialHub,
+}: Props) {
+
+    const { sheetResize, showFormulaBar = true, mode = "light" } = options;
     //const rootRef = useRef<HTMLDivElement>(null);
     //const mainRef = useRef<HTMLDivElement>(null);
     //const searchInputRef = useRef<HTMLTextAreaElement>(null);
@@ -39,10 +49,10 @@ export function GridSheet(params) {
     const largeEditorRef = null; //GUSA
     const tabularRef = null;
     const internalConnector = useConnector();
-    const connector = params.connector ?? internalConnector;
+    const connector = connector ?? internalConnector;
 
     const internalHub = useHub({});
-    const hub = params.hub ?? internalHub;
+    const hub = hub ?? internalHub;
 
 
     // useRef to manage sheetId and avoid Strict Mode issues
@@ -58,27 +68,27 @@ export function GridSheet(params) {
     const tableReactive = null;
 
     const [initialState] = createSignal<StoreType>(() => {
-        if (!params.sheetName) {
-            params.sheetName = `Sheet${sheetId}`;
+        if (!sheetName) {
+            sheetName = `Sheet${sheetId}`;
             console.debug(
                 "GridSheet: sheetName is not provided, using default name:",
-                params.sheetName,
+                sheetName,
             );
         }
         const { minNumRows, maxNumRows, minNumCols, maxNumCols, contextMenuItems } =
-            params.options;
+            options;
         const table = new Table({
             minNumRows,
             maxNumRows,
             minNumCols,
             maxNumCols,
-            sheetName: params.sheetName,
+            sheetName: sheetName,
             hub: hub.wire,
         });
         table.sheetId = sheetId;
-        hub.wire.sheetIdsByName[params.sheetName] = sheetId;
+        hub.wire.sheetIdsByName[sheetName] = sheetId;
 
-        table.initialize(params.initialCells);
+        table.initialize(initialCells);
         hub.wire.onInit?.({ table });
 
         table.setTotalSize();
@@ -136,10 +146,10 @@ export function GridSheet(params) {
     });
 
     const [sheetHeight, setSheetHeight] = createSignal(
-        params.options?.sheetHeight || estimateSheetHeight(params.initialCells),
+        options?.sheetHeight || estimateSheetHeight(initialCells),
     );
     const [sheetWidth, setSheetWidth] = createSignal(
-        params.options?.sheetWidth || estimateSheetWidth(params.initialCells),
+        options?.sheetWidth || estimateSheetWidth(initialCells),
     );
 
     onMountWithCleaning(() => {
@@ -151,18 +161,18 @@ export function GridSheet(params) {
     });
 
     createEffect(on(
-        () => [params.options.sheetHeight],
+        () => [options.sheetHeight],
         () => {
-            if (params.options.sheetHeight) {
-                setSheetHeight(params.options.sheetHeight);
+            if (options.sheetHeight) {
+                setSheetHeight(options.sheetHeight);
             }
         }
     ));
     createEffect(on(
-        () => [params.options.sheetWidth],
+        () => [options.sheetWidth],
         () => {
-            if (params.options.sheetWidth) {
-                setSheetWidth(params.options.sheetWidth);
+            if (options.sheetWidth) {
+                setSheetWidth(options.sheetWidth);
             }
         }
     ));
@@ -175,7 +185,7 @@ export function GridSheet(params) {
             <div
                 class={`gs-root1 ${hub.wire.ready ? "gs-initialized" : ""}`}
                 ref={rootRef}
-                data-sheet-name={params.sheetName}
+                data-sheet-name={sheetName}
                 data-mode={mode}
             >
                 <ScrollHandle style={{
@@ -210,14 +220,14 @@ export function GridSheet(params) {
                     <SearchBar />
                 )}
                 <div
-                    class={`gs-main ${params.className || ""}`}
+                    class={`gs-main ${className || ""}`}
                     ref={mainRef}
                     style={mergeProps({
             maxWidth: (store.tableReactive?.totalWidth || 0) + 2,
             maxHeight: (store.tableReactive?.totalHeight || 0) + 2,
                         overflow: "auto",
                         resize: sheetResize
-                    }, () => params.style)}
+                    }, () => style)}
                 >
                     <Editor mode={mode} />
                     <Tabular />

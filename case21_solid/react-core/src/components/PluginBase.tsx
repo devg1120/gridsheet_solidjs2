@@ -1,7 +1,7 @@
 import { StoreType } from "../types";
 import { Dispatcher } from "../store";
 import { JSXElement } from "solid-js";
-import { createSignal, createContext } from "solid-js";
+import { createSignal, createContext, useContext } from "solid-js";
 
 export type PluginContextType = {
     provided: boolean;

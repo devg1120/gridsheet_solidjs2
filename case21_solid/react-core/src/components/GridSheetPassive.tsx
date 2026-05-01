@@ -19,13 +19,26 @@ import { ScrollHandle } from "./ScrollHandle";
 import { onMount, createSignal, mergeProps } from "solid-js";
 import { createStore } from "solid-js/store";
 
-export const createConnector = () => createRef<Connector | null>();
-//export const useConnector = () => useRef<Connector | null>(null);
-export const useConnector = () => null;
+//export const createConnector = () => createRef<Connector | null>();  //TODO
+//export const useConnector = () => useRef<Connector | null>(null);    //TODO
 
-export function GridSheetPassive(params) {
+//export function GridSheetPassive(params) {
 
-    const { sheetResize, showFormulaBar = true, mode = "light" } = params.options;
+export function GridSheetPassive({
+  //initialCells,
+  table ,   //GUSA
+  //table  ,   //GUSA
+  
+  sheetName = "",
+  connector: initialConnector,
+  options = {},
+  className,
+  style,
+  hub: initialHub,
+}: PassiveProps) {
+
+
+    const { sheetResize, showFormulaBar = true, mode = "light" } = options;
     //const rootRef = useRef<HTMLDivElement>(null);
     //const mainRef = useRef<HTMLDivElement>(null);
     //const searchInputRef = useRef<HTMLTextAreaElement>(null);
@@ -40,11 +53,12 @@ export function GridSheetPassive(params) {
     let largeEditorRef = null; //GUSA
     let tabularRef = null;
 
-    const internalConnector = useConnector();
-    const connector = params.connector ?? internalConnector;
+    //const internalConnector = useConnector();   //TODO
+    //const connector = connector ?? internalConnector;  //TODO
 
     const internalHub = useHub({});
-    const hub = params.hub ?? internalHub;
+    //const hub = hub ?? internalHub;
+    const hub = internalHub; //TODO
 
 
 
@@ -63,15 +77,15 @@ export function GridSheetPassive(params) {
     let  tableReactive = null;
 
     const [initialState] = createSignal<StoreType>(() => {
-        if (!params.sheetName) {
-            params.sheetName = `Sheet${sheetId}`;
+        if (!sheetName) {
+            sheetName = `Sheet${sheetId}`;
             console.debug(
                 "GridSheet: sheetName is not provided, using default name:",
-                params.sheetName,
+                sheetName,
             );
         }
         const { minNumRows, maxNumRows, minNumCols, maxNumCols, contextMenuItems } =
-            params.options;
+            options;
 
         /*
             const table = new Table({
@@ -83,16 +97,16 @@ export function GridSheetPassive(params) {
               hub: wire,
             });
         */
-        params.table.sheetId = sheetId;
-        hub.wire.sheetIdsByName[params.sheetName] = sheetId;
+        table.sheetId = sheetId;
+        hub.wire.sheetIdsByName[sheetName] = sheetId;
 
         //GUSA table.initialize(initialCells);
-        hub.wire.onInit?.({ table: params.table });
+        hub.wire.onInit?.({ table: table });
 
         //table.setTotalSize();
         //tableReactive.current = (params.table as Table);
         //tableReactive = (params.table as Table);
-        tableReactive = params.table ;
+        tableReactive = table ;
 
         const store: StoreType = {
             sheetId,
@@ -191,10 +205,10 @@ export function GridSheetPassive(params) {
     */
 
     const [sheetHeight, setSheetHeight] = createSignal(
-        params.options?.sheetHeight || 400,
+        options?.sheetHeight || 400,
     );
     const [sheetWidth, setSheetWidth] = createSignal(
-        params.options?.sheetWidth || 800,
+        options?.sheetWidth || 800,
     );
 
     /*
@@ -236,7 +250,7 @@ export function GridSheetPassive(params) {
             <div
                 class={`gs-root1 ${hub.wire.ready ? "gs-initialized" : ""}`}
                 ref={rootRef}
-                data-sheet-name={params.sheetName}
+                data-sheet-name={sheetName}
                 data-mode={mode}
             >
 
@@ -274,7 +288,7 @@ export function GridSheetPassive(params) {
                 )}
 
                 <div
-                    class={`gs-main ${params.className || ""}`}
+                    class={`gs-main ${className || ""}`}
                     ref={mainRef}
                     style={mergeProps({
                         maxWidth: (store.tableReactive.current?.totalWidth || 0) + 2,
@@ -282,11 +296,14 @@ export function GridSheetPassive(params) {
 
                         overflow: "auto",
                         resize: sheetResize
-                    }, () => params.style)}
+                    }, () => style)}
                 >
                     <Editor mode={mode} />
                     <Tabular />
+		    {/*
                     <StoreObserver {...{ ...options, sheetHeight, sheetWidth, sheetName, connector }} />
+		    */}
+                    <StoreObserver {...{ ...options, sheetHeight, sheetWidth, sheetName  }} />
 
                     <ContextMenu />
                     <Resizer />

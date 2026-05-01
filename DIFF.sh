@@ -15,6 +15,9 @@ D2=case21/react-core/src/components
 F=Cell.tsx
 F=$1
 
-diff -r -Bw --side-by-side $D1/$F $D2/$F
+#diff -r -Bw --side-by-side $D1/$F $D2/$F
+echo $D2/$F "              " $D1/$F
+diff -r -Bw --side-by-side $D2/$F $D1/$F
+
 
 

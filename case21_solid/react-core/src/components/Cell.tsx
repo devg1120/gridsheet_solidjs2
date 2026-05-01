@@ -43,7 +43,7 @@ export const Cell: FC<Props> = (
             showAddress,
             autofillDraggingTo,
             contextMenuItems,
-        } = store;
+        } = store()();
         const table = tableRef.current;
 
         // Whether the focus is on another sheet

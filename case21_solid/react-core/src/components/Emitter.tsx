@@ -3,7 +3,7 @@ import { createEffect } from "solid-js";
 
 export const Emitter: FC = () => {
     const { store } = useContext(Context);
-    const { choosing: pointing, selectingZone: zone, tableReactive } = store;
+    const { choosing: pointing, selectingZone: zone, tableReactive } = store()();
     const table = tableReactive.current;
 
     createEffect(() => {

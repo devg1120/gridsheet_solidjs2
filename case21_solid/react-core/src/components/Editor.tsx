@@ -10,7 +10,7 @@ import { COLOR_PALETTE } from "../lib/palette";
 import { EditorEventWithNativeEvent, ModeType } from "../types";
 import { Fixed } from "./Fixed";
 import { parseHTML, parseText } from "../lib/paste";
-import { Component, createSignal, createEffect } from "solid-js";
+import { Component, createSignal, createEffect, useContext } from "solid-js";
 
 type Props = {
     mode: ModeType;
@@ -36,8 +36,8 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
         editingOnEnter,
         tableReactive: tableRef,
         sheetId,
-    } = store;
-    const table = tableRef.current;
+    } = store()();
+    const table = tableRef;
 
     if (!table) {
         return null;

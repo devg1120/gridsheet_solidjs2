@@ -30,8 +30,8 @@ export const HeaderCellLeft  = ({ y, isFreeze }) => {
         autofillDraggingTo,
         dragging,
         contextMenuItems,
-    } = store;
-    const table = tableRef.current;
+    } = store()();
+    const table = tableRef;
 
     const row = table?.getCellByPoint({ y, x: 0 }, "SYSTEM");
     const height = row?.height || DEFAULT_HEIGHT;

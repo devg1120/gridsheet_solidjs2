@@ -4,7 +4,7 @@ import { getAreaInTabular } from "../lib/virtualization";
 import { insertRef, isFocus } from "../lib/input";
 import { areaToRange, zoneToArea } from "../lib/structs";
 import { isXSheetFocused } from "../store/helpers";
-import { createEffect } from "solid-js";
+import { createEffect, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 
 
@@ -42,21 +42,8 @@ export function ScrollHandle({ style, horizontal = 0, vertical = 0, className = 
         //const scrollRef = useRef<number | null>(null);
         const scrollRef = null;
 
-       // const { store, dispatch } = useContext(Context);
+        const { store, dispatch } = useContext(Context);
 	
-
- const [store, setStore] = createStore(Context);  // CVT useContext
-
-  const dispatch = (action) => {
-    switch (action.type) {
-      case 'increment':
-        setStore("count", c => c + 1); // 状態を更新
-        break;
-      case 'decrement':
-        setSore("count", c => c - 1);
-        break;
-    }
-  };
 
 
 
@@ -69,7 +56,7 @@ export function ScrollHandle({ style, horizontal = 0, vertical = 0, className = 
             tableReactive: tableRef,
             searchInputRef,
             editingAddress,
-        } = store;
+        } = store()();
         const table = tableRef;
 
         let isScrolling = false;

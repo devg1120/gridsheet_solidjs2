@@ -9,8 +9,13 @@ import { useContext } from "solid-js";
 
 export const ContextMenu = () => {
     const { store, dispatch } = useContext(Context);
-    const { contextMenuPosition, contextMenuItems } = store;
+    //const { contextMenuPosition, contextMenuItems } = store;
+    const { contextMenuPosition, contextMenuItems } = store()();
+    //console.log(contextMenuPosition);
     const { y: top, x: left } = contextMenuPosition;
+    //console.log("top",top)
+    //console.log("left",left)
+
     if (top === -1) {
         return null;
     }

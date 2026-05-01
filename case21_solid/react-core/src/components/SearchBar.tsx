@@ -18,8 +18,8 @@ export const SearchBar = () => {
         matchingCellIndex,
         matchingCells,
         tableReactive: tableRef,
-    } = store;
-    const table = tableRef.current;
+    } = store()();
+    const table = tableRef;
 
     const matchingCell = matchingCells[matchingCellIndex];
     createEffect(on(
@@ -32,7 +32,7 @@ export const SearchBar = () => {
             if (typeof point === "undefined") {
                 return;
             }
-            smartScroll(table, tabularRef.current, point);
+            smartScroll(table, tabularRef. point);
         }
     ));
 

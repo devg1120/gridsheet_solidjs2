@@ -5,7 +5,7 @@ import * as prevention from "../lib/operation";
 import { insertTextAtCursor } from "../lib/input";
 import { editorStyle } from "./Editor";
 import { ScrollHandle } from "./ScrollHandle";
-import { createSignal } from "solid-js";
+import { createSignal, createEffect, useContext } from "solid-js";
 
 type FormulaBarProps = {
     ready: boolean;
@@ -15,18 +15,24 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
 //export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => {
     const { store, dispatch } = useContext(Context);
     const [before, setBefore] = createSignal("");
-    const {
+
+
+    let {
         choosing,
         editorRef,
         largeEditorRef,
         tableReactive: tableRef,
         inputting,
         editingAddress: editingCell,
-    } = store;
+    } = store()();
+
+    //if ( choosing  === undefined ) {     // TODO
+    //       return (<></>)
+    //}
     const table = tableRef;
     //const hlRef = useRef<HTMLDivElement | null>(null);
-    const hlRef = null;
-
+    let hlRef = null;
+    console.log(choosing);
     const address = choosing.x === -1 ? "" : p2a(choosing);
     const cell = table?.getCellByPoint(choosing, "SYSTEM");
     createEffect(() => {
@@ -40,7 +46,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
             cell: { ...cell, value },
             refEvaluation: "RAW",
         });
-        largeEditorRef.current!.value = value;
+        largeEditorRef.value = value;
         setBefore(value as string);
     }, [address, table]);
 
@@ -65,7 +71,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
         };
     }, []);
 
-    const largeInput = largeEditorRef.current;
+    const largeInput = largeEditorRef;
 
     //const handleInput = useCallback((e: KeyboardEvent<HTMLTextAreaElement>) => {
     const handleInput = (e: InputEvent<HTMLTextAreaElement>) => {
@@ -73,12 +79,12 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     }
 
     const updateScroll = () => {
-        if (!hlRef.current || !largeEditorRef.current) {
+        if (!hlRef || !largeEditorRef) {
             return;
         }
-        hlRef.current.style.height = `${largeEditorRef.current.clientHeight}px`;
-        hlRef.current.scrollLeft = largeEditorRef.current.scrollLeft;
-        hlRef.current.scrollTop = largeEditorRef.current.scrollTop;
+        hlRef.style.height = `${largeEditorRef.clientHeight}px`;
+        hlRef.scrollLeft = largeEditorRef.scrollLeft;
+        hlRef.scrollTop = largeEditorRef.scrollTop;
     }
 
     const handleFocus = 
@@ -164,72 +170,78 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
         }
 
     //const style: React.CSSProperties = ready ? {} : { visibility: "hidden" };
-    if (!table) {
-        return (
-            <label class="gs-formula-bar gs-hidden" style={style}>
-                <div class="gs-selecting-address"></div>
-                <div class="gs-fx">Fx</div>
-                <div class="gs-formula-bar-editor-inner">
-                    <textarea />
-                </div>
-            </label>
-        );
-    }
-//    return (<></>)
+    const style: any = ready ? {} : { visibility: "hidden" };
 
+   
+  if (!table) {
     return (
-        <label
-            class="gs-formula-bar"
-            data-sheet-id={store.sheetId}
-            style={style}
-        >
-
-            <ScrollHandle
-                style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    zIndex: 2
-                }}
-                vertical={-1}
-            />
-            <div class="gs-selecting-address">{address}</div>
-            <div class="gs-fx">Fx</div>
-            <div class="gs-formula-bar-editor-inner">
-
-                <div
-                    class="gs-editor-hl"
-                    ref={hlRef}
-                    style={{
-	                height: largeEditorRef.clientHeight,
-
-                        width: "100%"
-                    }}
-                >
-                    {cell?.disableFormula ? inputting : editorStyle(inputting)}
-                </div>
-
-                <textarea
-                    name="gs-formula-bar-editor"
-                    data-sheet-id={store.sheetId}
-                    data-size="large"
-                    rows={1}
-                    spellCheck={false}
-                    ref={largeEditorRef}
-                    //value={inputting}
-                    defaultValue={inputting} //GUSA
-                    onInput={handleInput} //GUSA
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onKeyDown={handleKeyDown}
-                    onKeyUp={updateScroll}
-                    onScroll={updateScroll}
-                ></textarea>
-
-            </div>
-
-        </label>
+      <label className="gs-formula-bar gs-hidden" style={style}>
+        <div className="gs-selecting-address"></div>
+        <div className="gs-fx">Fx</div>
+        <div className="gs-formula-bar-editor-inner">
+          <textarea />
+        </div>
+      </label>
     );
+  }
 
-   };
-//});
+
+/*
+
+height: largeEditorRef?.clientHeight,         FIX
+                            ? insert
+
+hlRef
+   const -> let
+
+largeEditorRef
+   const -> let
+
+*/
+
+  return (
+    <label
+      class="gs-formula-bar"
+      data-sheet-id={store.sheetId}
+      style={style}
+    >
+      <ScrollHandle
+        style={{ position: "absolute", left: 0, top: 0, zIndex: 2 }}
+        vertical={-1}
+      />
+      <div class="gs-selecting-address">{address}</div>
+      <div class="gs-fx">Fx</div>
+      <div class="gs-formula-bar-editor-inner">
+
+        <div
+          class="gs-editor-hl"
+          ref={hlRef}
+          style={{
+            height: largeEditorRef?.clientHeight,
+            width: "100%",
+          }}
+        >
+          {cell?.disableFormula ? inputting : editorStyle(inputting)}
+        </div>
+        <textarea
+          name="gs-formula-bar-editor"
+          data-sheet-id={store.sheetId}
+          data-size="large"
+          rows={1}
+          spellCheck={false}
+          ref={largeEditorRef}
+          //value={inputting}
+          defaultValue={inputting} //GUSA
+          onInput={handleInput} //GUSA
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          onKeyUp={updateScroll}
+          onScroll={updateScroll}
+        ></textarea>
+
+      </div>
+    </label>
+  );
+
+};

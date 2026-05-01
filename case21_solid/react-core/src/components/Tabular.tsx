@@ -27,9 +27,9 @@ export const Tabular = () => {
         inputting,
         leftHeaderSelecting,
         topHeaderSelecting,
-    } = store;
+    } = store()();
 
-    const table = tableReactive.current;
+    const table = tableReactive;
 
     //const tableRef = useRef<HTMLTableElement>(null);
     const tableRef = null;

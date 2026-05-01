@@ -3,7 +3,7 @@ import { Context } from "../store";
 import { setStore, updateTable } from "../store/actions";
 import { usePluginContext } from "./PluginBase";
 import { Table } from "../lib/table";
-import { createEffect } from "solid-js";
+import { createEffect, useContext } from "solid-js";
 
 type StoreObserverProps = OptionsType & {
     sheetName?: string;
@@ -23,8 +23,8 @@ export const StoreObserver: FC<StoreObserverProps> = ({
     mode,
 }) => {
     const { store, dispatch } = useContext(Context);
-    const { tableReactive: tableRef } = store;
-    const table = tableRef.current;
+    const { tableReactive: tableRef } = store()();
+    const table = tableRef;
 
     createEffect(() => {
         if (!table) {

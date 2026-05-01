@@ -17,13 +17,13 @@ export const Resizer = () => {
         selectingZone,
         editorRef,
         mainRef,
-    } = store;
-    const table = tableRef.current;
+    } = store()();
+    const table = tableRef;
 
     const [y, startY, endY] = posY;
     const [x, startX, endX] = posX;
 
-    if (mainRef.current == null || editorRef.current == null || !table) {
+    if (mainRef == null || editorRef == null || !table) {
         return <div class="gs-resizing gs-hidden" />;
     }
 
@@ -31,7 +31,7 @@ export const Resizer = () => {
         { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
         "SYSTEM",
     );
-    const { y: offsetY, x: offsetX } = mainRef.current.getBoundingClientRect();
+    const { y: offsetY, x: offsetX } = mainRef.getBoundingClientRect();
 
     const baseWidth = cell?.width || DEFAULT_WIDTH;
     const baseHeight = cell?.height || DEFAULT_HEIGHT;
