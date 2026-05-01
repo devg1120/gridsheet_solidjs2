@@ -101,7 +101,7 @@ F=$1
 TARGET="${F}|"
 (
 
-echo -e "DIFF "  "${D2}/${F} "    ${D1}/${F}
+echo  "DIFF "  "${D2}/${F} "    ${D1}/${F}
 
 diff -r -Bw --side-by-side $D2/$F $D1/$F
 
