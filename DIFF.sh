@@ -1,28 +1,25 @@
 
 D1=case21_solid/react-core/src/components
 D2=case21/react-core/src/components
-#KEYS=( type const table )
-
-params="type:const:table"
-#set -f
-KEYS=(${params//:/ })
-
-
-
 F=$1
 TARGET="${F}|"
 
-LESS_SOP=""
+#KEYS=( type const table )
+#KEYS=(${params//:/ })
+#LESS_SOP=""
 
-for item in "${KEYS[@]}" ; do
-    #echo "[ ${item} ]"
-    LESS_SOP="${LESS_SOP} -p ${item}"
-done
+#for item in "${KEYS[@]}" ; do
+#    LESS_SOP="${LESS_SOP} -p ${item}"
+#done
+
+LESS_SOP=" -p use"
 
 #LESS="less -R -S -p type -p const -p table"
 
 LESS_BASE="less -R -S "
-LESS="${LESS_BASE} ${LESS_SOP}"
+LESS=${LESS_BASE}" "${LESS_SOP}
+
+echo $LESS
 
 
 (
