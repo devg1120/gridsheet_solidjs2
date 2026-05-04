@@ -41,23 +41,30 @@ export const Tabular = () => {
     topHeaderSelecting,
   } = store();
 
-  const [key, setKey] = createSignal([{}]);
+const [key, setKey] = createSignal([{}]);
 
- const [choosing, setChoosing] = createSignal(store().choosing);
-
+const [choosing, setChoosing] = createSignal(store().choosing);
 
  createEffect(() => {
-    //choosing = store().choosing;
     setChoosing(store().choosing);
+    operationStyles = useOperationStyles(store, {
+      ...palette(),
+      ...table.wire.paletteBySheetName[table.sheetName],
+    });
     setKey([{}]);
   });
 
+/*
  createEffect(() => {
     console.log("choosing",choosing());
-    //setVirtualized(virtualized);
-        table.wire.choosingAddress = p2a(choosing());
+  operationStyles = useOperationStyles(store, {
+    ...palette(),
+    ...table.wire.paletteBySheetName[table.sheetName],
+  });
+    setKey([{}]);
 
   });
+*/
 
   //choosing = {y:3, x:3};
 
@@ -264,7 +271,7 @@ export const Tabular = () => {
         return null;
     }
 */
-  const operationStyles = useOperationStyles(store, {
+  let operationStyles = useOperationStyles(store, {
     ...palette(),
     ...table.wire.paletteBySheetName[table.sheetName],
   });
@@ -762,7 +769,6 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
-  console.log("useOperationStyles");
 
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {

@@ -167,11 +167,11 @@ export function GridSheetPassive({
     defaultReducer as unknown as ReducerWithoutAction<StoreType>,
     initialState(),
   );
-
+/*
   createEffect(() => {
     console.log("store update: ", store().choosing);
   });
-
+*/
   //console.log(store)
   //console.log(dispatch)
 

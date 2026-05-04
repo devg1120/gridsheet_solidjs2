@@ -145,7 +145,7 @@ export const Cell: FC<Props> = ({
   const editingAnywhere = !!(table.wire.editingAddress || editingAddress);
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-   console.log("handler handleDragStart");
+   
     e.stopPropagation();
     safePreventDefault(e);
 
@@ -199,13 +199,11 @@ export const Cell: FC<Props> = ({
     }
     if (!e.shiftKey) {
       dispatch(choose({ y, x }));
-      console.log("dispatch choose")
     }
     return true;
   };
 
   const handleDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
-    console.log("handler handleDragEnd");
     e.stopPropagation();
     if (e.type.startsWith("touch")) {
       return;
