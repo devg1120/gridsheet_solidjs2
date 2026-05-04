@@ -17,14 +17,20 @@ import { Lexer, stripSheetName } from "../formula/evaluator";
 import { COLOR_PALETTE } from "../lib/palette";
 import { Autofill } from "../lib/autofill";
 import { ScrollHandle } from "./ScrollHandle";
-import { createEffect, on, useContext, createSignal } from "solid-js";
+import { createEffect, on, onMount, useContext, createSignal } from "solid-js";
 
 export const Tabular = () => {
   const [palette, setPalette] = createSignal<RefPaletteType>({});
   const { store, dispatch } = useContext(Context);
+/*
+  createEffect(() => {
+    console.log("Tabluar store update: ", store().choosing);
+  });
+*/
+
   let {
     tableReactive,
-    choosing,
+    //choosing,
     editingAddress,
     tabularRef,
     mainRef,
@@ -35,8 +41,28 @@ export const Tabular = () => {
     topHeaderSelecting,
   } = store();
 
+  const [key, setKey] = createSignal([{}]);
+
+ const [choosing, setChoosing] = createSignal(store().choosing);
+
+
+ createEffect(() => {
+    //choosing = store().choosing;
+    setChoosing(store().choosing);
+    setKey([{}]);
+  });
+
+ createEffect(() => {
+    console.log("choosing",choosing());
+    //setVirtualized(virtualized);
+        table.wire.choosingAddress = p2a(choosing());
+
+  });
+
+  //choosing = {y:3, x:3};
+
   //console.log("-",store()) ;
-  console.log("-", sheetHeight);
+  //console.log("-", sheetHeight);
   //console.log("-",sheetWidth) ;
 
   const table = tableReactive;
@@ -84,6 +110,7 @@ export const Tabular = () => {
       );
     });
   };
+
 
   createEffect(
     on(
@@ -133,17 +160,19 @@ export const Tabular = () => {
     ),
   );
 
+
   createEffect(
     on(
-      () => [choosing],
+      () => [choosing()],
       () => {
         if (!table) {
           return;
         }
-        table.wire.choosingAddress = p2a(choosing);
+        table.wire.choosingAddress = p2a(choosing());
       },
     ),
   );
+
 
   createEffect(
     on(
@@ -162,6 +191,74 @@ export const Tabular = () => {
     ),
   );
 
+
+/*
+  onMount(() => {
+        if (!table) {
+          return;
+        }
+        setVirtualized(virtualize(table, tabularRef));
+  });
+*/
+/*
+ createEffect(() => {
+    if (!table) {
+      return;
+    }
+    const formulaEditing = editingAddress && inputting.startsWith("=");
+    if (!formulaEditing) {
+      setPalette({});
+      table.wire.paletteBySheetName = {};
+      return;
+    }
+    const palette: RefPaletteType = {};
+    const paletteBySheetName: { [sheetName: string]: RefPaletteType } = {};
+    const lexer = new Lexer(inputting.substring(1));
+    lexer.tokenize();
+
+    let i = 0;
+    for (const token of lexer.tokens) {
+      if (token.type === "REF" || token.type === "RANGE") {
+        const normalizedRef = stripAddressAbsolute(token.stringify());
+        const splitterIndex = normalizedRef.indexOf("!");
+        if (splitterIndex !== -1) {
+          const sheetName = normalizedRef.substring(0, splitterIndex);
+          const ref = normalizedRef.substring(splitterIndex + 1);
+          const stripped = stripSheetName(sheetName);
+          const upperRef = ref.toUpperCase();
+          if (paletteBySheetName[stripped] == null) {
+            paletteBySheetName[stripped] = {};
+          }
+          if (paletteBySheetName[stripped][upperRef] == null) {
+            paletteBySheetName[stripped][upperRef] = i++;
+          }
+        } else {
+          const upperRef = normalizedRef.toUpperCase();
+          if (palette[upperRef] == null) {
+            palette[upperRef] = i++;
+          }
+        }
+      }
+    }
+    setPalette(palette);
+    table.wire.paletteBySheetName = paletteBySheetName;
+  });
+
+ createEffect(() => {
+    if (!table) {
+      return;
+    }
+    table.wire.choosingAddress = p2a(choosing);
+  });
+
+
+  createEffect(() => {
+    if (!table) {
+      return;
+    }
+    setVirtualized(virtualize(table, tabularRef.current));
+  });
+*/
   /*
     if (!table || !table.wire.ready) {
         return null;
@@ -508,11 +605,12 @@ export const Tabular = () => {
       return false;
     }
   };
-            console.log("== w",table.headerWidth)
+  //          console.log("== w",table.headerWidth)
   //          console.log("== h",table.totalHeight)
 
   return (
     <>
+     {/*<For each={key()}>{() => */}
       <div
         class="gs-tabular"
         style={{
@@ -618,6 +716,8 @@ export const Tabular = () => {
                       }
 
                       return (
+     <For each={key()}>{() =>
+
                         <Cell
                           y={y}
                           x={x}
@@ -635,6 +735,8 @@ export const Tabular = () => {
                             ]
                           }
                         />
+      }</For>
+
                       );
                     })}
 
@@ -646,6 +748,7 @@ export const Tabular = () => {
           </table>
         </div>
       </div>
+    {/*  }</For> */}
     </>
   );
 };
@@ -659,6 +762,8 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
+  console.log("useOperationStyles");
+
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {
     const address = p2a(point);

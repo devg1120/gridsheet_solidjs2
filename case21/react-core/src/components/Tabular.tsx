@@ -130,6 +130,7 @@ export const Tabular = () => {
     table.wire.paletteBySheetName = paletteBySheetName;
   }, [store.inputting, store.editingAddress, tableReactive]);
 
+
   useEffect(() => {
     if (!table) {
       return;
@@ -654,6 +655,8 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
+  console.log("useOperationStyles");
+
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {
     const address = p2a(point);
