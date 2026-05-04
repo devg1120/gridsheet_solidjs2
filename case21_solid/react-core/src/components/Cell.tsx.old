@@ -346,6 +346,35 @@ export const Cell: FC<Props> = ({
     );
   }
 
+/*
+ console.log(cell?.style)
+ console.log(operationStyle)
+ console.log(freezeStyle)
+*/
+
+let as = {}
+let op = {}
+if (operationStyle) {       
+     console.log(y,x, operationStyle);
+      //let s = mergeProps(() => cell?.style, operationStyle, freezeStyle)
+      //console.log(s)
+      as = {"background-color": "red"}
+      //op = {borderLeft: 'solid 2px #0077ff', borderRight: 'solid 2px #0077ff', borderTop: 'solid 2px #0077ff', borderBottom: 'solid 2px #0077ff'}
+      op = {"border-left": 'solid 2px #0077ff', "border-right": 'solid 2px #0077ff', "border-top": 'solid 2px #0077ff', "border-bottom": 'solid 2px #0077ff'}
+}
+
+
+//let  ss = {"background-color": "red"}
+let  marge_style={
+          ...cell?.style,
+          //...operationStyle,
+	  ...op,
+          ...freezeStyle,
+	  //...as,
+        }
+if (x ==3 && y == 3) {
+console.log(x,y,"narge_style", marge_style);
+}
 
   return (
     <td
@@ -368,6 +397,22 @@ export const Cell: FC<Props> = ({
         editing ? "gs-editing" : ""
       } ${freeze_y ? "freeze_y" : ""}  ${freeze_x ? "freeze_x" : ""} `}
       style={mergeProps(() => cell?.style, operationStyle, freezeStyle) }
+      //style={operationStyle }
+      //style={mergeProps(() => ss) }
+      //style={{"background-color": "red"}}
+      
+      //style={ss}
+      //style={marge_style}
+
+     //   style={{
+     //     ...cell?.style,
+      //    ...operationStyle,
+      //    ...freezeStyle,
+      //  }}
+      //onContextMenu={onContextMenu}
+      //onDoubleClick={onDoubleClick}
+      //colSpan={colSpan_size}
+      //rowSpan={rowSpan_size}
     >
       <div
         class={`gs-cell-inner-wrap`}

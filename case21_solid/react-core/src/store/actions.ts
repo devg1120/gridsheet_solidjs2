@@ -463,7 +463,9 @@ class EscapeAction<T extends null> extends CoreAction<T> {
 export const escape = new EscapeAction().bind();
 
 class ChooseAction<T extends PointType> extends CoreAction<T> {
+
   reduce(store: StoreType, payload: T): StoreWithCallback {
+	console.log("ChooseAction", store, payload);
     return {
       ...store,
       choosing: payload,

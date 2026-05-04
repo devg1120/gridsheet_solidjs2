@@ -25,6 +25,7 @@ import { useHub } from "../lib/hub";
 import { ScrollHandle } from "./ScrollHandle";
 import { onMount, createSignal, mergeProps } from "solid-js";
 import { createStore } from "solid-js/store";
+import { createEffect } from "solid-js";
 
 import { createReducer } from "@solid-primitives/memo";
 
@@ -122,7 +123,7 @@ export function GridSheetPassive({
       editorRef,
       largeEditorRef,
       tabularRef,
-      choosing: { y: 1, x: 1 },
+      choosing: { y: 5, x: 4 },
       inputting: "",
       selectingZone: { startY: 1, startX: 1, endY: -1, endX: -1 },
       autofillDraggingTo: null,
@@ -166,6 +167,10 @@ export function GridSheetPassive({
     defaultReducer as unknown as ReducerWithoutAction<StoreType>,
     initialState(),
   );
+
+  createEffect(() => {
+    console.log("store update: ", store().choosing);
+  });
 
   //console.log(store)
   //console.log(dispatch)

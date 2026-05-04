@@ -44,6 +44,10 @@ type Props = {
 export const Cell: FC<Props> = memo(
   ({ y, x, freezeStyle, colSpan_size, rowSpan_size, operationStyle, freeze_y, freeze_x }) => {
 
+     if (operationStyle) {
+     console.log(y,x, operationStyle);
+     }
+     //operationStyle = {};
     const rowId = y2r(y);
     const colId = x2c(x);
     const address = `${colId}${rowId}`;
