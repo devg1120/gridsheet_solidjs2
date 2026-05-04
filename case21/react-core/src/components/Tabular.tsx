@@ -60,9 +60,7 @@ export const Tabular = () => {
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
-       console.log("scroll");
       if (table) {
-        console.log(virtualize(table, e.currentTarget));
         setVirtualized(virtualize(table, e.currentTarget));
       }
     },
@@ -160,8 +158,6 @@ export const Tabular = () => {
     ...palette,
     ...table.wire.paletteBySheetName[table.sheetName],
   });
-  //  console.log("operationStyles", operationStyles);
-  //  console.log("table", table);
 
   /*
   const setStyle = (x,y) => {
@@ -655,7 +651,6 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
-  console.log("useOperationStyles");
 
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {

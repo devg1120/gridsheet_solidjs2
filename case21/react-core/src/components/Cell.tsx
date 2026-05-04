@@ -43,10 +43,6 @@ type Props = {
 
 export const Cell: FC<Props> = memo(
   ({ y, x, freezeStyle, colSpan_size, rowSpan_size, operationStyle, freeze_y, freeze_x }) => {
-
-     if (operationStyle) {
-     console.log(y,x, operationStyle);
-     }
      //operationStyle = {};
     const rowId = y2r(y);
     const colId = x2c(x);
@@ -68,7 +64,6 @@ export const Cell: FC<Props> = memo(
       contextMenuItems,
     } = store;
 
-    //console.log(editorRef);
     const table = tableRef.current;
     // Whether the focus is on another sheet
     const xSheetFocused = isXSheetFocused(store);
@@ -142,7 +137,7 @@ export const Cell: FC<Props> = memo(
 
     const handleDragStart = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      console.log("handler handleDragStart");
+      //console.log("handler handleDragStart");
         e.stopPropagation();
         safePreventDefault(e);
       
@@ -212,7 +207,7 @@ export const Cell: FC<Props> = memo(
 
     const handleDragEnd = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      console.log("handler handleDragEnd");
+      //console.log("handler handleDragEnd");
         e.stopPropagation();
         if (e.type.startsWith("touch")) {
           return;
@@ -234,7 +229,7 @@ export const Cell: FC<Props> = memo(
 
     const handleDragging = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      console.log("handler handleDragging");
+      //console.log("handler handleDragging");
         if (!isTouching(e)) {
           return false;
         }

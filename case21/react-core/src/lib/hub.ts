@@ -129,7 +129,6 @@ export class Wire {
       dispatch(updateTable(table));
     }
     this.ready = true;
-    console.log("identifyFormula set true");
 
   }
 
@@ -203,10 +202,8 @@ export const createHub = (props: WireProps = {}): HubType => {
 };
 
 export const useHub = (props: WireProps = {}) => {
-  console.log(createHub(props));
   const [hub, setHub] = useState<HubType>(() => createHub(props));
   const { wire } = hub;
-  console.log("useHub", hub);
   wire.transmit = (patch?: TransmitProps) => {
     Object.assign(wire, patch);
     if (!wire.ready) {

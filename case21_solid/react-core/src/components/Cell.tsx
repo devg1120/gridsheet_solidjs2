@@ -46,7 +46,7 @@ export const Cell: FC<Props> = ({
   const rowId = y2r(y);
   const colId = x2c(x);
   const address = `${colId}${rowId}`;
-  //console.log(address)
+  
   const { store, dispatch } = useContext(Context);
   //const isFirstPointed = useRef(true);
   let isFirstPointed = true;
@@ -66,8 +66,8 @@ export const Cell: FC<Props> = ({
     contextMenuItems,
   } = store();
   const table = tableRef;
-  //console.log(table)
-  //console.log("editorRef", editorRef)
+  
+  
 
   // Whether the focus is on another sheet
   const xSheetFocused = isXSheetFocused(store);
@@ -124,7 +124,7 @@ export const Cell: FC<Props> = ({
   let rendered: any;
   try {
     rendered = table.render({ table, point: { y, x }, sync });
-    //console.log(rendered);
+    
     if (rendered == "") {
       // GUSA
       rendered = " ";
@@ -145,6 +145,7 @@ export const Cell: FC<Props> = ({
   const editingAnywhere = !!(table.wire.editingAddress || editingAddress);
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleDragStart")
    
     e.stopPropagation();
     safePreventDefault(e);
@@ -199,6 +200,19 @@ export const Cell: FC<Props> = ({
     }
     if (!e.shiftKey) {
       dispatch(choose({ y, x }));
+    }
+    return true;
+  };
+
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    console.log("handleDragStart2")
+   
+    e.stopPropagation();
+    safePreventDefault(e);
+
+    if (!e.shiftKey) {
+      dispatch(choose({ y, x }));
+      onDoubleClick(e);
     }
     return true;
   };
@@ -287,6 +301,7 @@ export const Cell: FC<Props> = ({
     setEditingAddress(address);
     const dblclick = document.createEvent("MouseEvents");
     dblclick.initEvent("dblclick", true, true);
+    console.log(input)
     input?.dispatchEvent(dblclick);
     return false;
   };
@@ -353,8 +368,14 @@ export const Cell: FC<Props> = ({
       data-address={address}
       colSpan={colSpan_size}
       rowSpan={rowSpan_size}
-      onContextMenu={onContextMenu}
-      onDoubleClick={onDoubleClick}
+      //onContextMenu={onContextMenu}
+      //onDoubleClick={onDoubleClick}
+      
+      //onClick={() => console.log(' Clicked!')}
+     
+      onClick={handleClick}
+      //onDblClick={() => console.log('Double Clicked!')}
+
       class={`gs-cell ${
         among(selectingArea, {
           y: y,
@@ -369,10 +390,12 @@ export const Cell: FC<Props> = ({
     >
       <div
         class={`gs-cell-inner-wrap`}
-        onMouseDown={handleDragStart}
-        onTouchStart={handleDragStart}
-        onMouseEnter={handleDragging}
-        onMouseUp={handleDragEnd}
+        // shift-key  abalable               TODO
+        //onMouseDown={handleDragStart}
+        //onTouchStart={handleDragStart}
+        //onMouseEnter={handleDragging}
+        //onMouseUp={handleDragEnd}
+	
       >
         <div class={"gs-cell-inner"} style={{}}>
           {errorMessage && (
