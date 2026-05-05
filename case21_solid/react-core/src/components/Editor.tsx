@@ -277,6 +277,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 
   const writeCell = (value: string) => {
     if (before !== value) {
+       console.log("dispatch")
       dispatch(write({ value }));
     }
     setBefore(value);
@@ -285,9 +286,11 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   const numLines = valueString.split("\n").length;
   const [isKeyDown, setIsKeyDown] = createSignal(false);
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    if (isKeyDown) {
+    //console.log("handleKeyDown");
+    if (isKeyDown()) {
       return;
     }
+    console.log("handleKeyDown");
     // do not debounce it if control key is down.
     if (!(e.key === "Meta" || e.key === "Control")) {
       setIsKeyDown(true);
@@ -322,6 +325,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
         return false;
 
       case "Enter": // ENTER
+         console.log("Editor Enter");
         if (editing) {
           if (e.altKey) {
             insertTextAtCursor(input, "\n");
@@ -329,12 +333,13 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
             e.preventDefault();
             return false;
           } else {
-            if (e.nativeEvent.isComposing) {
+            if (e.nativeEvent?.isComposing) {
               return false;
             }
             if (filteredOptions.length) {
               selectValue(selected);
             } else {
+	      console.log("writeCell", input.value)
               writeCell(input.value);
               dispatch(setEditingAddress(""));
               dispatch(setInputting(""));

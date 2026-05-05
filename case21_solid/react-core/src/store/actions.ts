@@ -575,12 +575,13 @@ class WriteAction<
   T extends { value: string; point?: PointType },
 > extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
+    console.log("Write");
     let { value, point } = payload;
     const { choosing, selectingZone, tableReactive: tableRef } = store;
     if (point == null) {
       point = choosing;
     }
-    const table = tableRef.current;
+    const table = tableRef;
     if (!table) {
       return store;
     }
@@ -599,6 +600,8 @@ class WriteAction<
         choosing: point,
       },
     });
+    console.log(newTable);
+
     return {
       ...store,
       ...initSearchStatement(newTable, store),
