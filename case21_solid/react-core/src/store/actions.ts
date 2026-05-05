@@ -605,7 +605,8 @@ class WriteAction<
     return {
       ...store,
       ...initSearchStatement(newTable, store),
-      tableReactive: { current: newTable },
+      //tableReactive: { current: newTable },
+      tableReactive:  newTable ,
       callback: ({ tableReactive: tableRef }) => {
         table.wire.transmit({
           copyingZone: resetZone,
