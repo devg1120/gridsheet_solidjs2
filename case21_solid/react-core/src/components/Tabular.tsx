@@ -787,7 +787,7 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
   } = store();
 
   const table = tableReactive;
-  console.log(table);
+  //console.log(table);
   if (!table) {
     return {};
   }

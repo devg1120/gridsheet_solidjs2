@@ -627,7 +627,10 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
     },
     [selectValue],
   );
+/*
+      style={editing ? { top, left, height } : {}}
 
+*/
   return (
     <Fixed
       className={`gs-editor ${editing ? "gs-editing" : ""}`}

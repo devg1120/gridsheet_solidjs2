@@ -33,7 +33,6 @@ import { EditorEventWithNativeEvent, ModeType } from "../types";
 import { Fixed } from "./Fixed";
 import { parseHTML, parseText } from "../lib/paste";
 import {
-  For,
   onMount,
   Component,
   createSignal,
@@ -55,7 +54,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     //choosing,
     //inputting,
     selectingZone,
-    //editorRect,
+    editorRect,
     //editingAddress,
     entering,
     matchingCells,
@@ -73,8 +72,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   const [inputting, _setInputting] = createSignal(store().inputting);
   const [editingAddress, _setEditingAddress] = createSignal(store().editingAddress);
   const [address, _setAddress] = createSignal("");
-
-  const [editorRect, _setEditorRect] = createSignal(store().editorRect);
 
   createEffect(() => {
 /*
@@ -103,7 +100,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   _setChoosing(store().choosing);
   _setInputting(store().inputting);
   _setEditingAddress(store().editingAddress);
-  _setEditorRect(store().editorRect);
 
 });
 
@@ -278,20 +274,8 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     dispatch(setInputting(valueString));
     resetInput(editorRef, table, choosing);
   });
-  const [key, setKey] = createSignal([{}]);
 
-  let { y: top, x: left, height, width } = editorRect();
-
-  createEffect(() => {
-      //{ y: top, x: left, height, width } = editorRect();
-      console.log("editorRect update", editorRect());
-      const rect = editorRect();
-      top = rect.y;
-      left = rect.x;
-      height = rect.height;
-      width = rect.width;
-      setKey([{}]);
-  });
+  const { y: top, x: left, height, width } = editorRect;
 
   const writeCell = (value: string) => {
     if (before !== value) {
@@ -728,7 +712,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 */
 
   return (
-   <For each={key()}>{() =>
     <Fixed
       class={`gs-editor ${editing ? "gs-editing" : ""}`}
       style={
@@ -811,7 +794,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
         ))}
       </ul>
     </Fixed>
-}</For>
   );
 };
 

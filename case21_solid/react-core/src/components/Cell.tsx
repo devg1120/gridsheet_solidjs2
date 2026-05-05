@@ -19,7 +19,7 @@ import { insertRef, isRefInsertable } from "../lib/input";
 import { isXSheetFocused } from "../store/helpers";
 import { isTouching, safePreventDefault } from "../lib/events";
 import { UserTable } from "../lib/table";
-import { useContext, createEffect, on, createMemo, mergeProps } from "solid-js";
+import { useContext, createEffect, on, onMount, createMemo, mergeProps } from "solid-js";
 
 type Props = {
   x: number;
@@ -78,17 +78,33 @@ export const Cell: FC<Props> = ({
 
   const editing = editingAddress === address;
   const pointed = choosing.y === y && choosing.x === x;
+
+  let _cellRef = null;
+
+  onMount(() => {
+     _cellRef = cellRef
+  });
+
   const _setEditorRect = () => {
-    const rect = cellRef?.getBoundingClientRect();
+    let rect = _cellRef?.getBoundingClientRect();
     if (rect == null) {
       return null;
     }
+    console.log("_setEditorRect", _cellRef, rect)
     dispatch(
       setEditorRect({
+     
         y: rect.y,
         x: rect.x,
         height: rect.height,
         width: rect.width,
+	
+      /*
+        y: 100,
+        x: 200,
+        height: 20,
+        width: 100,
+	*/
       }),
     );
   };
@@ -203,7 +219,7 @@ export const Cell: FC<Props> = ({
   };
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
-    console.log("handleDragStart2")
+    //console.log("handleDragStart2")
    
     e.stopPropagation();
     safePreventDefault(e);
@@ -293,8 +309,9 @@ export const Cell: FC<Props> = ({
   };
 
   const onDoubleClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
-    console.log("handler onDoubleClick");
+    //console.log("handler onDoubleClick");
     e.stopPropagation();
+          _setEditorRect(); //TODO
     safePreventDefault(e);
     setEditingAddress(address);
     const dblclick = document.createEvent("MouseEvents");
@@ -311,7 +328,7 @@ const dblclick2 = new MouseEvent('dblclick', {
       composed: true,   // Shadow DOMを越えて通信する
     });
 
-    console.log(input)
+    //console.log(input)
     //input.dispatchEvent(dblclick2);
     input.dispatchEvent(event);
     return false;
