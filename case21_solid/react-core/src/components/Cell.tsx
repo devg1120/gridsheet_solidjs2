@@ -94,7 +94,7 @@ export const Cell: FC<Props> = ({
     dispatch(
       setEditorRect({
      
-        y: rect.y,
+        y: rect.y + 30,
         x: rect.x,
         height: rect.height,
         width: rect.width,
@@ -225,7 +225,22 @@ export const Cell: FC<Props> = ({
     safePreventDefault(e);
 
     if (!e.shiftKey) {
+          _setEditorRect(); //TODO
       dispatch(choose({ y, x }));
+      onDoubleClick(e);
+    }
+    return true;
+  };
+
+  const handleDblClick = (e: React.MouseEvent | React.TouchEvent) => {
+    console.log("handleDblClick")
+   
+    e.stopPropagation();
+    safePreventDefault(e);
+
+    if (!e.shiftKey) {
+          _setEditorRect(); //TODO
+      //dispatch(choose({ y, x }));
       onDoubleClick(e);
     }
     return true;
@@ -311,7 +326,7 @@ export const Cell: FC<Props> = ({
   const onDoubleClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
     //console.log("handler onDoubleClick");
     e.stopPropagation();
-          _setEditorRect(); //TODO
+          //_setEditorRect(); //TODO
     safePreventDefault(e);
     setEditingAddress(address);
     const dblclick = document.createEvent("MouseEvents");
@@ -401,6 +416,7 @@ const dblclick2 = new MouseEvent('dblclick', {
       
       //onClick={() => console.log('Cell Clicked!',x,y)}
       //onDblClick={() => console.log('Cell Double Clicked!',x,y)}
+      //onDblClick={handleDblClick}
       onClick={handleClick}
 
       class={`gs-cell ${
