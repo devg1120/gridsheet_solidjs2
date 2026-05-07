@@ -31,7 +31,9 @@ export const getCellRectPositions = (table: Table, { y, x }: PointType) => {
 };
 
 export const getScreenRect = (e: HTMLDivElement) => {
-  const top = e.scrollTop,
+  //console.log(e.scrollTop, e.offsetHeight)
+  console.log(e.scrollTop , e.offsetHeight)
+  const top = e.scrollTop ,
     left = e.scrollLeft;
   const height = e.offsetHeight,
     width = e.offsetWidth;
@@ -55,7 +57,8 @@ export const virtualize = (
 
   //console.log("boundary", boundaryBottom, boundaryRight)
   const { top, left, bottom, right } = getScreenRect(e);
-  console.log( "bottom", bottom )
+  //console.log( "top", top )
+  //console.log( "bottom", bottom )
   //console.log( "bottom - top", bottom -top  )
   let width = 0,
     height = 0;

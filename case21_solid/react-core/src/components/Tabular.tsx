@@ -182,15 +182,17 @@ const [choosing, setChoosing] = createSignal(store().choosing);
     ),
   );
 
-
+/*
   createEffect(
     on(
+    
       () => [
         tabularRef,
         tableReactive,
         mainRef?.clientHeight,
         mainRef?.clientWidth,
       ],
+      
       () => {
         if (!table) {
           return;
@@ -199,16 +201,16 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       },
     ),
   );
+*/
 
 
-/*
   onMount(() => {
         if (!table) {
           return;
         }
         setVirtualized(virtualize(table, tabularRef));
   });
-*/
+
 /*
  createEffect(() => {
     if (!table) {

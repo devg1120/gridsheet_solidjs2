@@ -137,6 +137,7 @@ export const ScrollHandle = memo<Props>(   //GUSA
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent) => {
+       console.log("+++++++++++++++++++++++++++");
       e.preventDefault();
       e.stopPropagation();
       if (isScrolling) {
@@ -217,6 +218,7 @@ export const ScrollHandle = memo<Props>(   //GUSA
     return <div className={`gs-scroll-handle gs-hidden ${className}`} />;
   }
 
+
   return (
     <div
       style={style}
@@ -228,5 +230,6 @@ export const ScrollHandle = memo<Props>(   //GUSA
       onMouseLeave={handleMouseLeave}
     />
   );
+
 //}
 });

@@ -533,6 +533,7 @@ export const Tabular = () => {
                   }}
                   onClick={handleSelectAllClick}
                 >
+		{/*
                   <div className="gs-th-inner">
                     <ScrollHandle
                       className={
@@ -545,6 +546,7 @@ export const Tabular = () => {
                       vertical={topHeaderSelecting ? 0 : -1}
                     />
                   </div>
+		  */}
                 </th>
 
                 <th
