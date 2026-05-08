@@ -251,7 +251,6 @@ export class Table implements UserTable {
   public freeze: { x: number; y: number } = { x: 1, y: 1 }; //GUSA
   public isFreeze: boolean = false; // GUSA
 
-
   private version = 0;
   private idMatrix: IdMatrix;
   private area: AreaType = { top: 0, left: 0, bottom: 0, right: 0 };
@@ -353,8 +352,6 @@ export class Table implements UserTable {
   }
 
   public initialize(cells: CellsByAddressType) {
-
-    
     if (this.status > 1) {
       return;
     }

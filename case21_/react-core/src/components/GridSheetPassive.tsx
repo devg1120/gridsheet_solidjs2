@@ -21,8 +21,8 @@ import { StoreObserver } from "./StoreObserver";
 import { Resizer } from "./Resizer";
 import { Emitter } from "./Emitter";
 import { ContextMenu, defaultContextMenuItems } from "./ContextMenu";
-import { Table  } from "../lib/table";
-import type { UserTable  } from "../lib/table";
+import { Table } from "../lib/table";
+import type { UserTable } from "../lib/table";
 import { Tabular } from "./Tabular";
 import { getMaxSizesFromCells } from "../lib/structs";
 import { x2c, y2r } from "../lib/converters";
@@ -37,9 +37,9 @@ export const useConnector = () => useRef<Connector | null>(null);
 
 export function GridSheetPassive({
   //initialCells,
-  table ,   //GUSA
+  table, //GUSA
   //table  ,   //GUSA
-  
+
   sheetName = "",
   connector: initialConnector,
   options = {},
@@ -47,7 +47,6 @@ export function GridSheetPassive({
   style,
   hub: initialHub,
 }: PassiveProps) {
-
   const { sheetResize, showFormulaBar = true, mode = "light" } = options;
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -62,7 +61,6 @@ export function GridSheetPassive({
   const internalHub = useHub({});
   const hub = initialHub ?? internalHub;
   const { wire } = hub;
-
 
   // useRef to manage sheetId and avoid Strict Mode issues
   const sheetIdRef = useRef<number | null>(null);
@@ -85,7 +83,7 @@ export function GridSheetPassive({
     const { minNumRows, maxNumRows, minNumCols, maxNumCols, contextMenuItems } =
       options;
 
-/*
+    /*
     const table = new Table({
       minNumRows,
       maxNumRows,
@@ -102,7 +100,7 @@ export function GridSheetPassive({
     wire.onInit?.({ table });
 
     //table.setTotalSize();
-    tableReactive.current = (table as Table);
+    tableReactive.current = table as Table;
 
     const store: StoreType = {
       sheetId,
@@ -155,7 +153,7 @@ export function GridSheetPassive({
     embedStyle();
   }, []);
 
-/*
+  /*
   const [sheetHeight, setSheetHeight] = useState(
     options?.sheetHeight || estimateSheetHeight(initialCells),
   );
@@ -163,7 +161,7 @@ export function GridSheetPassive({
     options?.sheetWidth || estimateSheetWidth(initialCells),
   );
 */
-/*
+  /*
   const [sheetHeight, setSheetHeight] = useState(
     400 
   );
@@ -171,7 +169,7 @@ export function GridSheetPassive({
     800
   );
 */
-/*
+  /*
   const [sheetHeight, setSheetHeight] = useState(
     options?.sheetHeight || 400,
   );
@@ -180,19 +178,15 @@ export function GridSheetPassive({
   );
 */
 
-/*
+  /*
   const sheetHeight = 400;
   const sheetWidth  = 800;
 */
 
-  const [sheetHeight, setSheetHeight] = useState(
-    options?.sheetHeight || 400,
-  );
-  const [sheetWidth, setSheetWidth] = useState(
-    options?.sheetWidth || 800,
-  );
+  const [sheetHeight, setSheetHeight] = useState(options?.sheetHeight || 400);
+  const [sheetWidth, setSheetWidth] = useState(options?.sheetWidth || 800);
 
-/*
+  /*
   useEffect(() => {
     const intervalId = window.setInterval(() => {
       setSheetHeight(mainRef.current?.clientHeight || 0);
@@ -201,7 +195,7 @@ export function GridSheetPassive({
     return () => window.clearInterval(intervalId);
   }, []);
 */
-/*
+  /*
   useEffect(() => {
     if (options.sheetHeight) {
       setSheetHeight(options.sheetHeight);

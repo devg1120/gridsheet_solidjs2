@@ -129,7 +129,6 @@ export class Wire {
       dispatch(updateTable(table));
     }
     this.ready = true;
-
   }
 
   public getSystem(id: Id, table: Table): System {

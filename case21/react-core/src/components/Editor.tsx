@@ -627,7 +627,7 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
     },
     [selectValue],
   );
-/*
+  /*
       style={editing ? { top, left, height } : {}}
 
 */

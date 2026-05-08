@@ -80,7 +80,7 @@ export const virtualize = (
       break;
     }
   }
-  
+
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
 

@@ -29,7 +29,7 @@ type Props = {
   isFreeze: boolean;
 };
 
-export const HeaderCellLeft: FC<Props> = memo(({ y , isFreeze}) => {
+export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
   const rowId = `${y2r(y)}`;
   const { store, dispatch } = useContext(Context);
 
@@ -250,21 +250,18 @@ export const HeaderCellLeft: FC<Props> = memo(({ y , isFreeze}) => {
             horizontal={-1}
           />
           {table.getLabel(row?.labeler, y) ?? rowId}
-	  {
-	    !isFreeze ?
-	    (
-              <div
-                className={`
+          {!isFreeze ? (
+            <div
+              className={`
                   gs-resizer
                   ${prevention.hasOperation(row?.prevention, prevention.Resize) ? "gs-protected" : ""}
                   ${dragging ? "gs-hidden" : ""}`}
-                style={{ width: table.headerWidth }}
-                onMouseDown={handleResizeMouseDown}
-              ></div>
-	    )
-	    :
-	    (<></>)
-	  }
+              style={{ width: table.headerWidth }}
+              onMouseDown={handleResizeMouseDown}
+            ></div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </th>

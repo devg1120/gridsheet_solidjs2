@@ -3,8 +3,6 @@ D1=case21_solid/react-core/src/components
 D1=case21/react-core/src/components
 D2=case21_/react-core/src/components
 
-MODE=1
-
 F=$1
 TARGET="${F}|"
 
@@ -22,7 +20,6 @@ LESS=${LESS_BASE}" "${LESS_SOP}
 
 echo $LESS
 
-diff1() {
 
 (
 
@@ -65,14 +62,14 @@ BEGIN { PSEQ = 0 }
 }
 '  | `eval echo $LESS`
 
-}
 
-diff2() {
+exit
+
 (
 
 echo  "DIFF "  "${D2}/${F} "    ${D1}/${F}
+
 diff -r -Bw --side-by-side $D2/$F $D1/$F
-#diff -r -Bw --side-by-side --suppress-common-lines $D2/$F $D1/$F
 
 ) | expand -t 8 | awk -v TARGET=$TARGET '
 
@@ -85,7 +82,7 @@ BEGIN { PSEQ = 0 }
 {
    if( $1 == "diff" ) {
      print ""
-     print "\033[1;32m"  $5 "               " $5  "\033[0m"
+     print "\033[1;32m"  $5 "               " $6  "\033[0m"
      print ""
      TARGET = basename($5)"|"
 
@@ -106,29 +103,7 @@ BEGIN { PSEQ = 0 }
         }
    }
 }
-'  | `eval echo $LESS`
-
-}
-
-
-#diff1 $*
-
-case "$MODE" in
-  "1")
-    diff1 $*
-    ;;
-  "2")
-    diff2 $*
-    ;;
-  *)
-    echo ""
-    ;;
-esac
-
-################################################################################
-exit
-
-
+'  | less -R -S -p type -p const
 
 setc() {
 NC='\033[0m'       # Text Reset

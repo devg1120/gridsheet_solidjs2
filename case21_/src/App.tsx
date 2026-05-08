@@ -80,7 +80,7 @@ const App: React.FC = () => {
     I5: { rowsize: 2, style: { backgroundColor: "#ffff99" } },
     J5: { rowsize: 3, style: { backgroundColor: "#ffff99" } },
     C10: { rowsize: 2, style: { backgroundColor: "#99ccff" } },
-    D18: { rowsize: 2, colsize: 2 ,style: { backgroundColor: "#99ccff" } },
+    D18: { rowsize: 2, colsize: 2, style: { backgroundColor: "#99ccff" } },
     //F12: {colsize: 3, rowsize: 3, style:{ backgroundColor: "#ffccff", border:"solid red 2px"}},
     F12: {
       colsize: 3,

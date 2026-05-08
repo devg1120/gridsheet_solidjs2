@@ -37,13 +37,21 @@ type Props = {
   rowSpan_size: number;
   freezeStyle: CSSProperties;
   operationStyle?: CSSProperties;
-  freeze_y:boolean;
-  freeze_x:boolean;
+  freeze_y: boolean;
+  freeze_x: boolean;
 };
 
 export const Cell: FC<Props> = memo(
-  ({ y, x, freezeStyle, colSpan_size, rowSpan_size, operationStyle, freeze_y, freeze_x }) => {
-
+  ({
+    y,
+    x,
+    freezeStyle,
+    colSpan_size,
+    rowSpan_size,
+    operationStyle,
+    freeze_y,
+    freeze_x,
+  }) => {
     const rowId = y2r(y);
     const colId = x2c(x);
     const address = `${colId}${rowId}`;
@@ -110,15 +118,15 @@ export const Cell: FC<Props> = memo(
     const sync = useCallback((table: UserTable) => {
       dispatch(setStore({ tableReactive: { current: table.__raw__ } }));
     }, []);
-1
+    1;
     let errorMessage = "";
     let rendered: any;
     try {
       rendered = table.render({ table, point: { y, x }, sync });
-      if (rendered  == "" ) { // GUSA
-            rendered = " " 
+      if (rendered == "") {
+        // GUSA
+        rendered = " ";
       }
-
     } catch (e: any) {
       if (e instanceof FormulaError) {
         errorMessage = e.message;
@@ -343,7 +351,6 @@ export const Cell: FC<Props> = memo(
   }
 */
 
-
     if (!input) {
       return (
         <td
@@ -389,16 +396,16 @@ export const Cell: FC<Props> = memo(
           onTouchStart={handleDragStart}
           onMouseEnter={handleDragging}
           onMouseUp={handleDragEnd}
-
         >
           <div
             className={"gs-cell-inner"}
-            style={{
-              //...cell?.style,
-              //justifyContent: cell?.justifyContent || "center",
-              //alignItems: cell?.alignItems || "start",
-
-            }}
+            style={
+              {
+                //...cell?.style,
+                //justifyContent: cell?.justifyContent || "center",
+                //alignItems: cell?.alignItems || "start",
+              }
+            }
           >
             {errorMessage && (
               <div className="gs-formula-error-triangle" title={errorMessage} />
@@ -415,5 +422,3 @@ export const Cell: FC<Props> = memo(
     );
   },
 );
-
-

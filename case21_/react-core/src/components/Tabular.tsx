@@ -135,7 +135,6 @@ export const Tabular = () => {
     table.wire.choosingAddress = p2a(choosing);
   }, [choosing]);
 
-
   useEffect(() => {
     if (!table) {
       return;
@@ -147,7 +146,6 @@ export const Tabular = () => {
     mainRef.current?.clientHeight,
     mainRef.current?.clientWidth,
   ]);
-
 
   if (!table || !table.wire.ready) {
     return null;
@@ -318,7 +316,7 @@ export const Tabular = () => {
     if (tableRef.current) {
       let ele = tableRef.current.querySelector("#CR");
       if (ele && ele.clientHeight) {
-         height += ele?.clientHeight+ 1;
+        height += ele?.clientHeight + 1;
       }
       //height = table.headerHeight;
       for (let i = 1; i < y; i++) {
@@ -400,7 +398,7 @@ export const Tabular = () => {
       //console.log("tophight", tophight);
       let style = {
         position: "sticky",
-        top: `${tophight }px`,
+        top: `${tophight}px`,
         zIndex: 105,
         //background: "#e6e6fa",
         //background: "red",
@@ -416,7 +414,7 @@ export const Tabular = () => {
     }
   };
 
-  const set_freeze_td_style = (x: number,y: number ) => {
+  const set_freeze_td_style = (x: number, y: number) => {
     //const colId  = x2c(x);
     //console.log(colId);
 
@@ -442,12 +440,12 @@ export const Tabular = () => {
       return style;
     } else {
       if (freeze_point && y < freeze_point.y) {
-         let style = {
-           //background: "#e6e6fa",
-           //borderTop: "solid #e6e6fa 0px",
-           //border: "solid yellow 2px",
-         };
-         return style
+        let style = {
+          //background: "#e6e6fa",
+          //borderTop: "solid #e6e6fa 0px",
+          //border: "solid yellow 2px",
+        };
+        return style;
       }
 
       return {};
@@ -474,25 +472,24 @@ export const Tabular = () => {
       }
       return style;
     } else {
-      return {
-      };
+      return {};
     }
   };
 
-  const is_freeze_y = (y: number ) => {
-      if (freeze_point && y < freeze_point.y) {
-             return true;
-      } else {
-             return false;
-      }
-  }
-  const is_freeze_x = (x: number ) => {
-      if (freeze_point && x < freeze_point.x) {
-             return true;
-      } else {
-             return false;
-      }
-  }
+  const is_freeze_y = (y: number) => {
+    if (freeze_point && y < freeze_point.y) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const is_freeze_x = (x: number) => {
+    if (freeze_point && x < freeze_point.x) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <>
@@ -514,8 +511,8 @@ export const Tabular = () => {
           }}
         >
           <table ref={tableRef} className={`gs-table`}>
-            <thead className="gs-thead" style={{ height: table.headerHeight}}>
-              <tr className="gs-row" >
+            <thead className="gs-thead" style={{ height: table.headerHeight }}>
+              <tr className="gs-row">
                 <th
                   id="CR"
                   className="gs-th gs-th-left gs-th-top header_freeze_x"
@@ -554,7 +551,7 @@ export const Tabular = () => {
                   <HeaderCellTop
                     x={x}
                     key={x}
-		    isFreeze={is_freeze_x(x)}
+                    isFreeze={is_freeze_x(x)}
                     freezeStyle={set_freeze_headertop_td_style(x)}
                   />
                 ))}
@@ -588,9 +585,7 @@ export const Tabular = () => {
               {virtualized?.ys?.map((y) => {
                 return (
                   <tr key={y} className="gs-row" style={set_freeze_tr_style(y)}>
-                    <HeaderCellLeft y={y} 
-		        isFreeze={is_freeze_y(y)}
-		    />
+                    <HeaderCellLeft y={y} isFreeze={is_freeze_y(y)} />
 
                     <td className="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left" />
                     {/*
@@ -608,7 +603,7 @@ export const Tabular = () => {
                     {virtualized?.xs?.map((x) => {
                       if (isSkip(x, y)) {
                         //return <></>;
-                        return
+                        return;
                       }
 
                       return (
@@ -616,9 +611,9 @@ export const Tabular = () => {
                           key={x}
                           y={y}
                           x={x}
-			  freeze_y={is_freeze_y(y) ? true : false}
-			  freeze_x={is_freeze_x(x) ? true : false}
-                          freezeStyle={set_freeze_td_style(x,y)}
+                          freeze_y={is_freeze_y(y) ? true : false}
+                          freeze_x={is_freeze_x(x) ? true : false}
+                          freezeStyle={set_freeze_td_style(x, y)}
                           colSpan_size={colSpan_size(x, y)}
                           rowSpan_size={rowSpan_size(x, y)}
                           operationStyle={operationStyles[p2a({ y, x })]}

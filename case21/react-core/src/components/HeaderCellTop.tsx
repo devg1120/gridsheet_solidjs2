@@ -229,8 +229,8 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
           : ""
       } `}
       //style={{ width, minWidth: width, maxWidth: width, zIndex:150,  }}
-      
-      style={{ width, minWidth: width, maxWidth: width,  ...freezeStyle }}
+
+      style={{ width, minWidth: width, maxWidth: width, ...freezeStyle }}
       onContextMenu={(e) => {
         if (contextMenuItems.length > 0) {
           e.stopPropagation();
@@ -260,23 +260,20 @@ export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
             vertical={-1}
           />
           {table.getLabel(col?.labeler, x) ?? colId}
-	  {
-	    !isFreeze ?
-	    (
-              <div
-                className={`
+          {!isFreeze ? (
+            <div
+              className={`
                   gs-resizer 
                   ${prevention.hasOperation(col?.prevention, prevention.Resize) ? "gs-protected" : ""}
                   ${dragging ? "gs-hidden" : ""} `}
-                style={{ height: table.headerHeight }}
-                onMouseDown={handleResizeMouseDown}
-              >
-                <i />
-              </div>
-	    )
-	    :
-	    (<></>)
-	  }
+              style={{ height: table.headerHeight }}
+              onMouseDown={handleResizeMouseDown}
+            >
+              <i />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </th>

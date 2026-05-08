@@ -745,7 +745,7 @@ class ArrowAction<
     }
     let { selectingZone } = store;
     const { y, x } = choosing;
-/*
+    /*
     console.log(
 	    "deltaY", deltaY,
 	    "deltaX", deltaX,
@@ -755,7 +755,7 @@ class ArrowAction<
 	    "x", x,
     )
 */
-/*
+    /*
     console.log(
 	    "deltaX", deltaX,
 	    "deltaY", deltaY,
@@ -769,216 +769,226 @@ class ArrowAction<
     /*******************************************************/
     // GUSA
     //
-     const span_list: SpanElementType[] = table.spanList;
+    const span_list: SpanElementType[] = table.spanList;
 
+    const isSpan1 = (x: number, y: number) => {
+      let span = false; // default
+      let pos = { x: 0, y: 0 };
 
-     const isSpan1 = (x: number, y: number) => {
-       let span = false; // default
-       let pos = { x: 0 , y: 0};
+      if (typeof span_list !== "undefined") {
+        for (let i = 0; i < span_list.length; i++) {
+          if (
+            y >= span_list[i].y &&
+            y < span_list[i].y + span_list[i].row_size &&
+            x >= span_list[i].x &&
+            x < span_list[i].x + span_list[i].col_size
+          ) {
+            //console.log("i", i);
+            span = true;
+            pos.y = y - span_list[i].y;
+            pos.x = x - span_list[i].x;
 
-       if (typeof span_list !== "undefined") {
-         for (let i = 0; i < span_list.length; i++) {
-           if (
-             y >= span_list[i].y &&
-             y < span_list[i].y + span_list[i].row_size  &&
-             x >= span_list[i].x &&
-             x < span_list[i].x + span_list[i].col_size 
-           ) {
-		   //console.log("i", i);
-             span = true;
-	     pos.y = y - span_list[i].y;
-	     pos.x = x - span_list[i].x;
+            break;
+          }
+        }
+      }
+      return span;
+    };
 
-             break;
-           }
-         }
-       }
-       return span ;
-     };
+    const isSpan2 = (x: number, y: number) => {
+      let span = false; // default
+      let pos = { x: -1, y: -1 };
+      let span_index = -1;
+      if (typeof span_list !== "undefined") {
+        for (let i = 0; i < span_list.length; i++) {
+          if (
+            y >= span_list[i].y &&
+            y < span_list[i].y + span_list[i].row_size &&
+            x >= span_list[i].x &&
+            x < span_list[i].x + span_list[i].col_size
+          ) {
+            span = true;
+            span_index = i;
+            pos.y = y - span_list[i].y;
+            pos.x = x - span_list[i].x;
 
+            break;
+          }
+        }
+      }
+      return { span: span, span_index: span_index, pos: pos };
+    };
 
-     const isSpan2 = (x: number, y: number) => {
-       let span = false; // default
-       let pos = { x: -1 , y: -1};
-       let span_index = -1;
-       if (typeof span_list !== "undefined") {
-         for (let i = 0; i < span_list.length; i++) {
-           if (
-             y >= span_list[i].y &&
-             y < span_list[i].y + span_list[i].row_size  &&
-             x >= span_list[i].x &&
-             x < span_list[i].x + span_list[i].col_size 
-           ) {
-             span = true;
-	     span_index = i;
-	     pos.y = y - span_list[i].y;
-	     pos.x = x - span_list[i].x;
+    const step = (x: number, y: number, deltaX: number, deltaY: number) => {
+      let prev = isSpan2(x, y);
+      let next = isSpan2(x + deltaX, y + deltaY);
+      //console.log(prev, next);
+      let new_deltaX = deltaX;
+      let new_deltaY = deltaY;
 
-             break;
-           }
-         }
-       }
-       return  { span: span, span_index: span_index, pos:pos } ;
-     };
-     
-     const step = (x: number, y: number, deltaX: number, deltaY: number) => {
-         let prev = isSpan2(x, y) ;
-         let next = isSpan2(x + deltaX , y + deltaY);
-	 //console.log(prev, next);
-         let new_deltaX = deltaX;
-         let new_deltaY = deltaY;
+      if (prev.span == false && next.span == false && prev.span_index) {
+        //console.log("out > out");
+      } else if (
+        prev.span == true &&
+        next.span == true &&
+        prev.span_index == next.span_index
+      ) {
+        //console.log("in > in");
+        if (deltaX > 0) {
+          //水平　右方向
+          if (next.pos.y == 0) {
+            // Y 先頭
+            new_deltaX += span_list[next.span_index].col_size - 1;
+          }
+        } else if (deltaX < 0) {
+          // 左方向
+        }
 
-	 if ( prev.span == false && next.span == false && prev.span_index ) {
-		 //console.log("out > out");
-	 } else if ( prev.span == true && next.span == true && prev.span_index == next.span_index) {
-		 //console.log("in > in");
-		 if ( deltaX > 0 ) {                                                   //水平　右方向
-			 if (next.pos.y == 0) {  // Y 先頭
-				 new_deltaX += span_list[next.span_index].col_size -1;
-			 }
+        if (deltaY > 0) {
+          //垂直　下方向
+          if (next.pos.x == 0) {
+            // X 先頭
+            new_deltaY += span_list[next.span_index].row_size - 1;
+          }
+        } else if (deltaY < 0) {
+          // 左方向
+        }
+      } else if (
+        prev.span == true &&
+        next.span == true &&
+        prev.span_index != next.span_index
+      ) {
+        //console.log("in > in other");
+      } else if (prev.span == false && next.span == true) {
+        //console.log("out > in", next.pos);
+        if (deltaX > 0) {
+          //水平　右方向
+          if (next.pos.y > 0) {
+            // Y 先頭以外
+            new_deltaX += span_list[next.span_index].col_size;
+            //console.log("-------------------------------------Y1")
+            let add = step(x + new_deltaX, y, 1, 0);
+            if (add.prev.span) {
+              //console.log(add.deltaX);
+              new_deltaX += add.deltaX;
+            }
+          }
+        } else if (deltaX < 0) {
+          //水平 左方向
+          if (next.pos.y == 0) {
+            // Y 先頭
+            new_deltaX -= span_list[next.span_index].col_size - 1;
+          } else if (next.pos.y > 0) {
+            // Y 先頭以外
+            new_deltaX -= span_list[next.span_index].col_size;
+            //console.log("-------------------------------------Y2")
+            let add = step(x + new_deltaX, y, -1, 0);
+            if (add.prev.span) {
+              //console.log(add.deltaX);
+              new_deltaX += add.deltaX;
+            }
+          }
+        }
 
+        if (deltaY > 0) {
+          //垂直　下方向
+          if (next.pos.x > 0) {
+            // X 先頭以外
+            new_deltaY += span_list[next.span_index].row_size;
+            //console.log("-------------------------------------X1")
+            let add = step(x, y + new_deltaY, 0, 1);
+            if (add.prev.span) {
+              //console.log(add.deltaY);
+              new_deltaY += add.deltaY;
+            }
+          }
+        } else if (deltaY < 0) {
+          //垂直 上方向
+          if (next.pos.x == 0) {
+            // X 先頭
+            new_deltaY -= span_list[next.span_index].row_size - 1;
+          } else if (next.pos.x > 0) {
+            // X 先頭以外
+            new_deltaY -= span_list[next.span_index].row_size;
+            //console.log("-------------------------------------X2")
+            let add = step(x, y + new_deltaY, 0, -1);
+            if (add.prev.span) {
+              //console.log(add.deltaY);
+              new_deltaY += add.deltaY;
+            }
+          }
+        }
+      } else if (prev.span == true && next.span == false) {
+        //console.log("in > out");
+      } else {
+        //console.log("unknown .... ");
+      }
+      return { deltaX: new_deltaX, deltaY: new_deltaY, prev: prev };
+    };
 
-		 } else if (deltaX < 0) {                                                   // 左方向
+    const getPos = (x: number, y: number) => {
+      let span = false; // default
+      let pos = { x: 0, y: 0 };
 
-		 }
+      if (typeof span_list !== "undefined") {
+        for (let i = 0; i < span_list.length; i++) {
+          if (
+            y >= span_list[i].y &&
+            y < span_list[i].y + span_list[i].row_size &&
+            x >= span_list[i].x &&
+            x < span_list[i].x + span_list[i].col_size
+          ) {
+            span = true;
+            pos.y = y - span_list[i].y;
+            pos.x = x - span_list[i].x;
 
-		 if ( deltaY > 0 ) {                                                   //垂直　下方向
-			 if (next.pos.x == 0) {  // X 先頭
-				 new_deltaY += span_list[next.span_index].row_size -1;
-			 }
+            break;
+          }
+        }
+      }
+      return pos;
+    };
 
+    const colSpan_size = (x: number, y: number) => {
+      let _colSpan_size = 1; // default
 
-		 } else if (deltaY < 0) {                                                   // 左方向
+      if (typeof span_list !== "undefined") {
+        for (let i = 0; i < span_list.length; i++) {
+          //if (( span_list[i].x  <= x <= span_list[i].col_size ) && y == span_list[i].y) {
+          if (
+            span_list[i].x <= x &&
+            x <= span_list[i].col_size &&
+            y == span_list[i].y
+          ) {
+            if (span_list[i].col_size > 1) {
+              _colSpan_size = span_list[i].col_size;
+            }
+          }
+        }
+      }
+      return _colSpan_size;
+    };
+    const rowSpan_size = (x: number, y: number) => {
+      let _rowSpan_size: number = 1; // default
 
-		 }
+      if (typeof span_list !== "undefined") {
+        for (let i = 0; i < span_list.length; i++) {
+          //if (x == span_list[i].x && (span_list[i].y <= y < span_list[i].row_size)) {
+          if (
+            x == span_list[i].x &&
+            span_list[i].y <= y &&
+            y < span_list[i].row_size
+          ) {
+            if (span_list[i].row_size > 1) {
+              _rowSpan_size = span_list[i].row_size;
+            }
+          }
+        }
+      }
+      return _rowSpan_size;
+    };
 
-
-	 } else if ( prev.span == true && next.span == true && prev.span_index != next.span_index) {
-		 //console.log("in > in other");
-	 } else if ( prev.span == false && next.span == true  ) {
-		 //console.log("out > in", next.pos);
-		 if ( deltaX > 0 ) {                                                 //水平　右方向
-			 if (next.pos.y > 0) {     // Y 先頭以外
-				 new_deltaX += span_list[next.span_index].col_size;
-				 //console.log("-------------------------------------Y1")
-				 let add = step(x + new_deltaX, y, 1, 0);
-				 if (add.prev.span) {
-				   //console.log(add.deltaX);
-				   new_deltaX += add.deltaX;
-				 }
-			 }
-
-
-		 } else if (deltaX < 0) {                                             //水平 左方向
-			 if (next.pos.y == 0) {     // Y 先頭
-				 new_deltaX -= span_list[next.span_index].col_size -1;
-			 }
-			 else if (next.pos.y > 0) {  // Y 先頭以外
-				 new_deltaX -= span_list[next.span_index].col_size ;
-				 //console.log("-------------------------------------Y2")
-				 let add = step(x + new_deltaX, y,  -1, 0);
-				 if (add.prev.span) {
-				   //console.log(add.deltaX);
-				   new_deltaX += add.deltaX;
-				 }
-			 }
-
-
-		 }
-
-		 if ( deltaY > 0 ) {                                                 //垂直　下方向
-			 if (next.pos.x > 0) {     // X 先頭以外
-				 new_deltaY += span_list[next.span_index].row_size;
-				 //console.log("-------------------------------------X1")
-				 let add = step(x, y + new_deltaY, 0, 1);
-				 if (add.prev.span) {
-				   //console.log(add.deltaY);
-				   new_deltaY += add.deltaY;
-				 }
-			 }
-
-
-		 } else if (deltaY < 0) {                                                   //垂直 上方向
-			 if (next.pos.x == 0) {     // X 先頭
-				 new_deltaY -= span_list[next.span_index].row_size -1;
-			 }
-			 else if (next.pos.x > 0) {  // X 先頭以外
-				 new_deltaY -= span_list[next.span_index].row_size ;
-				 //console.log("-------------------------------------X2")
-				 let add = step(x, y + new_deltaY, 0, -1);
-				 if (add.prev.span) {
-				   //console.log(add.deltaY);
-				   new_deltaY += add.deltaY;
-				 }
-			 }
-
-
-		 }
-
-	 } else if ( prev.span == true && next.span == false  ) {
-		 //console.log("in > out");
-         } else {
-		 //console.log("unknown .... ");
-	 }
-         return { deltaX: new_deltaX, deltaY: new_deltaY , prev: prev}
-
-     }
-
-     const getPos = (x: number, y: number) => {
-       let span = false; // default
-       let pos = { x: 0 , y: 0};
-
-       if (typeof span_list !== "undefined") {
-         for (let i = 0; i < span_list.length; i++) {
-           if (
-             y >= span_list[i].y &&
-             y < span_list[i].y + span_list[i].row_size  &&
-             x >= span_list[i].x &&
-             x < span_list[i].x + span_list[i].col_size 
-           ) {
-             span = true;
-	     pos.y = y - span_list[i].y;
-	     pos.x = x - span_list[i].x;
-
-             break;
-           }
-         }
-       }
-       return pos ;
-     };
-
-     const colSpan_size = (x: number, y: number) => {
-       let _colSpan_size = 1; // default
-
-       if (typeof span_list !== "undefined") {
-         for (let i = 0; i < span_list.length; i++) {
-           //if (( span_list[i].x  <= x <= span_list[i].col_size ) && y == span_list[i].y) {
-           if ( span_list[i].x  <= x && x <= span_list[i].col_size  && y == span_list[i].y) {
-             if (span_list[i].col_size  > 1) {
-               _colSpan_size = span_list[i].col_size ;
-             }
-           }
-         }
-       }
-       return _colSpan_size;
-     };
-     const rowSpan_size = (x: number, y: number) => {
-       let _rowSpan_size: number = 1; // default
-
-       if (typeof span_list !== "undefined") {
-         for (let i = 0; i < span_list.length; i++) {
-           //if (x == span_list[i].x && (span_list[i].y <= y < span_list[i].row_size)) {
-           if (x == span_list[i].x && span_list[i].y <= y  && y < span_list[i].row_size) {
-             if (span_list[i].row_size  > 1) {
-               _rowSpan_size = span_list[i].row_size ;
-             }
-           }
-         }
-       }
-       return _rowSpan_size;
-     };
-
-/*
+    /*
      const colSpan_size = (x: number, y: number) => {
        let _colSpan_size = 1; // default
 
@@ -1011,15 +1021,15 @@ class ArrowAction<
      };
 */
     /*******************************************************/
-     //console.log("*", isSpan2(x, y), isSpan2(x + deltaX , y + deltaY));
-     //console.log("*", step( x , y , deltaX ,  deltaY));
-   
-     let new_delta =step( x , y , deltaX ,  deltaY);
-     deltaX = new_delta.deltaX;
-     deltaY = new_delta.deltaY;
+    //console.log("*", isSpan2(x, y), isSpan2(x + deltaX , y + deltaY));
+    //console.log("*", step( x , y , deltaX ,  deltaY));
 
-     //console.log("*", getPos(x, y));
-/*
+    let new_delta = step(x, y, deltaX, deltaY);
+    deltaX = new_delta.deltaX;
+    deltaY = new_delta.deltaY;
+
+    //console.log("*", getPos(x, y));
+    /*
      if (deltaX != 0) {
          //console.log("xx", deltaX)
           if (deltaX > 0) {
@@ -1093,7 +1103,7 @@ class ArrowAction<
       return store;
     }
     let { y: editorTop, x: editorLeft, height, width } = store.editorRect;
-    
+
     if (deltaY > 0) {
       for (let i = y; i < nextY; i++) {
         editorTop +=
@@ -1120,7 +1130,6 @@ class ArrowAction<
           DEFAULT_WIDTH;
       }
     }
-
 
     const cell = table.getCellByPoint({ y: nextY, x: nextX }, "SYSTEM");
     height = cell?.height || DEFAULT_HEIGHT;

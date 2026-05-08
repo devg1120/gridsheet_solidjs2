@@ -37,13 +37,22 @@ type Props = {
   rowSpan_size: number;
   freezeStyle: CSSProperties;
   operationStyle?: CSSProperties;
-  freeze_y:boolean;
-  freeze_x:boolean;
+  freeze_y: boolean;
+  freeze_x: boolean;
 };
 
 export const Cell: FC<Props> = memo(
-  ({ y, x, freezeStyle, colSpan_size, rowSpan_size, operationStyle, freeze_y, freeze_x }) => {
-     //operationStyle = {};
+  ({
+    y,
+    x,
+    freezeStyle,
+    colSpan_size,
+    rowSpan_size,
+    operationStyle,
+    freeze_y,
+    freeze_x,
+  }) => {
+    //operationStyle = {};
     const rowId = y2r(y);
     const colId = x2c(x);
     const address = `${colId}${rowId}`;
@@ -110,16 +119,15 @@ export const Cell: FC<Props> = memo(
     const sync = useCallback((table: UserTable) => {
       dispatch(setStore({ tableReactive: { current: table.__raw__ } }));
     }, []);
-1
+    1;
     let errorMessage = "";
     let rendered: any;
     try {
-    
       rendered = table.render({ table, point: { y, x }, sync });
-      if (rendered  == "" ) { // GUSA
-            rendered = " " 
+      if (rendered == "") {
+        // GUSA
+        rendered = " ";
       }
-
     } catch (e: any) {
       if (e instanceof FormulaError) {
         errorMessage = e.message;
@@ -137,10 +145,10 @@ export const Cell: FC<Props> = memo(
 
     const handleDragStart = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      //console.log("handler handleDragStart");
+        //console.log("handler handleDragStart");
         e.stopPropagation();
         safePreventDefault(e);
-      
+
         if (!isTouching(e)) {
           return false;
         }
@@ -207,7 +215,7 @@ export const Cell: FC<Props> = memo(
 
     const handleDragEnd = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      //console.log("handler handleDragEnd");
+        //console.log("handler handleDragEnd");
         e.stopPropagation();
         if (e.type.startsWith("touch")) {
           return;
@@ -229,7 +237,7 @@ export const Cell: FC<Props> = memo(
 
     const handleDragging = useCallback(
       (e: React.MouseEvent | React.TouchEvent) => {
-      //console.log("handler handleDragging");
+        //console.log("handler handleDragging");
         if (!isTouching(e)) {
           return false;
         }
@@ -289,7 +297,7 @@ export const Cell: FC<Props> = memo(
     // --- Memoize event handlers with useCallback ---
     const onContextMenu = useCallback(
       (e: React.MouseEvent<HTMLTableCellElement>) => {
-      console.log("handler onContextMenu");
+        console.log("handler onContextMenu");
         if (contextMenuItems.length > 0) {
           e.stopPropagation();
           safePreventDefault(e);
@@ -303,7 +311,7 @@ export const Cell: FC<Props> = memo(
 
     const onDoubleClick = useCallback(
       (e: React.MouseEvent<HTMLTableCellElement>) => {
-      console.log("handler onDoubleClick");
+        console.log("handler onDoubleClick");
         e.stopPropagation();
         safePreventDefault(e);
         setEditingAddress(address);
@@ -350,7 +358,6 @@ export const Cell: FC<Props> = memo(
   }
 */
 
-
     if (!input) {
       return (
         <td
@@ -395,16 +402,16 @@ export const Cell: FC<Props> = memo(
           onTouchStart={handleDragStart}
           onMouseEnter={handleDragging}
           onMouseUp={handleDragEnd}
-
         >
           <div
             className={"gs-cell-inner"}
-            style={{
-              //...cell?.style,
-              //justifyContent: cell?.justifyContent || "center",
-              //alignItems: cell?.alignItems || "start",
-
-            }}
+            style={
+              {
+                //...cell?.style,
+                //justifyContent: cell?.justifyContent || "center",
+                //alignItems: cell?.alignItems || "start",
+              }
+            }
           >
             {errorMessage && (
               <div className="gs-formula-error-triangle" title={errorMessage} />
@@ -419,8 +426,5 @@ export const Cell: FC<Props> = memo(
         </div>
       </td>
     );
-    
   },
 );
-
-
