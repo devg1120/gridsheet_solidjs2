@@ -31,7 +31,7 @@ export const getCellRectPositions = (table: Table, { y, x }: PointType) => {
 };
 
 export const getScreenRect = (e: HTMLDivElement) => {
-  //console.log(e.scrollTop, e.offsetHeight)
+  console.log(e.scrollTop )
   const top = e.scrollTop ,
     left = e.scrollLeft;
   const height = e.offsetHeight,

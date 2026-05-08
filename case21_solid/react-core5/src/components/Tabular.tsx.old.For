@@ -93,13 +93,11 @@ const [choosing, setChoosing] = createSignal(store().choosing);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
- 
-    //console.log("croll");
+    console.log("scroll");
     if (table) {
-      //console.log(virtualize(table, e.currentTarget));
+      console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
     }
-    
   };
 
   const handleSelectAllClick = () => {
@@ -182,17 +180,15 @@ const [choosing, setChoosing] = createSignal(store().choosing);
     ),
   );
 
-/*
+
   createEffect(
     on(
-    
       () => [
         tabularRef,
         tableReactive,
         mainRef?.clientHeight,
         mainRef?.clientWidth,
       ],
-      
       () => {
         if (!table) {
           return;
@@ -201,16 +197,16 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       },
     ),
   );
-*/
 
 
+/*
   onMount(() => {
         if (!table) {
           return;
         }
         setVirtualized(virtualize(table, tabularRef));
   });
-
+*/
 /*
  createEffect(() => {
     if (!table) {
@@ -616,14 +612,8 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       return false;
     }
   };
-            //console.log("== w",table.headerWidth)
-           // console.log("== h",table.totalHeight)
-            //table.headerWidth = 2500;
-            //table.totalHeight = 499*20/2  ; //TODO
-            //table.totalHeight = 499*20/1.8; //TODO
-            //table.totalHeight = 2000*20/1.8; //TODO
-            //table.totalHeight = 10000; //TODO
-
+  //          console.log("== w",table.headerWidth)
+  //          console.log("== h",table.totalHeight)
 
   return (
     <>
@@ -719,23 +709,22 @@ const [choosing, setChoosing] = createSignal(store().choosing);
             </tbody>
 
             <tbody class="gs-table-body-data">
-              {virtualized()?.ys?.map((y) => {
-	        //console.log("y",y,isSkip(1,y));
-                return (
+
+<For each={virtualized()?.ys}>
+{(y) => (
                   <tr class="gs-row" style={set_freeze_tr_style(y)}>
                     <HeaderCellLeft y={y} isFreeze={is_freeze_y(y)} />
 
                     <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left" />
 
                     {virtualized()?.xs?.map((x) => {
-                      //if ( x == 1) { console.log("ok") }
                       if (isSkip(x, y)) {
                         //return <></>;
                         return;
                       }
 
                       return (
-     <For each={key()}>{() =>
+                       <For each={key()}>{() =>
 
                         <Cell
                           y={y}
@@ -754,15 +743,16 @@ const [choosing, setChoosing] = createSignal(store().choosing);
                             ]
                           }
                         />
-      }</For>
+                       }</For>
 
                       );
                     })}
 
                     <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-right" />
                   </tr>
-                );
-              })}
+
+)}
+</For>
             </tbody>
           </table>
         </div>

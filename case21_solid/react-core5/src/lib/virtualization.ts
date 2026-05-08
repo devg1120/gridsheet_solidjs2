@@ -32,9 +32,9 @@ export const getCellRectPositions = (table: Table, { y, x }: PointType) => {
 
 export const getScreenRect = (e: HTMLDivElement) => {
 
-  console.log(e.scrollTop )
+  console.log(e.scrollTop, e.offsetHeight)
   //console.log(e.scrollTop, e.offsetHeight)
-  const top = e.scrollTop ,
+  const top = e.scrollTop  ,
     left = e.scrollLeft;
   const height = e.offsetHeight,
     width = e.offsetWidth;
@@ -82,24 +82,20 @@ export const virtualize = (
     //console.log("h",h);
     height += h ;
     //console.log(height, bottom);
-    /*
     if (boundaryTop === 0 && height > top) {
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
-   */
-     boundaryTop = 1;
-   
-    if (height > bottom ) {
+    if (height > bottom) {
     //if (height > bottom) {
       //console.log("height", height, "bottom", bottom)
       boundaryBottom = Math.min(y + OVERSCAN_Y, table.getNumRows());
-/*
+
       // TODO
+      
       boundaryBottom   = parseInt(boundaryBottom*2)
       if (boundaryBottom  > table.getNumRows()) {
          boundaryBottom   = table.getNumRows();
       }
-*/
 
       break;
 

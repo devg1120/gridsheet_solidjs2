@@ -616,13 +616,11 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       return false;
     }
   };
-            //console.log("== w",table.headerWidth)
-           // console.log("== h",table.totalHeight)
+            console.log("== w",table.headerWidth)
+            console.log("== h",table.totalHeight)
             //table.headerWidth = 2500;
-            //table.totalHeight = 499*20/2  ; //TODO
-            //table.totalHeight = 499*20/1.8; //TODO
-            //table.totalHeight = 2000*20/1.8; //TODO
-            //table.totalHeight = 10000; //TODO
+            table.totalHeight = 499*20/2  ; //TODO
+            table.totalHeight = 499*20/1.8; //TODO
 
 
   return (

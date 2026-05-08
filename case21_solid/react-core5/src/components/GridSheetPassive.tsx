@@ -191,8 +191,6 @@ export function GridSheetPassive({
   const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
 
   //console.log("showFormulaBar", showFormulaBar, hub().wire.ready);
-        //class={`gs-root1 ${hub.wire.ready ? "gs-initialized" : ""}`}
-        //class={`gs-root-gusa ${hub().wire.ready ? "gs-initialized" : ""}`}
 
   return (
     <Context.Provider
@@ -203,8 +201,7 @@ export function GridSheetPassive({
     >
       <div
         //class={`gs-root1 ${hub.wire.ready ? "gs-initialized" : ""}`}
-        //class={`gs-root-gusa ${hub().wire.ready ? "gs-initialized" : ""}`}
-        class={`gs-root1 ${hub().wire.ready ? "gs-initialized" : ""}`}
+        class={`gs-root-gusa ${hub().wire.ready ? "gs-initialized" : ""}`}
         ref={rootRef}
         data-sheet-name={sheetName}
         data-mode={mode}

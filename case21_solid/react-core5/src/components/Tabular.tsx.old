@@ -17,20 +17,14 @@ import { Lexer, stripSheetName } from "../formula/evaluator";
 import { COLOR_PALETTE } from "../lib/palette";
 import { Autofill } from "../lib/autofill";
 import { ScrollHandle } from "./ScrollHandle";
-import { createEffect, on, onMount, useContext, createSignal } from "solid-js";
+import { createEffect, on, useContext, createSignal } from "solid-js";
 
 export const Tabular = () => {
   const [palette, setPalette] = createSignal<RefPaletteType>({});
   const { store, dispatch } = useContext(Context);
-/*
-  createEffect(() => {
-    console.log("Tabluar store update: ", store().choosing);
-  });
-*/
-
   let {
     tableReactive,
-    //choosing,
+    choosing,
     editingAddress,
     tabularRef,
     mainRef,
@@ -41,35 +35,8 @@ export const Tabular = () => {
     topHeaderSelecting,
   } = store();
 
-const [key, setKey] = createSignal([{}]);
-
-const [choosing, setChoosing] = createSignal(store().choosing);
-
- createEffect(() => {
-    setChoosing(store().choosing);
-    operationStyles = useOperationStyles(store, {
-      ...palette(),
-      ...table.wire.paletteBySheetName[table.sheetName],
-    });
-    setKey([{}]);
-  });
-
-/*
- createEffect(() => {
-    console.log("choosing",choosing());
-  operationStyles = useOperationStyles(store, {
-    ...palette(),
-    ...table.wire.paletteBySheetName[table.sheetName],
-  });
-    setKey([{}]);
-
-  });
-*/
-
-  //choosing = {y:3, x:3};
-
   //console.log("-",store()) ;
-  //console.log("-", sheetHeight);
+  console.log("-", sheetHeight);
   //console.log("-",sheetWidth) ;
 
   const table = tableReactive;
@@ -93,13 +60,11 @@ const [choosing, setChoosing] = createSignal(store().choosing);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
- 
-    //console.log("croll");
+    //console.log("scroll");
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
     }
-    
   };
 
   const handleSelectAllClick = () => {
@@ -119,7 +84,6 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       );
     });
   };
-
 
   createEffect(
     on(
@@ -169,30 +133,26 @@ const [choosing, setChoosing] = createSignal(store().choosing);
     ),
   );
 
-
   createEffect(
     on(
-      () => [choosing()],
+      () => [choosing],
       () => {
         if (!table) {
           return;
         }
-        table.wire.choosingAddress = p2a(choosing());
+        table.wire.choosingAddress = p2a(choosing);
       },
     ),
   );
 
-/*
   createEffect(
     on(
-    
       () => [
         tabularRef,
         tableReactive,
         mainRef?.clientHeight,
         mainRef?.clientWidth,
       ],
-      
       () => {
         if (!table) {
           return;
@@ -201,81 +161,13 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       },
     ),
   );
-*/
 
-
-  onMount(() => {
-        if (!table) {
-          return;
-        }
-        setVirtualized(virtualize(table, tabularRef));
-  });
-
-/*
- createEffect(() => {
-    if (!table) {
-      return;
-    }
-    const formulaEditing = editingAddress && inputting.startsWith("=");
-    if (!formulaEditing) {
-      setPalette({});
-      table.wire.paletteBySheetName = {};
-      return;
-    }
-    const palette: RefPaletteType = {};
-    const paletteBySheetName: { [sheetName: string]: RefPaletteType } = {};
-    const lexer = new Lexer(inputting.substring(1));
-    lexer.tokenize();
-
-    let i = 0;
-    for (const token of lexer.tokens) {
-      if (token.type === "REF" || token.type === "RANGE") {
-        const normalizedRef = stripAddressAbsolute(token.stringify());
-        const splitterIndex = normalizedRef.indexOf("!");
-        if (splitterIndex !== -1) {
-          const sheetName = normalizedRef.substring(0, splitterIndex);
-          const ref = normalizedRef.substring(splitterIndex + 1);
-          const stripped = stripSheetName(sheetName);
-          const upperRef = ref.toUpperCase();
-          if (paletteBySheetName[stripped] == null) {
-            paletteBySheetName[stripped] = {};
-          }
-          if (paletteBySheetName[stripped][upperRef] == null) {
-            paletteBySheetName[stripped][upperRef] = i++;
-          }
-        } else {
-          const upperRef = normalizedRef.toUpperCase();
-          if (palette[upperRef] == null) {
-            palette[upperRef] = i++;
-          }
-        }
-      }
-    }
-    setPalette(palette);
-    table.wire.paletteBySheetName = paletteBySheetName;
-  });
-
- createEffect(() => {
-    if (!table) {
-      return;
-    }
-    table.wire.choosingAddress = p2a(choosing);
-  });
-
-
-  createEffect(() => {
-    if (!table) {
-      return;
-    }
-    setVirtualized(virtualize(table, tabularRef.current));
-  });
-*/
   /*
     if (!table || !table.wire.ready) {
         return null;
     }
 */
-  let operationStyles = useOperationStyles(store, {
+  const operationStyles = useOperationStyles(store, {
     ...palette(),
     ...table.wire.paletteBySheetName[table.sheetName],
   });
@@ -616,18 +508,11 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       return false;
     }
   };
-            //console.log("== w",table.headerWidth)
-           // console.log("== h",table.totalHeight)
-            //table.headerWidth = 2500;
-            //table.totalHeight = 499*20/2  ; //TODO
-            //table.totalHeight = 499*20/1.8; //TODO
-            //table.totalHeight = 2000*20/1.8; //TODO
-            //table.totalHeight = 10000; //TODO
-
+            console.log("== w",table.headerWidth)
+  //          console.log("== h",table.totalHeight)
 
   return (
     <>
-     {/*<For each={key()}>{() => */}
       <div
         class="gs-tabular"
         style={{
@@ -720,7 +605,6 @@ const [choosing, setChoosing] = createSignal(store().choosing);
 
             <tbody class="gs-table-body-data">
               {virtualized()?.ys?.map((y) => {
-	        //console.log("y",y,isSkip(1,y));
                 return (
                   <tr class="gs-row" style={set_freeze_tr_style(y)}>
                     <HeaderCellLeft y={y} isFreeze={is_freeze_y(y)} />
@@ -728,15 +612,12 @@ const [choosing, setChoosing] = createSignal(store().choosing);
                     <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left" />
 
                     {virtualized()?.xs?.map((x) => {
-                      //if ( x == 1) { console.log("ok") }
                       if (isSkip(x, y)) {
                         //return <></>;
                         return;
                       }
 
                       return (
-     <For each={key()}>{() =>
-
                         <Cell
                           y={y}
                           x={x}
@@ -754,8 +635,6 @@ const [choosing, setChoosing] = createSignal(store().choosing);
                             ]
                           }
                         />
-      }</For>
-
                       );
                     })}
 
@@ -767,7 +646,6 @@ const [choosing, setChoosing] = createSignal(store().choosing);
           </table>
         </div>
       </div>
-    {/*  }</For> */}
     </>
   );
 };
@@ -781,7 +659,6 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
-
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {
     const address = p2a(point);
@@ -799,7 +676,6 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
   } = store();
 
   const table = tableReactive;
-  //console.log(table);
   if (!table) {
     return {};
   }
@@ -813,16 +689,16 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
 
     if (!editingAnywhere) {
       for (let y = top; y <= bottom; y++) {
-        updateStyle({ y, x: left - 1 }, { "border-right": BORDER_SELECTED });
-        updateStyle({ y, x: left }, { "border-left": BORDER_SELECTED });
-        updateStyle({ y, x: right }, { "border-right": BORDER_SELECTED });
-        updateStyle({ y, x: right + 1 }, { "border-left": BORDER_SELECTED });
+        updateStyle({ y, x: left - 1 }, { borderRight: BORDER_SELECTED });
+        updateStyle({ y, x: left }, { borderLeft: BORDER_SELECTED });
+        updateStyle({ y, x: right }, { borderRight: BORDER_SELECTED });
+        updateStyle({ y, x: right + 1 }, { borderLeft: BORDER_SELECTED });
       }
       for (let x = left; x <= right; x++) {
-        updateStyle({ y: top - 1, x }, { "border-bottom": BORDER_SELECTED });
-        updateStyle({ y: top, x }, { "border-top": BORDER_SELECTED });
-        updateStyle({ y: bottom, x }, { "border-bottom": BORDER_SELECTED });
-        updateStyle({ y: bottom + 1, x }, { "border-top": BORDER_SELECTED });
+        updateStyle({ y: top - 1, x }, { borderBottom: BORDER_SELECTED });
+        updateStyle({ y: top, x }, { borderTop: BORDER_SELECTED });
+        updateStyle({ y: bottom, x }, { borderBottom: BORDER_SELECTED });
+        updateStyle({ y: bottom + 1, x }, { borderTop: BORDER_SELECTED });
       }
     }
   }
@@ -830,16 +706,16 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     const autofill = new Autofill(store(), autofillDraggingTo);
     const { top, left, bottom, right } = autofill.wholeArea;
     for (let y = top; y <= bottom; y++) {
-      updateStyle({ y, x: left - 1 }, { "border-right": AUTOFILL_BORDER });
-      updateStyle({ y, x: left }, { "border-left": AUTOFILL_BORDER });
-      updateStyle({ y, x: right }, { "border-right": AUTOFILL_BORDER });
-      updateStyle({ y, x: right + 1 }, { "border-left": AUTOFILL_BORDER });
+      updateStyle({ y, x: left - 1 }, { borderRight: AUTOFILL_BORDER });
+      updateStyle({ y, x: left }, { borderLeft: AUTOFILL_BORDER });
+      updateStyle({ y, x: right }, { borderRight: AUTOFILL_BORDER });
+      updateStyle({ y, x: right + 1 }, { borderLeft: AUTOFILL_BORDER });
     }
     for (let x = left; x <= right; x++) {
-      updateStyle({ y: top - 1, x }, { "border-bottom": AUTOFILL_BORDER });
-      updateStyle({ y: top, x }, { "border-top": AUTOFILL_BORDER });
-      updateStyle({ y: bottom, x }, { "border-bottom": AUTOFILL_BORDER });
-      updateStyle({ y: bottom + 1, x }, { "border-top": AUTOFILL_BORDER });
+      updateStyle({ y: top - 1, x }, { borderBottom: AUTOFILL_BORDER });
+      updateStyle({ y: top, x }, { borderTop: AUTOFILL_BORDER });
+      updateStyle({ y: bottom, x }, { borderBottom: AUTOFILL_BORDER });
+      updateStyle({ y: bottom + 1, x }, { borderTop: AUTOFILL_BORDER });
     }
   }
   {
@@ -849,32 +725,32 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     updateStyle(
       { y, x },
       {
-        "border-left": BORDER_POINTED,
-        "border-right": BORDER_POINTED,
-        "border-top": BORDER_POINTED,
-        "border-bottom": BORDER_POINTED,
+        borderLeft: BORDER_POINTED,
+        borderRight: BORDER_POINTED,
+        borderTop: BORDER_POINTED,
+        borderBottom: BORDER_POINTED,
       },
     );
-    //updateStyle({ y, x: x - 1 }, { "border-right": BORDER_POINTED });  //GUSA
-    //updateStyle({ y, x: x + 1 }, { "border-left": BORDER_POINTED });  //GUSA
-    //updateStyle({ y: y - 1, x }, { "border-bottom": BORDER_POINTED }); //GUSA
-    //updateStyle({ y: y + 1, x }, { "border-top": BORDER_POINTED });  //GUSA
+    //updateStyle({ y, x: x - 1 }, { borderRight: BORDER_POINTED });  //GUSA
+    //updateStyle({ y, x: x + 1 }, { borderLeft: BORDER_POINTED });  //GUSA
+    //updateStyle({ y: y - 1, x }, { borderBottom: BORDER_POINTED }); //GUSA
+    //updateStyle({ y: y + 1, x }, { borderTop: BORDER_POINTED });  //GUSA
   }
   if (table.sheetId === copyingSheetId) {
     // copying
     const borderStyle = cutting ? BORDER_CUTTING : BORDER_COPYING;
     const { top, left, bottom, right } = zoneToArea(copyingZone);
     for (let y = top; y <= bottom; y++) {
-      updateStyle({ y, x: left - 1 }, { "border-bight": borderStyle });
-      updateStyle({ y, x: left }, { "border-left": borderStyle });
-      updateStyle({ y, x: right }, { "border-right": borderStyle });
-      updateStyle({ y, x: right + 1 }, { "border-left": borderStyle });
+      updateStyle({ y, x: left - 1 }, { borderRight: borderStyle });
+      updateStyle({ y, x: left }, { borderLeft: borderStyle });
+      updateStyle({ y, x: right }, { borderRight: borderStyle });
+      updateStyle({ y, x: right + 1 }, { borderLeft: borderStyle });
     }
     for (let x = left; x <= right; x++) {
-      updateStyle({ y: top - 1, x }, { "border-bottom": borderStyle });
-      updateStyle({ y: top, x }, { "border-top": borderStyle });
-      updateStyle({ y: bottom, x }, { "border-bottom": borderStyle });
-      updateStyle({ y: bottom + 1, x }, { "border-top": borderStyle });
+      updateStyle({ y: top - 1, x }, { borderBottom: borderStyle });
+      updateStyle({ y: top, x }, { borderTop: borderStyle });
+      updateStyle({ y: bottom, x }, { borderBottom: borderStyle });
+      updateStyle({ y: bottom + 1, x }, { borderTop: borderStyle });
     }
   }
 
@@ -883,16 +759,16 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     const borderStyle = `dashed 2px ${palette}`;
     const { top, left, bottom, right } = table.rangeToArea(ref);
     for (let y = top; y <= bottom; y++) {
-      updateStyle({ y, x: left - 1 }, { "border-right": borderStyle });
-      updateStyle({ y, x: left }, { "border-left": borderStyle });
-      updateStyle({ y, x: right }, { "border-right": borderStyle });
-      updateStyle({ y, x: right + 1 }, { "border-left": borderStyle });
+      updateStyle({ y, x: left - 1 }, { borderRight: borderStyle });
+      updateStyle({ y, x: left }, { borderLeft: borderStyle });
+      updateStyle({ y, x: right }, { borderRight: borderStyle });
+      updateStyle({ y, x: right + 1 }, { borderLeft: borderStyle });
     }
     for (let x = left; x <= right; x++) {
-      updateStyle({ y: top - 1, x }, { "border-bottom": borderStyle });
-      updateStyle({ y: top, x }, { "border-top": borderStyle });
-      updateStyle({ y: bottom, x }, { "border-bottom": borderStyle });
-      updateStyle({ y: bottom + 1, x }, { "border-top": borderStyle });
+      updateStyle({ y: top - 1, x }, { borderBottom: borderStyle });
+      updateStyle({ y: top, x }, { borderTop: borderStyle });
+      updateStyle({ y: bottom, x }, { borderBottom: borderStyle });
+      updateStyle({ y: bottom + 1, x }, { borderTop: borderStyle });
     }
   });
   matchingCells.forEach((address) => {
@@ -904,16 +780,16 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     updateStyle(
       { y, x },
       {
-        "border-left": SEARCH_MATCHING_BORDER,
-        "border-right": SEARCH_MATCHING_BORDER,
-        "border-top": SEARCH_MATCHING_BORDER,
-        "border-bottom": SEARCH_MATCHING_BORDER,
+        borderLeft: SEARCH_MATCHING_BORDER,
+        borderRight: SEARCH_MATCHING_BORDER,
+        borderTop: SEARCH_MATCHING_BORDER,
+        borderBottom: SEARCH_MATCHING_BORDER,
       },
     );
-    updateStyle({ y, x: x - 1 }, { "border-right": SEARCH_MATCHING_BORDER });
-    updateStyle({ y, x: x + 1 }, { "border-left": SEARCH_MATCHING_BORDER });
-    updateStyle({ y: y - 1, x }, { "border-bottom": SEARCH_MATCHING_BORDER });
-    updateStyle({ y: y + 1, x }, { "border-top": SEARCH_MATCHING_BORDER });
+    updateStyle({ y, x: x - 1 }, { borderRight: SEARCH_MATCHING_BORDER });
+    updateStyle({ y, x: x + 1 }, { borderLeft: SEARCH_MATCHING_BORDER });
+    updateStyle({ y: y - 1, x }, { borderBottom: SEARCH_MATCHING_BORDER });
+    updateStyle({ y: y + 1, x }, { borderTop: SEARCH_MATCHING_BORDER });
   }
   return cellStyles;
 };
