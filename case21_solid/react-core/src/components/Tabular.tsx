@@ -42,6 +42,7 @@ export const Tabular = () => {
   } = store();
 
 const [key, setKey] = createSignal([{}]);
+const [tablekey, setTableKey] = createSignal([{}]);
 
 const [choosing, setChoosing] = createSignal(store().choosing);
 
@@ -54,6 +55,11 @@ const [choosing, setChoosing] = createSignal(store().choosing);
     setKey([{}]);
   });
 
+ createEffect(() => {
+    table = store().tableReactive;
+    console.log(table);
+    setTableKey([{}]);
+  });
 /*
  createEffect(() => {
     console.log("choosing",choosing());
@@ -72,7 +78,7 @@ const [choosing, setChoosing] = createSignal(store().choosing);
   //console.log("-", sheetHeight);
   //console.log("-",sheetWidth) ;
 
-  const table = tableReactive;
+  let table = tableReactive;
   //console.log("table", table);
 
   //const tableRef = useRef<HTMLTableElement>(null);
@@ -647,6 +653,7 @@ const [choosing, setChoosing] = createSignal(store().choosing);
             //height: "400px",
           }}
         >
+   <For each={tablekey()}>{() => 
           <table ref={tableRef} class={`gs-table`}>
             <thead class="gs-thead" style={{ height: table.headerHeight }}>
               <tr class="gs-row">
@@ -765,6 +772,7 @@ const [choosing, setChoosing] = createSignal(store().choosing);
               })}
             </tbody>
           </table>
+  }</For> 
         </div>
       </div>
     {/*  }</For> */}

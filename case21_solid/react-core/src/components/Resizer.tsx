@@ -62,7 +62,7 @@ export const Resizer = () => {
   });
 
   createEffect(() => {
-    console.log("posY", store().resizingPositionY);
+    //console.log("posY", store().resizingPositionY);
     posY = store().resizingPositionY;
 
     [y, startY, endY] = posY;
@@ -113,6 +113,7 @@ export const Resizer = () => {
   /***********************************************************************/
 
   const handleResizeEnd = () => {
+    console.log("handleResizeEnd")
     const selectingArea = zoneToArea(selectingZone);
     const { top, left, bottom, right } = selectingArea;
     const diff: CellsByAddressType = {};
@@ -134,6 +135,7 @@ export const Resizer = () => {
         diff[p2a({ y, x: 0 })] = { height };
       });
     }
+    console.log("diff", diff);
     table.update({
       diff,
       partial: true,
@@ -153,7 +155,7 @@ export const Resizer = () => {
   };
 
   const handleResizeMove = (e: MouseEvent) => {
-    console.log("handleResizeMove")
+    //console.log("handleResizeMove")
     if (y !== -1) {
       let endY = e.clientY;
       const height = baseHeight + (endY - startY);
@@ -161,7 +163,6 @@ export const Resizer = () => {
         endY += MIN_HEIGHT - height;
       }
       dispatch(setResizingPositionY([y, startY, endY]));
-      console.log(y, startY, endY);
     } else if (x !== -1) {
       let endX = e.clientX;
       const width = baseWidth + (endX - startX);
