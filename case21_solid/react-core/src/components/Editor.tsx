@@ -229,7 +229,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
      _setAddress(`${colId}${rowId}`);
 
      editing = editingAddress() === address();
-     console.log("editing", editing , editingAddress() , address());
+     //console.log("editing", editing , editingAddress() , address());
      //console.log("edit", editing ,top,left,height);
 
      cell = table.getCellByPoint({ y, x }, "SYSTEM");
@@ -284,7 +284,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 
   createEffect(() => {
       //{ y: top, x: left, height, width } = editorRect();
-      console.log("editorRect update", editorRect());
+      //console.log("editorRect update", editorRect());
       const rect = editorRect();
       top = rect.y;
       left = rect.x;

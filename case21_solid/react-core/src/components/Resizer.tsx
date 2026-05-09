@@ -13,11 +13,11 @@ import {
 import { zoneToArea, makeSequence, between } from "../lib/structs";
 import { CellsByAddressType } from "../types";
 import { p2a } from "../lib/converters";
-import { useContext } from "solid-js";
+import { useContext, createSignal, createEffect, For } from "solid-js";
 
 export const Resizer = () => {
   const { store, dispatch } = useContext(Context);
-  const {
+  let {
     resizingPositionY: posY,
     resizingPositionX: posX,
     tableReactive: tableRef,
@@ -27,26 +27,90 @@ export const Resizer = () => {
     editorRef,
     mainRef,
   } = store();
+
+  //console.log("start------------------")
   const table = tableRef;
 
-  const [y, startY, endY] = posY;
-  const [x, startX, endX] = posX;
+  const [key, setKey] = createSignal([{}]);
+
+  createEffect(() => {
+    //console.log("posX", store().resizingPositionX);
+    posX = store().resizingPositionX;
+
+    [y, startY, endY] = posY;
+    [x, startX, endX] = posX;
+
+
+     cell = table.getCellByPoint(
+      { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
+      "SYSTEM",
+    );
+
+    //{ y: offsetY, x: offsetX } = mainRef.getBoundingClientRect();
+
+    offsetY = mainRef.getBoundingClientRect().y;
+    offsetX = mainRef.getBoundingClientRect().x;
+
+    baseWidth = cell?.width || DEFAULT_WIDTH;
+    baseHeight = cell?.height || DEFAULT_HEIGHT;
+
+    width = baseWidth + (endX - startX);
+    height = baseHeight + (endY - startY);
+
+
+    setKey([{}]);
+  });
+
+  createEffect(() => {
+    console.log("posY", store().resizingPositionY);
+    posY = store().resizingPositionY;
+
+    [y, startY, endY] = posY;
+    [x, startX, endX] = posX;
+
+
+     cell = table.getCellByPoint(
+      { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
+      "SYSTEM",
+    );
+    //console.log("Cell",cell);
+    //{ y: offsetY, x: offsetX } = mainRef.getBoundingClientRect();
+
+    offsetY = mainRef.getBoundingClientRect().y;
+    offsetX = mainRef.getBoundingClientRect().x;
+
+    baseWidth = cell?.width || DEFAULT_WIDTH;
+    baseHeight = cell?.height || DEFAULT_HEIGHT;
+
+    width = baseWidth + (endX - startX);
+    height = baseHeight + (endY - startY);
+    //console.log(width, height);
+
+
+    setKey([{}]);
+  });
+
+  let [y, startY, endY] = posY;
+  let [x, startX, endX] = posX;
 
   if (mainRef == null || editorRef == null || !table) {
+     console.log("return", mainRef, editorRef);
     return <div class="gs-resizing gs-hidden" />;
   }
 
-  const cell = table.getCellByPoint(
+  let cell = table.getCellByPoint(
     { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
     "SYSTEM",
   );
-  const { y: offsetY, x: offsetX } = mainRef.getBoundingClientRect();
+  let { y: offsetY, x: offsetX } = mainRef.getBoundingClientRect();
 
-  const baseWidth = cell?.width || DEFAULT_WIDTH;
-  const baseHeight = cell?.height || DEFAULT_HEIGHT;
+  let baseWidth = cell?.width || DEFAULT_WIDTH;
+  let baseHeight = cell?.height || DEFAULT_HEIGHT;
 
-  const width = baseWidth + (endX - startX);
-  const height = baseHeight + (endY - startY);
+  let width = baseWidth + (endX - startX);
+  let height = baseHeight + (endY - startY);
+
+  /***********************************************************************/
 
   const handleResizeEnd = () => {
     const selectingArea = zoneToArea(selectingZone);
@@ -78,14 +142,18 @@ export const Resizer = () => {
     });
     dispatch(
       setStore({
-        tableReactive: { current: table },
+        //tableReactive: { current: table },
+        tableReactive:  table ,   //TODO
       }),
     );
     dispatch(setResizingPositionY([-1, -1, -1]));
     dispatch(setResizingPositionX([-1, -1, -1]));
-    editorRef.current!.focus();
+    //editorRef.current!.focus();
+    editorRef!.focus();
   };
+
   const handleResizeMove = (e: MouseEvent) => {
+    console.log("handleResizeMove")
     if (y !== -1) {
       let endY = e.clientY;
       const height = baseHeight + (endY - startY);
@@ -93,6 +161,7 @@ export const Resizer = () => {
         endY += MIN_HEIGHT - height;
       }
       dispatch(setResizingPositionY([y, startY, endY]));
+      console.log(y, startY, endY);
     } else if (x !== -1) {
       let endX = e.clientX;
       const width = baseWidth + (endX - startX);
@@ -104,15 +173,17 @@ export const Resizer = () => {
   };
 
   return (
+  <For each={key()}>{() =>
     <div
       class={`gs-resizing ${y === -1 && x === -1 ? "gs-hidden" : ""}`}
       onMouseUp={handleResizeEnd}
       onMouseMove={handleResizeMove}
+      //onClick={() => console.log('Resizer Clicked!')}
     >
       <div class={`gs-line-vertical ${x === -1 ? "gs-hidden" : ""}`}>
         <div
           class={"gs-line"}
-          style={{ width: 1, height: "100%", left: endX - offsetX }}
+          style={{ width: "1px" , height: "100%", left: (endX - offsetX) + "px" }}
         >
           <span style={{ left: "-50%" }}>{width}px</span>
         </div>
@@ -120,11 +191,12 @@ export const Resizer = () => {
       <div class={`gs-line-horizontal ${y === -1 ? "gs-hidden" : ""}`}>
         <div
           class={"gs-line"}
-          style={{ width: "100%", height: 1, top: endY - offsetY }}
+          style={{ width: "100%", height: "1px", top: (endY - offsetY) + "px" }}
         >
           <span style={{ top: "-50%" }}>{height}px</span>
         </div>
       </div>
     </div>
+}</For>
   );
 };

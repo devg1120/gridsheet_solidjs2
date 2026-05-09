@@ -258,7 +258,7 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
                   gs-resizer 
                   ${prevention.hasOperation(col?.prevention, prevention.Resize) ? "gs-protected" : ""}
                   ${dragging ? "gs-hidden" : ""} `}
-              style={{ height: table.headerHeight }}
+              style={{ height: table.headerHeight + "px"}}
               onMouseDown={handleResizeMouseDown}
             >
               <i />

@@ -804,6 +804,7 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     return {};
   }
   const { wire } = table;
+
   const { copyingSheetId, copyingZone, cutting } = wire;
   const editingAnywhere = !!(wire.editingAddress || editingAddress);
 
@@ -860,6 +861,7 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     //updateStyle({ y: y - 1, x }, { "border-bottom": BORDER_POINTED }); //GUSA
     //updateStyle({ y: y + 1, x }, { "border-top": BORDER_POINTED });  //GUSA
   }
+  
   if (table.sheetId === copyingSheetId) {
     // copying
     const borderStyle = cutting ? BORDER_CUTTING : BORDER_COPYING;

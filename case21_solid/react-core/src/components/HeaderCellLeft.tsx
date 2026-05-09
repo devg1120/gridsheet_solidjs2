@@ -218,6 +218,7 @@ export const HeaderCellLeft = ({ y, isFreeze }) => {
         onTouchStart={handleDragStart}
         onMouseEnter={handleDragging}
         onMouseUp={handleDragEnd}
+	//onClick={() => console.log('Cell Clicked!')}
       >
         <div
           class="gs-th-inner"

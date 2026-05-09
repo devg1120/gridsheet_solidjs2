@@ -23,11 +23,12 @@ import { FormulaBar } from "./FormulaBar";
 import { SearchBar } from "./SearchBar";
 import { useHub } from "../lib/hub";
 import { ScrollHandle } from "./ScrollHandle";
-import { onMount, createSignal, mergeProps } from "solid-js";
+import { onMount, createSignal, mergeProps, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { createEffect } from "solid-js";
 
 import { createReducer } from "@solid-primitives/memo";
+import { setStore } from "../store/actions";
 
 //export const createConnector = () => createRef<Connector | null>();  //TODO
 //export const useConnector = () => useRef<Connector | null>(null);    //TODO
@@ -176,9 +177,14 @@ export function GridSheetPassive({
   //console.log(store)
   //console.log(dispatch)
 
+  const [ loading, setLoading ] = createSignal(true);
+
   onMount(() => {
     embedStyle();
-    //console.log(initialState());
+    console.log(mainRef);
+     dispatch(setStore({ mainRef: mainRef }))
+     setLoading(false);
+
   });
 
   const [sheetHeight, setSheetHeight] = createSignal(
@@ -272,7 +278,9 @@ export function GridSheetPassive({
           />
 
           <ContextMenu />
+	  <Show when={!loading()} fallback={<div>Loading...</div>}>
           <Resizer />
+	  </Show>
           <Emitter />
         </div>
       </div>
