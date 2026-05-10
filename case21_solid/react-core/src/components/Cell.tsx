@@ -87,7 +87,7 @@ export const Cell: FC<Props> = ({
 
   const _setEditorRect = () => {
     let rect = _cellRef?.getBoundingClientRect();
-    console.log("_setEditorRect",rect)
+    //console.log("_setEditorRect",rect)
     if (rect == null) {
       return null;
     }
@@ -373,7 +373,7 @@ export const Cell: FC<Props> = ({
   };
 
   const onDoubleClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
-    console.log("handler onDoubleClick");
+    //console.log("handler onDoubleClick");
     e.stopPropagation();
           _setEditorRect(); //TODO
     safePreventDefault(e);

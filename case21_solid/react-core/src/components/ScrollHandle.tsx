@@ -73,14 +73,14 @@ export function ScrollHandle({
       return { x: -1, y: -1 };
     }
     if (horizontal == 0 && vertical == 0) {
-      const tabularRect = tabularRef.current!.getBoundingClientRect();
+      const tabularRect = tabularRef!.getBoundingClientRect();
       const { left, top, right, bottom } = tabularRect;
       horizontal = e.pageX > right ? 1 : e.pageX < left ? -1 : 0;
       if (horizontal === 0) {
         vertical = e.pageY > bottom ? 1 : e.pageY < top ? -1 : 0;
       }
     }
-    const area = getAreaInTabular(tabularRef.current!);
+    const area = getAreaInTabular(tabularRef!);
     let { endX: x, endY: y } = selectingZone;
     if (horizontal) {
       x = horizontal > 0 ? area.right : area.left;
@@ -92,7 +92,7 @@ export function ScrollHandle({
 
   const scrollStep = (e: React.MouseEvent) => {
     console.log("scrollStep");
-    if (!isScrolling || tabularRef.current === null || !table) {
+    if (!isScrolling || tabularRef === null || !table) {
       return;
     }
     const now = new Date().getTime();
@@ -101,11 +101,11 @@ export function ScrollHandle({
     }
     lastScrollTime = now;
 
-    tabularRef.current.scrollBy({
+    tabularRef.scrollBy({
       left: currentSpeed * horizontal!,
       top: currentSpeed * vertical!,
     });
-    editorRef.current!.focus();
+    editorRef!.focus();
 
     const { x, y } = getDestEdge(e);
     if (autofillDraggingTo) {
@@ -122,12 +122,12 @@ export function ScrollHandle({
         const sheetPrefix = table.sheetPrefix(!xSheetFocused);
         const sheetRange = areaToRange(newArea);
         const fullRange = `${sheetPrefix}${sheetRange}`;
-        insertRef({ input: editorRef.current, ref: fullRange });
+        insertRef({ input: editorRef, ref: fullRange });
       }
       dispatch(drag({ y, x }));
     }
     currentSpeed = Math.min(currentSpeed + acceleration, maxSpeed);
-    scrollRef.current = requestAnimationFrame(() => scrollStep(e));
+    scrollRef = requestAnimationFrame(() => scrollStep(e));
   };
 
   const handleMouseEnter = (e: React.MouseEvent) => {
@@ -141,7 +141,7 @@ export function ScrollHandle({
     isScrolling = true;
 
     if (horizontal === 0 || vertical === 0) {
-      const tabularRect = tabularRef.current!.getBoundingClientRect();
+      const tabularRect = tabularRef!.getBoundingClientRect();
       const { left, top, right, bottom } = tabularRect;
 
       horizontal ||= e.pageX > right ? 1 : e.pageX < left ? -1 : 0;
@@ -149,18 +149,18 @@ export function ScrollHandle({
         vertical ||= e.pageY > bottom ? 1 : e.pageY < top ? -1 : 0;
       }
     }
-    scrollRef.current = requestAnimationFrame(() => scrollStep(e));
+    scrollRef = requestAnimationFrame(() => scrollStep(e));
   };
 
   const stopScroll = () => {
-    if (scrollRef.current !== null) {
-      cancelAnimationFrame(scrollRef.current);
-      scrollRef.current = null;
+    if (scrollRef !== null) {
+      cancelAnimationFrame(scrollRef);
+      scrollRef = null;
     }
     isScrolling = false;
-    if (!isFocus(searchInputRef.current)) {
+    if (!isFocus(searchInputRef)) {
       // Pressing Enter on a search result will not focus the editor.
-      editorRef.current?.focus?.();
+      editorRef?.focus?.();
     }
   };
 
@@ -168,7 +168,7 @@ export function ScrollHandle({
     console.log("MouseUp");
     e.preventDefault();
     e.stopPropagation();
-    const area = getAreaInTabular(tabularRef.current!);
+    const area = getAreaInTabular(tabularRef!);
     if (area.bottom === -1 || area.right === -1) {
       return;
     }
@@ -179,7 +179,7 @@ export function ScrollHandle({
       dispatch(
         submitAutofill({ y: y === -1 ? curY : y, x: x === -1 ? curX : x }),
       );
-      editorRef.current!.focus();
+      editorRef!.focus();
     } else {
       if (editingAnywhere) {
         // inserting a range

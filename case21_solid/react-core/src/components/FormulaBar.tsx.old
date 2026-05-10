@@ -17,7 +17,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   const [before, setBefore] = createSignal("");
 
   let {
-    //choosing,
+    choosing,
     editorRef,
     largeEditorRef,
     tableReactive: tableRef,
@@ -25,30 +25,18 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     editingAddress: editingCell,
   } = store();
 
- const [choosing, _setChoosing] = createSignal(store().choosing);
- const [address, _setAddress] = createSignal("");
   //if ( choosing  === undefined ) {     // TODO
   //       return (<></>)
   //}
   const table = tableRef;
   //const hlRef = useRef<HTMLDivElement | null>(null);
   let hlRef = null;
+  //console.log(choosing);
+  const address = choosing.x === -1 ? "" : p2a(choosing);
+  //let address = "";
+  //if (choosing) { address =  p2a(choosing); }
 
-  //let address = choosing.x === -1 ? "" : p2a(choosing);
-  let cell = table?.getCellByPoint(choosing(), "SYSTEM");
-
-
-  createEffect(() => {
-    _setChoosing(store().choosing);
-  });
-
-  createEffect(() => {
-    _setAddress(choosing().x === -1 ? "" : p2a(choosing()));
-    cell = table?.getCellByPoint(choosing(), "SYSTEM");
-    console.log(cell)
-    largeEditorRef.value = cell.value;
-  });
-
+  const cell = table?.getCellByPoint(choosing, "SYSTEM");
   createEffect(() => {
     if (!table) {
       return;
@@ -62,15 +50,14 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     });
     largeEditorRef.value = value;
     setBefore(value as string);
-  });
+  }, [address, table]);
 
   const writeCell = (value: string) => {
-    console.log("writeCell", value)
     if (before !== value) {
       dispatch(write({ value }));
     }
     dispatch(setEditingAddress(""));
-    //editorRef!.focus();
+    editorRef!.focus();
   };
 
   createEffect(() => {

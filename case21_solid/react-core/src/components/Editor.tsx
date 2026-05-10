@@ -288,7 +288,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 
   createEffect(() => {
       //{ y: top, x: left, height, width } = editorRect();
-      console.log("editorRect update", editorRect());
+      //console.log("editorRect update", editorRect());
       const rect = editorRect();
       top = rect.y;
       left = rect.x;
