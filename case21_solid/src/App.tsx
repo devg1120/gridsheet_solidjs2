@@ -206,7 +206,35 @@ const App  = () => {
     );
 
     cells["9"] = { height: 80 };
+   cells["D7"] = { value: "1"};
+   cells["E7"] = { value: "8"};
+   cells["F7"] = { value: "=D7+E7"}
+   cells["G7"] = { value: "=SUM(D7:F7)"}
 
+    cells["D9"] = {
+        value: "価格",
+        style: {
+            "text-align": "right",
+            "vertical-align": "top",
+        },
+    };
+
+    cells["E9"] = {
+            value: "コード",
+            style: {
+                "text-align": "center",
+                "vertical-align": "center",
+            },
+     };
+    cells["F9"] = {
+            value: "商品",
+            style: {
+                "text-align": "left",
+                "vertical-align": "bottom",
+            },
+    };
+
+   /*
     ((cells["D9"] = {
         value: "価格",
         style: {
@@ -228,7 +256,15 @@ const App  = () => {
                 "vertical-align": "bottom",
             },
         }),
-        table().initialize(cells));
+    */
+
+   //cells["D7"] = { value: "1"}
+   //cells["E7"] = { value: "8"}
+   //cells["F7"] = { value: "=D7+E7"}
+   //cells["G7"] = { value: "=SUM(D7:F7)"}
+
+
+    table().initialize(cells);
     table().setTotalSize();
 
     //console.log(cells["E5"]);
@@ -236,6 +272,7 @@ const App  = () => {
     //console.log(cells["F12"]);
 
     //style={{ width: 800 }}
+
     return (
         <main>
                 <br />

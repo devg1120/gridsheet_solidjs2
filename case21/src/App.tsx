@@ -181,6 +181,12 @@ HEADER_WIDTH = 50;
   let maxNumCols = -1;
   let sheetName = "Sheet1";
 
+  cells["D7"] = { value: "1"}
+  cells["E7"] = { value: "8"}
+  cells["F7"] = { value: "=D7+E7"}
+  cells["G7"] = { value: "=SUM(D7:F7)"}
+
+
   /*
    const table = new Table({
       minNumRows,
