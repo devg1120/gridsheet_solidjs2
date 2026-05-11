@@ -189,6 +189,7 @@ export const setResizingPositionX = new SetResizingPositionXAction().bind();
 
 class SetEnteringAction<T extends boolean> extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
+	  console.log("SetEnteringAction");
     return {
       ...store,
       entering: payload,
@@ -585,7 +586,7 @@ class WriteAction<
       point = choosing;
     }
 	//console.trace("WriteAction", point, value);
-	//console.log("WriteAction", point, value);
+	console.log("WriteAction", point, value);
     const table = tableRef;
     if (!table) {
       return store;

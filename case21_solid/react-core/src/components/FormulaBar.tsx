@@ -27,6 +27,8 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
 
  const [choosing, _setChoosing] = createSignal(store().choosing);
  const [address, _setAddress] = createSignal("");
+
+
   //if ( choosing  === undefined ) {     // TODO
   //       return (<></>)
   //}
@@ -40,6 +42,16 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
 
   createEffect(() => {
     _setChoosing(store().choosing);
+  });
+
+  createEffect(() => {
+    //console.log("inputting", store().inputting, store().editingAddress);
+    let inputting =  store().inputting;
+    if (store().editingAddress != "") {
+       cell = table?.getCellByPoint(choosing(), "SYSTEM");
+       //console.log(cell)
+      largeEditorRef.value = cell.value;
+    }
   });
 
   createEffect(() => {

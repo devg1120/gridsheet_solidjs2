@@ -302,6 +302,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     if (before !== value) {
       // console.log("dispatch")
       dispatch(write({ value }));
+            //dispatch(setInputting(""));
     }
     setBefore(value);
   };
