@@ -277,6 +277,8 @@ const [tableFocus, setTableFocus] = createSignal(true);
           return;
         }
         setVirtualized(virtualize(table, tabularRef));
+     tabularRef.focus();
+     tabularRef.focus();
   });
 
 /*
