@@ -585,8 +585,6 @@ class WriteAction<
     if (point == null) {
       point = choosing;
     }
-	//console.trace("WriteAction", point, value);
-	console.log("WriteAction", point, value);
     const table = tableRef;
     if (!table) {
       return store;

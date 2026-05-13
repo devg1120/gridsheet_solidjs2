@@ -49,7 +49,6 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     let inputting =  store().inputting;
     if (store().editingAddress != "") {
        cell = table?.getCellByPoint(choosing(), "SYSTEM");
-       console.log("cell.value", cell.value)
       largeEditorRef.value = cell.value;
     }
   });
@@ -57,7 +56,6 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   createEffect(() => {
     _setAddress(choosing().x === -1 ? "" : p2a(choosing()));
     cell = table?.getCellByPoint(choosing(), "SYSTEM");
-    console.log(cell)
     largeEditorRef.value = cell.value;
   });
 
@@ -77,7 +75,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   });
 
   const writeCell = (value: string) => {
-    console.log("writeCell", value)
+    //console.log("writeCell", value)
     if (before !== value) {
       dispatch(write({ value }));
     }
