@@ -49,7 +49,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     let inputting =  store().inputting;
     if (store().editingAddress != "") {
        cell = table?.getCellByPoint(choosing(), "SYSTEM");
-       //console.log(cell)
+       console.log("cell.value", cell.value)
       largeEditorRef.value = cell.value;
     }
   });

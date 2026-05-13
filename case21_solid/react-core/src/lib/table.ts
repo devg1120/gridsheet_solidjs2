@@ -1277,13 +1277,14 @@ export class Table implements UserTable {
       }
 
       let patch: Record<string, any> = { ...diff[address] };
-
+/*                                TODO unuse sheetId
       if (formulaIdentify) {
         patch.value = identifyFormula(patch.value, {
           table: this,
           dependency: id,
         });
       }
+*/
       ignoreFields.forEach((key) => {
         patch[key] = original?.[key];
       });

@@ -208,6 +208,7 @@ const App  = () => {
     cells["9"] = { height: 80 };
    cells["D7"] = { value: "1"};
    cells["E7"] = { value: "8"};
+   cells["E8"] = { value: "3"};
    cells["F7"] = { value: "=D7+E7"}
    cells["G7"] = { value: "=SUM(D7:F7)"}
 
