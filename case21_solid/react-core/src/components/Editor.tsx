@@ -206,7 +206,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   let colId = x2c(x);
   //let address = `${colId}${rowId}`;
   _setAddress(`${colId}${rowId}`);
-  let editing = editingAddress() === address;
+  let editing = editingAddress() === address();
 
   editing = false;
 
@@ -310,7 +310,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   const numLines = valueString.split("\n").length;
   const [isKeyDown, setIsKeyDown] = createSignal(false);
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    //console.log("handleKeyDown");
+    console.log("Editor:handleKeyDown", e.key);
     if (isKeyDown()) {
       return;
     }
@@ -420,6 +420,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
         return false;
 
       case "ArrowLeft": // LEFT
+	        console.log("ArrowLeft")
         if (!editing) {
           dispatch(
             arrow({
@@ -735,6 +736,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
       }
 
 
+          : {display: "none"}
 */
  
   return (

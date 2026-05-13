@@ -112,6 +112,9 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+     console.log("FormulaBar handleFocus");
+     console.log("activeElement", document.activeElement)
+
     if (!largeInput || !table) {
       return;
     }
@@ -120,6 +123,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+     console.log("FormulaBar handleBlur");
     if (e.currentTarget.value!.startsWith("=")) {
       return true;
     } else {
@@ -130,6 +134,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  console.log("FormularBar: handleKeyDown", e.key)
     if (e.ctrlKey || !table) {
       return true;
     }
@@ -187,6 +192,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
       e.preventDefault();
     }
     updateScroll();
+
     return false;
   };
 
@@ -219,7 +225,9 @@ largeEditorRef
 */
 
   return (
-    <label class="gs-formula-bar" data-sheet-id={store.sheetId} style={style}>
+    <label class="gs-formula-bar" data-sheet-id={store.sheetId} 
+    style={style}
+    >
       <ScrollHandle
         style={{ position: "absolute", left: 0, top: 0, "z-index": 2 }}
         vertical={-1}

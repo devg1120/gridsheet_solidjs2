@@ -163,8 +163,8 @@ export const Cell: FC<Props> = ({
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     //console.log("handleDragStart", store().choosing, y,x)
-   
-    e.stopPropagation();
+    //console.log(tableRef);  
+    //e.stopPropagation();
     safePreventDefault(e);
     
     if ( store().choosing.y == y &&

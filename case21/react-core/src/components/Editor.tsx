@@ -305,6 +305,7 @@ export const Editor: FC<Props> = ({ mode }: Props) => {
           return false;
 
         case "ArrowLeft": // LEFT
+		console.log("ArrowLeft")
           if (!editing) {
             dispatch(
               arrow({

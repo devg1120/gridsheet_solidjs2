@@ -745,10 +745,11 @@ class ArrowAction<
   },
 > extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
+     console.log("ArrowAction");
     let { shiftKey, deltaY, deltaX, numRows, numCols } = payload;
     const { choosing, tableReactive: tableRef, tabularRef } = store;
 
-    const table = tableRef.current;
+    const table = tableRef;
     if (table == null) {
       return store;
     }
@@ -1144,7 +1145,8 @@ class ArrowAction<
     height = cell?.height || DEFAULT_HEIGHT;
     width = cell?.width || DEFAULT_WIDTH;
 
-    smartScroll(table, tabularRef.current, { y: nextY, x: nextX });
+    smartScroll(table, tabularRef, { y: nextY, x: nextX });
+      console.log({ y: nextY, x: nextX } );
     return {
       ...store,
       selectingZone: { startY: -1, startX: -1, endY: -1, endX: -1 },
@@ -1172,7 +1174,7 @@ class WalkAction<
       tableReactive: tableRef,
       tabularRef: gridOuterRef,
     } = store;
-    const table = tableRef.current;
+    const table = tableRef;
     if (table == null) {
       return store;
     }
@@ -1259,7 +1261,7 @@ class WalkAction<
     const cell = table.getCellByPoint({ y: nextY, x: nextX }, "SYSTEM");
     height = cell?.height || DEFAULT_HEIGHT;
     width = cell?.width || DEFAULT_WIDTH;
-    smartScroll(table, gridOuterRef.current, { y: nextY, x: nextX });
+    smartScroll(table, gridOuterRef, { y: nextY, x: nextX });
     return {
       ...store,
       choosing: { y: nextY, x: nextX } as PointType,
@@ -1286,7 +1288,7 @@ class InsertRowsAboveAction<
   reduce(store: StoreType, payload: T): StoreWithCallback {
     const { numRows, y, operator } = payload;
     const { tableReactive: tableRef, selectingZone, choosing } = store;
-    const table = tableRef.current;
+    const table = tableRef;
     if (table == null) {
       return store;
     }
@@ -1308,7 +1310,8 @@ class InsertRowsAboveAction<
     });
     return {
       ...store,
-      tableReactive: { current: table },
+      //tableReactive: { current: table },
+      tableReactive:  table ,
     };
   }
 }

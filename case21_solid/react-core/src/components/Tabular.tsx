@@ -2,7 +2,7 @@ import { Cell } from "./Cell";
 import { HeaderCellTop } from "./HeaderCellTop";
 import { HeaderCellLeft } from "./HeaderCellLeft";
 import { Context } from "../store";
-import { choose, select } from "../store/actions";
+import { choose, select, arrow } from "../store/actions";
 import {
   RefPaletteType,
   PointType,
@@ -46,6 +46,66 @@ const [tablekey, setTableKey] = createSignal([{}]);
 
 const [choosing, setChoosing] = createSignal(store().choosing);
 
+const [tableFocus, setTableFocus] = createSignal(true);
+
+/*
+ createEffect(() => {
+     if (tableFocus() == true ) {
+         console.log("tabularRef.focus");
+         tabularRef.focus();
+     } else {
+         console.log("tabularRef.blur");
+         tabularRef.blur();
+     }
+  });
+*/
+/*
+ createEffect(() => {
+      //console.log("editingAddress", store().editingAddress);
+      if (store().editingAddress == "") {
+	 console.log("tableRef.focus");
+	 //console.log(document.activeElement) 
+	 //console.log(tableRef) 
+         tabularRef.focus();
+         //tableRef.focus();
+      } else {
+         tabularRef.blur();
+         //tableRef.blur();
+      }
+  });
+*/
+
+  const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+     console.log("handleFocus");
+  };
+
+   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+     console.log("handleDragStart");
+     //tableRef.focus();
+     //tableRef.focus();
+     tabularRef.focus();
+     tabularRef.focus();
+	 console.log("activeElement", document.activeElement) 
+
+   };
+/*
+ createEffect(() => {
+
+  let { y, x } = choosing();
+  let rowId = `${y2r(y)}`;
+  let colId = x2c(x);
+  let address = `${colId}${rowId}`;
+  let editing = store().editingAddress === address;
+      if (!editing) {
+	 console.log("tabularRef.focus");
+         //tabularRef.focus();
+         tabularRef.focus();
+      } else {
+         tabularRef.blur();
+      }
+  });
+*/
+
  createEffect(() => {
     setChoosing(store().choosing);
     operationStyles = useOperationStyles(store, {
@@ -53,6 +113,7 @@ const [choosing, setChoosing] = createSignal(store().choosing);
       ...table.wire.paletteBySheetName[table.sheetName],
     });
     setKey([{}]);
+    //tabularRef.focus();
   });
 
  createEffect(() => {
@@ -211,6 +272,7 @@ const [choosing, setChoosing] = createSignal(store().choosing);
 
 
   onMount(() => {
+        //tabularRef.focus();
         if (!table) {
           return;
         }
@@ -630,6 +692,66 @@ const [choosing, setChoosing] = createSignal(store().choosing);
             //table.totalHeight = 2000*20/1.8; //TODO
             //table.totalHeight = 10000; //TODO
 
+  const handleKeyDown = (e: EditorEventWithNativeEvent) => {
+    console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
+    //e.stopPropagation();
+
+    switch (e.key) {
+      case "ArrowLeft": // LEFT
+          dispatch(
+            arrow({
+              //shiftKey,
+              shiftKey:  false, //shiftKey,
+              numRows: table.getNumRows(),
+              numCols: table.getNumCols(),
+              deltaY: 0,
+              deltaX: -1,
+            })
+	  )
+	  //return false
+        break;
+      case "ArrowRight": // RIGHT
+          dispatch(
+            arrow({
+              //shiftKey,
+              shiftKey:  false, //shiftKey,
+              numRows: table.getNumRows(),
+              numCols: table.getNumCols(),
+              deltaY: 0,
+              deltaX: 1,
+            }),
+          );
+          //return false;
+        break;
+     case "ArrowUp": // UP
+          dispatch(
+            arrow({
+              //shiftKey,
+              shiftKey:  false, //shiftKey,
+              numRows: table.getNumRows(),
+              numCols: table.getNumCols(),
+              deltaY: -1,
+              deltaX: 0,
+            }),
+          );
+          //return false;
+        break;
+      case "ArrowDown": // DOWN
+          dispatch(
+            arrow({
+              //shiftKey,
+              shiftKey:  false, //shiftKey,
+              numRows: table.getNumRows(),
+              numCols: table.getNumCols(),
+              deltaY: 1,
+              deltaX: 0,
+            }),
+          );
+          //return false;
+        break;
+     }
+
+  };
 
   return (
     <>
@@ -643,6 +765,10 @@ const [choosing, setChoosing] = createSignal(store().choosing);
         ref={tabularRef}
         onMouseMove={handleMouseMove}
         onScroll={handleScroll}
+	onFocus={handleFocus}
+	onKeyDown={handleKeyDown}
+	     tabindex="0"
+	   //  onKeyDown={handleKeyDown}
       >
         <div
           class={"gs-tabular-inner"}
@@ -654,7 +780,12 @@ const [choosing, setChoosing] = createSignal(store().choosing);
           }}
         >
    <For each={tablekey()}>{() => 
-          <table ref={tableRef} class={`gs-table`}>
+          <table ref={tableRef} class={`gs-table`}
+	    tabindex="0"
+	     //onKeyDown={handleKeyDown}
+	      onMouseDown={handleDragStart}   //NEW
+	onFocus={handleFocus}
+	  >
             <thead class="gs-thead" style={{ height: table.headerHeight }}>
               <tr class="gs-row">
                 <th
