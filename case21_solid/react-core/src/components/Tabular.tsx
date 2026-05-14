@@ -112,7 +112,10 @@ const [tableFocus, setTableFocus] = createSignal(true);
       ...palette(),
       ...table.wire.paletteBySheetName[table.sheetName],
     });
+
     setKey([{}]);
+     //tabularRef.focus();
+     //tabularRef.focus();
     //tabularRef.focus();
   });
 
@@ -245,6 +248,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
           return;
         }
         table.wire.choosingAddress = p2a(choosing());
+        tabularRef.focus();
       },
     ),
   );
