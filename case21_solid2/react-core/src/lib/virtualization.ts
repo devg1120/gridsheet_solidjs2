@@ -81,7 +81,7 @@ export const virtualize = (
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
    
-     //boundaryTop = 1;
+     boundaryTop = 1;
    
     if (height > bottom ) {
       //console.log("height", height, "bottom", bottom)

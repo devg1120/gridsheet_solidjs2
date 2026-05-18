@@ -165,7 +165,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
     //console.dir(e.target.scrollTop)
     console.dir(e)
     //console.dir(e.eventPhase)
-    return
+    //return
     
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
@@ -717,7 +717,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
               deltaX: -1,
             })
 	  )
-    setVirtualized(virtualize(table, tabularRef));
+    //setVirtualized(virtualize(table, tabularRef));
 	  //return false
         break;
       case "ArrowRight": // RIGHT
@@ -732,7 +732,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
-    setVirtualized(virtualize(table, tabularRef));
+    //setVirtualized(virtualize(table, tabularRef));
         break;
      case "ArrowUp": // UP
           dispatch(
@@ -746,7 +746,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
-    setVirtualized(virtualize(table, tabularRef));
+    //setVirtualized(virtualize(table, tabularRef));
         break;
       case "ArrowDown": // DOWN
           dispatch(
@@ -760,7 +760,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
-    setVirtualized(virtualize(table, tabularRef));
+    //setVirtualized(virtualize(table, tabularRef));
         break;
      }
 
