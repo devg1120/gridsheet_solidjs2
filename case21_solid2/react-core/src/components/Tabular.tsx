@@ -162,7 +162,9 @@ const [tableFocus, setTableFocus] = createSignal(true);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    console.log("scroll");
+    console.dir(e.target.scrollTop)
+    return
+    
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
@@ -698,7 +700,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             //table.totalHeight = 10000; //TODO
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
+    //console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
     //e.stopPropagation();
 
     switch (e.key) {
@@ -773,7 +775,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
         }}
         ref={tabularRef}
         onMouseMove={handleMouseMove}
-        //onScroll={handleScroll}
+        onScroll={handleScroll}
 	onFocus={handleFocus}
 	onKeyDown={handleKeyDown}
 	     tabindex="0"
