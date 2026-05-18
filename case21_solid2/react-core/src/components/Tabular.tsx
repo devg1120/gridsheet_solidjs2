@@ -121,7 +121,6 @@ const [tableFocus, setTableFocus] = createSignal(true);
 
  createEffect(() => {
     table = store().tableReactive;
-    //console.log(table);
     setTableKey([{}]);
   });
 /*
@@ -163,12 +162,12 @@ const [tableFocus, setTableFocus] = createSignal(true);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
- 
-    //console.log("croll");
+    console.log("scroll");
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
     }
+    e.stopPropagation();
     
   };
 
@@ -847,8 +846,8 @@ const [tableFocus, setTableFocus] = createSignal(true);
               <tr class="gs-row">
                 <th
                   class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
-                  //style={{ width: virtualized()?.adjuster?.top ?? 1}}
-                  //style={{ width: (virtualized()?.adjuster?.top ?? 1) + "px" }}   //TODO
+                  //style={{ height: virtualized()?.adjuster?.top ?? 1}}
+                  style={{ height: (virtualized()?.adjuster?.top ?? 1) + "px" }}   //TODO
                 ></th>
                 <td class="gs-adjuster gs-adjuster-vertical"></td>
 
@@ -879,6 +878,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
                       }
 
                       return (
+
      <For each={key()}>{() =>
 
                         <Cell
@@ -898,6 +898,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
                             ]
                           }
                         />
+
       }</For>
 
                       );

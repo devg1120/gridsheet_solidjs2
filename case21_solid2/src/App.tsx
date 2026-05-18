@@ -48,7 +48,7 @@ const App  = () => {
 
     let cells: CellsByAddressType = {};
     //console.log("Table max col:", colNumToId(139));
-    for (let rowNum = 1; rowNum < 200; rowNum++) {
+    for (let rowNum = 1; rowNum < 500; rowNum++) {
         for (let colNum = 1; colNum < 100; colNum++) {
             const columnName = colNumToId(colNum);
             const cellName = columnName + String(rowNum);

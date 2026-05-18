@@ -32,7 +32,6 @@ export const getCellRectPositions = (table: Table, { y, x }: PointType) => {
 
 export const getScreenRect = (e: HTMLDivElement) => {
 
-  //console.log(e.scrollTop, e.offsetHeight)
   const top = e.scrollTop ,
     left = e.scrollLeft;
   const height = e.offsetHeight,
@@ -40,7 +39,6 @@ export const getScreenRect = (e: HTMLDivElement) => {
   const bottom = top + height,
     right = left + width;
   return { top, left, bottom, right, height, width };
-  //return { top, left, bottom, right, height:400 , width:500 };
 };
 
 export const virtualize = (
@@ -51,6 +49,7 @@ export const virtualize = (
     return null;
   }
 
+
   let boundaryTop = 0,
     boundaryLeft = 0,
     boundaryBottom = table.getNumRows(),
@@ -58,9 +57,6 @@ export const virtualize = (
 
   //console.log("boundary", boundaryBottom, boundaryRight)
   const { top, left, bottom, right } = getScreenRect(e);
-  //console.log( "top", top)
-  //console.log( "bottom", bottom)
- // console.log( "bottom - top", bottom -top  )
   let width = 0,
     height = 0;
   for (let x = 1; x <= table.getNumCols(); x++) {
@@ -80,54 +76,26 @@ export const virtualize = (
       table.getCellByPoint({ y, x: 0 }, "SYSTEM")?.height || DEFAULT_HEIGHT;
     //console.log("h",h);
     height += h ;
-    //console.log(height, bottom);
-    /*
+    
     if (boundaryTop === 0 && height > top) {
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
-   */
-     boundaryTop = 1;
+   
+     //boundaryTop = 1;
    
     if (height > bottom ) {
-    //if (height > bottom) {
       //console.log("height", height, "bottom", bottom)
       boundaryBottom = Math.min(y + OVERSCAN_Y, table.getNumRows());
-/*
-      // TODO
-      boundaryBottom   = parseInt(boundaryBottom*2)
-      if (boundaryBottom  > table.getNumRows()) {
-         boundaryBottom   = table.getNumRows();
-      }
-*/
-
       break;
 
     }
   }
 
 
+  //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
  
-  //console.log(">>", boundaryTop, boundaryBottom, "=", boundaryBottom - boundaryTop);
-  //console.log(ys.length)
-
-  //console.log(boundaryTop, boundaryBottom);
-  //console.log(ys);
-  //GUSA
-  /*
-    if (ys[0] != 1) {
-       ys.unshift(3)
-       ys.unshift(2)
-       ys.unshift(1)
-    }
-  
-    if (xs[0] != 1) {
-       xs.unshift(3)
-       xs.unshift(2)
-       xs.unshift(1)
-    }
-  */
 
   let xp = table.freeze.x;
   let yp = table.freeze.y;
@@ -157,6 +125,8 @@ export const virtualize = (
   });
 
   //console.log(ys.length, xs.length);
+  // console.log("adjuster",    before.height,
+  //     after.height);
 
   return {
     ys,
