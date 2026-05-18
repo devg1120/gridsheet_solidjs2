@@ -713,6 +713,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
               deltaX: -1,
             })
 	  )
+    setVirtualized(virtualize(table, tabularRef));
 	  //return false
         break;
       case "ArrowRight": // RIGHT
@@ -727,6 +728,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
+    setVirtualized(virtualize(table, tabularRef));
         break;
      case "ArrowUp": // UP
           dispatch(
@@ -740,6 +742,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
+    setVirtualized(virtualize(table, tabularRef));
         break;
       case "ArrowDown": // DOWN
           dispatch(
@@ -753,6 +756,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
             }),
           );
           //return false;
+    setVirtualized(virtualize(table, tabularRef));
         break;
      }
 
@@ -769,7 +773,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
         }}
         ref={tabularRef}
         onMouseMove={handleMouseMove}
-        onScroll={handleScroll}
+        //onScroll={handleScroll}
 	onFocus={handleFocus}
 	onKeyDown={handleKeyDown}
 	     tabindex="0"
@@ -857,7 +861,9 @@ const [tableFocus, setTableFocus] = createSignal(true);
 
                 <th
                   class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
+                  //style={{ height: (virtualized()?.adjuster?.bottom ?? 0) + "px" }}   //TODO
                 ></th>
+
               </tr>
             </tbody>
 
