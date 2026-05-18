@@ -162,7 +162,9 @@ const [tableFocus, setTableFocus] = createSignal(true);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    console.dir(e.target.scrollTop)
+    //console.dir(e.target.scrollTop)
+    console.dir(e)
+    //console.dir(e.eventPhase)
     return
     
     if (table) {
