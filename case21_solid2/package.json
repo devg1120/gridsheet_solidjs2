@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "tsc -b && vite build",
+    "build2": "vite build",
     "fmt": "npx prettier --write ./react-core/src; ",
     "preview": "vite preview"
   },

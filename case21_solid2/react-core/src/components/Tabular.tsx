@@ -161,7 +161,36 @@ const [tableFocus, setTableFocus] = createSignal(true);
     e.stopPropagation();
   };
 
+const handleWheel = (e: WheelEvent) => {
+    //console.log("wheel")
+     e.preventDefault(); // Prevents the default page scroll
+    e.stopPropagation();
+    //e.scrollTo({top:e.deltaY})
+    tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
+    //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
+
+    //setVirtualized(virtualize(table, e.currentTarget));
+    setVirtualized(virtualize(table, tabularRef));
+    setTableKey([{}]);
+
+/*
+    if (table) {
+      //console.log(virtualize(table, e.currentTarget));
+      setVirtualized(virtualize(table, e.currentTarget));
+    }
+   */
+/*
+    if (e.deltaY > 0) {
+      setCount(count() + 1);
+    } else {
+      setCount(count() - 1);
+    }
+   */
+  };
+
+
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    console.log("scroll")
     //console.dir(e.target.scrollTop)
     //console.dir(e)
     //console.dir(e.eventPhase)
@@ -777,7 +806,8 @@ const [tableFocus, setTableFocus] = createSignal(true);
         }}
         ref={tabularRef}
         onMouseMove={handleMouseMove}
-        onScroll={handleScroll}
+        //onScroll={handleScroll}
+	onWheel={handleWheel}
 	onFocus={handleFocus}
 	onKeyDown={handleKeyDown}
 	     tabindex="0"
@@ -865,7 +895,6 @@ const [tableFocus, setTableFocus] = createSignal(true);
 
                 <th
                   class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
-                  //style={{ height: (virtualized()?.adjuster?.bottom ?? 0) + "px" }}   //TODO
                 ></th>
 
               </tr>

@@ -93,7 +93,7 @@ export const virtualize = (
     // boundaryTop = 1;
 
 
-  console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
+  //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
@@ -116,7 +116,7 @@ export const virtualize = (
   const before = table.getRectSize({
     top: 1,
     left: 1,
-    bottom: boundaryTop,
+    bottom: boundaryTop ,
     right: boundaryLeft,
   });
   const after = table.getRectSize({
@@ -127,8 +127,10 @@ export const virtualize = (
   });
 
   //console.log(ys.length, xs.length);
-   console.log("adjuster",    before.height,
-       after.height);
+  // console.log("adjuster",    before.height,
+  //     after.height);
+  //
+  // console.log("adjuster",    before.height);
 
   return {
     ys,
@@ -151,6 +153,8 @@ export const smartScroll = (
   if (e == null) {
     return;
   }
+  console.log("smartScroll");
+  
   const screen = getScreenRect(e);
   const target = getCellRectPositions(table, targetPoint);
 

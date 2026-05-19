@@ -745,7 +745,6 @@ class ArrowAction<
   },
 > extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
-     console.log("ArrowAction");
     let { shiftKey, deltaY, deltaX, numRows, numCols } = payload;
     const { choosing, tableReactive: tableRef, tabularRef } = store;
 
@@ -1146,7 +1145,6 @@ class ArrowAction<
     width = cell?.width || DEFAULT_WIDTH;
 
     smartScroll(table, tabularRef, { y: nextY, x: nextX });
-      console.log({ y: nextY, x: nextX } );
     return {
       ...store,
       selectingZone: { startY: -1, startX: -1, endY: -1, endX: -1 },
