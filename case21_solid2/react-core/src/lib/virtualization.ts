@@ -81,7 +81,7 @@ export const virtualize = (
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
    
-     boundaryTop = 1;
+     //boundaryTop = 1;
    
     if (height > bottom ) {
       //console.log("height", height, "bottom", bottom)
@@ -90,8 +90,10 @@ export const virtualize = (
 
     }
   }
+    // boundaryTop = 1;
 
 
+  console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
@@ -125,8 +127,8 @@ export const virtualize = (
   });
 
   //console.log(ys.length, xs.length);
-  // console.log("adjuster",    before.height,
-  //     after.height);
+   console.log("adjuster",    before.height,
+       after.height);
 
   return {
     ys,
