@@ -76,16 +76,16 @@ const [tableFocus, setTableFocus] = createSignal(true);
 */
 
   const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-     console.log("handleFocus");
+     //console.log("handleFocus");
   };
 
    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-     console.log("handleDragStart");
+     //console.log("handleDragStart");
      //tableRef.focus();
      //tableRef.focus();
      tabularRef.focus();
      tabularRef.focus();
-	 console.log("activeElement", document.activeElement) 
+	 //console.log("activeElement", document.activeElement) 
 
    };
 /*
@@ -188,18 +188,33 @@ const handleWheel = (e: WheelEvent) => {
    */
   };
 
+/*
+  const onScrollbar = (event) => {
+    if (event.target instanceof Element) {
+      const { clientWidth, clientHeight } = event.target
+      const { offsetX, offsetY } = event.target
+      console.log(clientWidth , offsetX , clientHeight , offsetY) 
+
+      if (clientWidth > offsetX && clientHeight < offsetY) {
+        return true
+      }
+    }
+
+    return false
+  }
+*/
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     console.log("scroll")
-    //console.dir(e.target.scrollTop)
-    //console.dir(e)
-    //console.dir(e.eventPhase)
-    return
+    e.preventDefault();
+    e.stopPropagation();
+    if  (!pointerDown) { return;}
     
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
     }
+    e.preventDefault();
     e.stopPropagation();
     
   };
@@ -795,6 +810,21 @@ const handleWheel = (e: WheelEvent) => {
 
   };
 
+  let pointerDown = false;
+  const handlePointerDown = (event: PointerEvent) => {
+    // ポインター（マウスや指）が押されたときの座標を取得
+   // setPosition({ x: event.clientX, y: event.clientY });
+    console.log("Pointer Down at:");
+    pointerDown = true;
+  };
+  const handlePointerUp = (event: PointerEvent) => {
+    // ポインター（マウスや指）が押されたときの座標を取得
+   // setPosition({ x: event.clientX, y: event.clientY });
+    console.log("Pointer Up at:");
+    pointerDown = false;
+  };
+  window.addEventListener('pointerup', handlePointerUp);
+
   return (
     <>
      {/*<For each={key()}>{() => */}
@@ -806,7 +836,9 @@ const handleWheel = (e: WheelEvent) => {
         }}
         ref={tabularRef}
         onMouseMove={handleMouseMove}
-        //onScroll={handleScroll}
+        onScroll={handleScroll}
+        onPointerDown={handlePointerDown}
+
 	onWheel={handleWheel}
 	onFocus={handleFocus}
 	onKeyDown={handleKeyDown}
