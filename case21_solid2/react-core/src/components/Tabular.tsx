@@ -205,17 +205,23 @@ const handleWheel = (e: WheelEvent) => {
 */
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    console.log("scroll")
+    //console.log("scroll")
     e.preventDefault();
     e.stopPropagation();
     if  (!pointerDown) { return;}
-    
+    /*
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
     }
     e.preventDefault();
     e.stopPropagation();
+    */
+    //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
+
+    //setVirtualized(virtualize(table, e.currentTarget));
+    setVirtualized(virtualize(table, tabularRef));
+    setTableKey([{}]);
     
   };
 
@@ -814,13 +820,13 @@ const handleWheel = (e: WheelEvent) => {
   const handlePointerDown = (event: PointerEvent) => {
     // ポインター（マウスや指）が押されたときの座標を取得
    // setPosition({ x: event.clientX, y: event.clientY });
-    console.log("Pointer Down at:");
+    //console.log("Pointer Down at:");
     pointerDown = true;
   };
   const handlePointerUp = (event: PointerEvent) => {
     // ポインター（マウスや指）が押されたときの座標を取得
    // setPosition({ x: event.clientX, y: event.clientY });
-    console.log("Pointer Up at:");
+    //console.log("Pointer Up at:");
     pointerDown = false;
   };
   window.addEventListener('pointerup', handlePointerUp);
