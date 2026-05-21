@@ -1,10 +1,10 @@
 
-D1=case21_solid/react-core/src/components
-D2=case21_solid2/react-core/src/components
+D1=case21_solid/react-core/src
+D2=case21_solid2/react-core/src
 #D1=case21/react-core/src/components
 #D2=case21_/react-core/src/components
 
-MODE=2
+MODE=1
 
 F=$1
 TARGET="${F}|"

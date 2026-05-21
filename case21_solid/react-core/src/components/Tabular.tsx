@@ -164,7 +164,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
  
-    //console.log("croll");
+    console.log("croll");
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
       setVirtualized(virtualize(table, e.currentTarget));
@@ -848,7 +848,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
                 <th
                   class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
                   //style={{ width: virtualized()?.adjuster?.top ?? 1}}
-                  //style={{ width: (virtualized()?.adjuster?.top ?? 1) + "px" }}   //TODO
+                  style={{ height: (virtualized()?.adjuster?.top ?? 1) + "px" }}   //TODO
                 ></th>
                 <td class="gs-adjuster gs-adjuster-vertical"></td>
 

@@ -72,6 +72,7 @@ export const virtualize = (
     }
     if (width > right) {
       boundaryRight = Math.min(x + OVERSCAN_X, table.getNumCols());
+      console.log("boundaryRight", boundaryRight)
       break;
     }
   }
@@ -81,30 +82,33 @@ export const virtualize = (
     //console.log("h",h);
     height += h ;
     //console.log(height, bottom);
-    /*
+   
     if (boundaryTop === 0 && height > top) {
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
-   */
-     boundaryTop = 1;
+   
+     //boundaryTop = 1;
    
     if (height > bottom ) {
     //if (height > bottom) {
       //console.log("height", height, "bottom", bottom)
       boundaryBottom = Math.min(y + OVERSCAN_Y, table.getNumRows());
-/*
+
       // TODO
-      boundaryBottom   = parseInt(boundaryBottom*2)
+      boundaryBottom   = parseInt(boundaryBottom) 
       if (boundaryBottom  > table.getNumRows()) {
          boundaryBottom   = table.getNumRows();
       }
-*/
+
 
       break;
 
     }
   }
 
+  boundaryTop = 1;
+      console.log("boundaryTop/Right", boundaryTop, boundaryRight)
+      //console.log("boundaryRight", boundaryRight)
 
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);

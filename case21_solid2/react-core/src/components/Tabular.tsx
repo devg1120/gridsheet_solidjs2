@@ -166,7 +166,16 @@ const handleWheel = (e: WheelEvent) => {
      e.preventDefault(); // Prevents the default page scroll
     e.stopPropagation();
     //e.scrollTo({top:e.deltaY})
-    tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
+     if(e.shiftKey){
+         tabularRef.scrollTo({left:tabularRef.scrollLeft + e.deltaY })
+
+     } else {
+         tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
+
+     }
+    //tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
+    //tabularRef.scrollTo({left:tabularRef.scrollLeft + e.deltaY })
+
     //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
 
     //setVirtualized(virtualize(table, e.currentTarget));
@@ -205,7 +214,7 @@ const handleWheel = (e: WheelEvent) => {
 */
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    //console.log("scroll")
+    console.log("scroll")
     e.preventDefault();
     e.stopPropagation();
     if  (!pointerDown) { return;}
@@ -752,7 +761,7 @@ const handleWheel = (e: WheelEvent) => {
             //table.totalHeight = 10000; //TODO
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    //console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
+    console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
     //e.stopPropagation();
 
     switch (e.key) {
