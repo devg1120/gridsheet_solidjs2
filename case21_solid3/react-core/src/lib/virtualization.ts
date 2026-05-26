@@ -89,7 +89,7 @@ export const virtualize = (
     }
     if (width > right) {
       boundaryRight = Math.min(x + OVERSCAN_X, table.getNumCols());
-      console.log("boundaryRight", boundaryRight)
+      //console.log("boundaryRight", boundaryRight)
       break;
     }
   }
@@ -115,7 +115,7 @@ export const virtualize = (
   }
     // boundaryTop = 1;
   //
-console.log("boundary Top/Right", boundaryTop, boundaryRight)
+  //console.log("boundary Top/Right", boundaryTop, boundaryRight)
 
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);

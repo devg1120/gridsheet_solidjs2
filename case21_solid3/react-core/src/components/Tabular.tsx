@@ -107,6 +107,7 @@ const [tableFocus, setTableFocus] = createSignal(true);
 */
 
  createEffect(() => {
+    //console.log("choosing...");
     setChoosing(store().choosing);
     operationStyles = useOperationStyles(store, {
       ...palette(),
@@ -114,9 +115,6 @@ const [tableFocus, setTableFocus] = createSignal(true);
     });
 
     setKey([{}]);
-     //tabularRef.focus();
-     //tabularRef.focus();
-    //tabularRef.focus();
   });
 
  createEffect(() => {
@@ -214,10 +212,11 @@ const handleWheel = (e: WheelEvent) => {
 */
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    console.log("scroll")
+    //console.log("scroll")
     e.preventDefault();
     e.stopPropagation();
     if  (!pointerDown) { return;}
+    //console.log("scroll")
     /*
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
@@ -574,6 +573,7 @@ const handleWheel = (e: WheelEvent) => {
   }
 
   const sum_top_hight = (y: number) => {
+    const tableRef = tabularRef;
     let height = 0;
     if (tableRef) {
       let ele = tableRef.querySelector("#CR");
@@ -596,6 +596,7 @@ const handleWheel = (e: WheelEvent) => {
   };
 
   const sum_left_width = (x: number) => {
+    const tableRef = tabularRef;
     let width = 10; // 10
     if (tableRef) {
       let ele = tableRef.querySelector("#CR");
@@ -619,6 +620,7 @@ const handleWheel = (e: WheelEvent) => {
   };
 
   const sum_left_top_width = (x: number) => {
+    const tableRef = tabularRef;
     let width = 10; // 10
     if (tableRef) {
       let ele = tableRef.querySelector("#CR");
@@ -761,7 +763,7 @@ const handleWheel = (e: WheelEvent) => {
             //table.totalHeight = 10000; //TODO
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
+    //console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
     //e.stopPropagation();
 
     switch (e.key) {
