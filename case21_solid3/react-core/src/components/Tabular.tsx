@@ -212,11 +212,24 @@ const handleWheel = (e: WheelEvent) => {
 */
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    //console.log("scroll",e)
     //console.log("scroll")
     //e.preventDefault();
     //e.stopPropagation();
-    if  (!pointerDown) { return;}
-    console.log("scroll")
+    
+    //if  (!pointerDown) { return;}
+	/*
+    if  (!pointerDown) { 
+	  if(!pageDown  && !pageUp) {
+	    return;
+	  }
+        console.log("pageDown/Up scroll")
+
+    } else {
+       console.log("scrollBar scroll")
+    }
+*/
+
     /*
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
@@ -227,6 +240,7 @@ const handleWheel = (e: WheelEvent) => {
     */
     //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
 
+    console.log("scroll")
     //setVirtualized(virtualize(table, e.currentTarget));
     setVirtualized(virtualize(table, tabularRef));
     setTableKey([{}]);
@@ -763,7 +777,7 @@ const handleWheel = (e: WheelEvent) => {
             //table.totalHeight = 10000; //TODO
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    //console.log("Tabular:handleKeyDown", e.key,table.getNumRows(), table.getNumCols());
+    //console.log("Tabular:handleKeyDown", e.key);
     //e.stopPropagation();
 
     switch (e.key) {
@@ -823,9 +837,30 @@ const handleWheel = (e: WheelEvent) => {
           //return false;
     setVirtualized(virtualize(table, tabularRef));
         break;
+      case "PageDown": // DOWN
+	      pageDown = true;
+	 break;
+      case "PageUp": // DOWN
+	      pageUp = true;
+	 break;
      }
 
   };
+
+  const handleKeyUp = (e: EditorEventWithNativeEvent) => {
+    //console.log("Tabular:handleKeyUp", e.key);
+    switch (e.key) {
+      case "PageDown": // DOWN
+	      pageDown = false;
+	 break;
+      case "PageUp": // DOWN
+	      pageUp = false;
+	 break;
+    }
+  }
+
+  let pageUp = false;
+  let pageDown = false;
 
   let pointerDown = false;
   const handlePointerDown = (event: PointerEvent) => {
@@ -859,6 +894,7 @@ const handleWheel = (e: WheelEvent) => {
 	onWheel={handleWheel}
 	onFocus={handleFocus}
 	onKeyDown={handleKeyDown}
+	onKeyUp={handleKeyUp}
 	     tabindex="0"
 	   //  onKeyDown={handleKeyDown}
       >

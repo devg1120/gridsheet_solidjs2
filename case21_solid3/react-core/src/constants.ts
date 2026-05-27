@@ -15,7 +15,7 @@ export const MIN_WIDTH = 5;
 export const MIN_HEIGHT = 5;
 
 export const OVERSCAN_X = 5;
-export const OVERSCAN_Y = 20;
+export const OVERSCAN_Y = 5;
 
 
 export const DEFAULT_ALPHABET_CACHE_SIZE = 1000;

@@ -154,7 +154,7 @@ export const virtualize = (
   // console.log("adjuster",    before.height,
   //     after.height);
   //
-  console.log("adjuster",    before.height);
+  //console.log("adjuster",    before.height);
 
   return {
     ys,
