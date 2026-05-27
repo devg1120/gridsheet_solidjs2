@@ -118,7 +118,7 @@ export const virtualize = (
   //console.log("boundary Top/Right", boundaryTop, boundaryRight)
 
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
-  //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
+  console.log("boundary",  boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
  
@@ -154,7 +154,7 @@ export const virtualize = (
   // console.log("adjuster",    before.height,
   //     after.height);
   //
-  // console.log("adjuster",    before.height);
+  console.log("adjuster",    before.height);
 
   return {
     ys,

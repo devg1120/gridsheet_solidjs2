@@ -160,10 +160,11 @@ const [tableFocus, setTableFocus] = createSignal(true);
   };
 
 const handleWheel = (e: WheelEvent) => {
-    //console.log("wheel")
-     e.preventDefault(); // Prevents the default page scroll
-    e.stopPropagation();
+    console.log("wheel")
+    //e.preventDefault(); // Prevents the default page scroll
+    //e.stopPropagation();
     //e.scrollTo({top:e.deltaY})
+    /*
      if(e.shiftKey){
          tabularRef.scrollTo({left:tabularRef.scrollLeft + e.deltaY })
 
@@ -171,14 +172,13 @@ const handleWheel = (e: WheelEvent) => {
          tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
 
      }
-    //tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
-    //tabularRef.scrollTo({left:tabularRef.scrollLeft + e.deltaY })
+*/
 
-    //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
 
     //setVirtualized(virtualize(table, e.currentTarget));
     setVirtualized(virtualize(table, tabularRef));
     setTableKey([{}]);
+    //setKey([{}]);
 
 /*
     if (table) {
@@ -213,10 +213,10 @@ const handleWheel = (e: WheelEvent) => {
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     //console.log("scroll")
-    e.preventDefault();
-    e.stopPropagation();
+    //e.preventDefault();
+    //e.stopPropagation();
     if  (!pointerDown) { return;}
-    //console.log("scroll")
+    console.log("scroll")
     /*
     if (table) {
       //console.log(virtualize(table, e.currentTarget));
