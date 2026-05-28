@@ -110,7 +110,7 @@ export const setSearchCaseSensitive = new SetSearchCaseSensitiveAction().bind();
 
 class SetEditingAddressAction<T extends string> extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
-//	  console.log("setEdittingAddress",payload)
+    //	  console.log("setEdittingAddress",payload)
     return {
       ...store,
       editingAddress: payload,
@@ -189,7 +189,7 @@ export const setResizingPositionX = new SetResizingPositionXAction().bind();
 
 class SetEnteringAction<T extends boolean> extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
-	  console.log("SetEnteringAction");
+    console.log("SetEnteringAction");
     return {
       ...store,
       entering: payload,
@@ -212,7 +212,7 @@ export const updateTable = new UpdateTableAction().bind();
 
 class SetEditorRectAction<T extends RectType> extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
-//	  console.log("setEditorRect",payload)
+    //	  console.log("setEditorRect",payload)
     return {
       ...store,
       editorRect: payload,
@@ -466,7 +466,6 @@ class EscapeAction<T extends null> extends CoreAction<T> {
 export const escape = new EscapeAction().bind();
 
 class ChooseAction<T extends PointType> extends CoreAction<T> {
-
   reduce(store: StoreType, payload: T): StoreWithCallback {
     return {
       ...store,
@@ -577,10 +576,9 @@ export const search = new SearchAction().bind();
 class WriteAction<
   T extends { value: string; point?: PointType },
 > extends CoreAction<T> {
-
   reduce(store: StoreType, payload: T): StoreWithCallback {
     let { value, point } = payload;
-	
+
     const { choosing, selectingZone, tableReactive: tableRef } = store;
     if (point == null) {
       point = choosing;
@@ -610,7 +608,7 @@ class WriteAction<
       ...store,
       ...initSearchStatement(newTable, store),
       //tableReactive: { current: newTable },
-      tableReactive:  newTable ,
+      tableReactive: newTable,
       callback: ({ tableReactive: tableRef }) => {
         table.wire.transmit({
           copyingZone: resetZone,
@@ -1309,7 +1307,7 @@ class InsertRowsAboveAction<
     return {
       ...store,
       //tableReactive: { current: table },
-      tableReactive:  table ,
+      tableReactive: table,
     };
   }
 }

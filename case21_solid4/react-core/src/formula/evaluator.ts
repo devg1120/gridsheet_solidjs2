@@ -165,9 +165,9 @@ export class IdEntity extends Entity<string> {
       const [tableId, id] = this.value.split("!"); // #id
       const sheetId = Number(tableId.slice(1));
       //return { table: table.getTableBySheetId(sheetId)!, id: getId(id, false) };
-      return { table: table, id: getId(id, false) };   //TODO      sheetID   not support
+      return { table: table, id: getId(id, false) }; //TODO      sheetID   not support
     }
-     console.log("---2")
+    console.log("---2");
     return { table, id: getId(this.value, false) };
   }
   public evaluate({ table }: EvaluateProps) {
@@ -221,7 +221,7 @@ export class IdRangeEntity extends Entity<string> {
       const sheetId = Number(tableId.slice(1));
       return {
         //table: table.getTableBySheetId(sheetId)!,
-        table: table,    // TODO  sheetid not support
+        table: table, // TODO  sheetid not support
         ids: idRange.split(":"),
       };
     }

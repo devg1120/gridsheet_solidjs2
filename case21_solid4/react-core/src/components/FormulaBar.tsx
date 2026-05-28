@@ -12,7 +12,6 @@ type FormulaBarProps = {
 };
 
 export const FormulaBar = ({ ready }: FormulaBarProps) => {
-  //export const FormulaBar = memo<FormulaBarProps>(({ ready }: FormulaBarProps) => {
   const { store, dispatch } = useContext(Context);
   const [before, setBefore] = createSignal("");
 
@@ -25,13 +24,13 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     editingAddress: editingCell,
   } = store();
 
- const [choosing, _setChoosing] = createSignal(store().choosing);
- const [address, _setAddress] = createSignal("");
-
+  const [choosing, _setChoosing] = createSignal(store().choosing);
+  const [address, _setAddress] = createSignal("");
 
   //if ( choosing  === undefined ) {     // TODO
   //       return (<></>)
   //}
+
   const table = tableRef;
   //const hlRef = useRef<HTMLDivElement | null>(null);
   let hlRef = null;
@@ -39,16 +38,14 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   //let address = choosing.x === -1 ? "" : p2a(choosing);
   let cell = table?.getCellByPoint(choosing(), "SYSTEM");
 
-
   createEffect(() => {
     _setChoosing(store().choosing);
   });
 
   createEffect(() => {
-    //console.log("inputting", store().inputting, store().editingAddress);
-    let inputting =  store().inputting;
+    let inputting = store().inputting;
     if (store().editingAddress != "") {
-       cell = table?.getCellByPoint(choosing(), "SYSTEM");
+      cell = table?.getCellByPoint(choosing(), "SYSTEM");
       largeEditorRef.value = cell.value;
     }
   });
@@ -75,12 +72,10 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   });
 
   const writeCell = (value: string) => {
-    //console.log("writeCell", value)
     if (before !== value) {
       dispatch(write({ value }));
     }
     dispatch(setEditingAddress(""));
-    //editorRef!.focus();
   };
 
   createEffect(() => {
@@ -97,7 +92,6 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
 
   const largeInput = largeEditorRef;
 
-  //const handleInput = useCallback((e: KeyboardEvent<HTMLTextAreaElement>) => {
   const handleInput = (e: InputEvent<HTMLTextAreaElement>) => {
     dispatch(setInputting(e.currentTarget.value));
   };
@@ -112,8 +106,8 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-     console.log("FormulaBar handleFocus");
-     console.log("activeElement", document.activeElement)
+    console.log("FormulaBar handleFocus");
+    console.log("activeElement", document.activeElement);
 
     if (!largeInput || !table) {
       return;
@@ -123,7 +117,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-     console.log("FormulaBar handleBlur");
+    console.log("FormulaBar handleBlur");
     if (e.currentTarget.value!.startsWith("=")) {
       return true;
     } else {
@@ -134,7 +128,7 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-  console.log("FormularBar: handleKeyDown", e.key)
+    console.log("FormularBar: handleKeyDown", e.key);
     if (e.ctrlKey || !table) {
       return true;
     }
@@ -196,7 +190,6 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     return false;
   };
 
-  //const style: React.CSSProperties = ready ? {} : { visibility: "hidden" };
   const style: any = ready ? {} : { visibility: "hidden" };
 
   if (!table) {
@@ -211,23 +204,9 @@ export const FormulaBar = ({ ready }: FormulaBarProps) => {
     );
   }
 
-  /*
-
-height: largeEditorRef?.clientHeight,         FIX
-                            ? insert
-
-hlRef
-   const -> let
-
-largeEditorRef
-   const -> let
-
-*/
 
   return (
-    <label class="gs-formula-bar" data-sheet-id={store.sheetId} 
-    style={style}
-    >
+    <label class="gs-formula-bar" data-sheet-id={store.sheetId} style={style}>
       <ScrollHandle
         style={{ position: "absolute", left: 0, top: 0, "z-index": 2 }}
         vertical={-1}

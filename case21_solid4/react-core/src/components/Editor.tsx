@@ -48,7 +48,7 @@ type Props = {
 };
 
 export const Editor: Component<Props> = ({ mode }: Props) => {
-  const { store, dispatch }    = useContext(Context);
+  const { store, dispatch } = useContext(Context);
   const [selected, setSelected] = createSignal(0);
   const [shiftKey, setShiftKey] = createSignal(false);
   let {
@@ -71,46 +71,21 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 
   const [choosing, _setChoosing] = createSignal(store().choosing);
   const [inputting, _setInputting] = createSignal(store().inputting);
-  const [editingAddress, _setEditingAddress] = createSignal(store().editingAddress);
+  const [editingAddress, _setEditingAddress] = createSignal(
+    store().editingAddress,
+  );
   const [address, _setAddress] = createSignal("");
 
   const [editorRect, _setEditorRect] = createSignal(store().editorRect);
 
   createEffect(() => {
-/*
-   {
-    choosing,
-    inputting,
-    selectingZone,
-    editorRect,
-    editingAddress,
-    entering,
-    matchingCells,
-    matchingCellIndex,
-    searchQuery,
-    editorRef,
-    largeEditorRef,
-    searchInputRef,
-    editingOnEnter,
-    tableReactive: tableRef,
-    sheetId,
-  } 
-*/
-
-  //console.log(store().choosing);
-  //console.log(store().editingAddress);
-
-  _setChoosing(store().choosing);
-  _setInputting(store().inputting);
-  _setEditingAddress(store().editingAddress);
-  _setEditorRect(store().editorRect);
-
-});
-
+    _setChoosing(store().choosing);
+    _setInputting(store().inputting);
+    _setEditingAddress(store().editingAddress);
+    _setEditorRect(store().editorRect);
+  });
 
   const table = tableRef;
-  //console.log("Editor", store());
-  //let  editorRef = null;
 
   if (!table) {
     return null;
@@ -167,15 +142,12 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   let _editorRef = null;
 
   onMount(() => {
-    //console.log(_editorRef);
-    //dispatch(setStore({editorRef: _editorRef);
-    //console.log("dispatch", store());
     dispatch(setStore({ editorRef: _editorRef }));
-    //console.log("setStore editorRef", _editorRef);
   });
+
   createEffect(() => {
     editorRef?.focus?.({ preventScroll: true });
-  }, [editorRef]);
+  });
 
   createEffect(() => {
     if (table.wire.lastFocused == null) {
@@ -189,17 +161,17 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     }
 
     dispatch(setEditingAddress(""));
-  }, [table.wire.lastFocused, editorRef, largeEditorRef, dispatch]);
+  });
+
   createEffect(() => {
     table.wire.editingSheetId = sheetId;
     table.wire.editingAddress = editingAddress();
-  } );
+  });
 
   createEffect(() => {
     table.wire.transmit();
     expandInput(editorRef);
-  }) 
-
+  });
 
   let { y, x } = choosing();
   let rowId = `${y2r(y)}`;
@@ -217,49 +189,31 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     cell,
     refEvaluation: "RAW",
   });
-/*
+
+  /*
   createEffect(() => {
      console.log("editorAddress", editingAddress());
   })
-*/
+  */
+
   createEffect(() => {
-     const { y, x } = choosing();
-     rowId = `${y2r(y)}`;
-     colId = x2c(x);
-     //address = `${colId}${rowId}`;
-     _setAddress(`${colId}${rowId}`);
+    const { y, x } = choosing();
+    rowId = `${y2r(y)}`;
+    colId = x2c(x);
+    //address = `${colId}${rowId}`;
+    _setAddress(`${colId}${rowId}`);
 
-     //console.log("editingAddress",editingAddress() ,"address", address());
-     editing = editingAddress() === address();
+    editing = editingAddress() === address();
 
-     //console.log("editing", editing , editingAddress() , address());
-     //console.log("edit", editing ,top,left,height);
+    cell = table.getCellByPoint({ y, x }, "SYSTEM");
 
-     cell = table.getCellByPoint({ y, x }, "SYSTEM");
-
-     valueString = table.stringify({
-       point: choosing,
-       cell,
-       refEvaluation: "RAW",
-     });
-      setKey([{}]);
-
-  })
-/*
-  const { y, x } = choosing;
-  const rowId = `${y2r(y)}`;
-  const colId = x2c(x);
-  const address = `${colId}${rowId}`;
-  const editing = editingAddress === address;
-
-  const cell = table.getCellByPoint({ y, x }, "SYSTEM");
-
-  const valueString = table.stringify({
-    point: choosing,
-    cell,
-    refEvaluation: "RAW",
+    valueString = table.stringify({
+      point: choosing,
+      cell,
+      refEvaluation: "RAW",
+    });
+    setKey([{}]);
   });
-*/
 
   const [before, setBefore] = createSignal<string>(valueString);
 
@@ -287,22 +241,17 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   let { y: top, x: left, height, width } = editorRect();
 
   createEffect(() => {
-      //{ y: top, x: left, height, width } = editorRect();
-      //console.log("editorRect update", editorRect());
-      const rect = editorRect();
-      top = rect.y;
-      left = rect.x;
-      height = rect.height;
-      width = rect.width;
-      setKey([{}]);
+    const rect = editorRect();
+    top = rect.y;
+    left = rect.x;
+    height = rect.height;
+    width = rect.width;
+    setKey([{}]);
   });
 
   const writeCell = (value: string) => {
-       //console.log("writeCell", y, x, value)
     if (before !== value) {
-      // console.log("dispatch")
       dispatch(write({ value }));
-            //dispatch(setInputting(""));
     }
     setBefore(value);
   };
@@ -314,7 +263,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     if (isKeyDown()) {
       return;
     }
-    //console.log("handleKeyDown");
     // do not debounce it if control key is down.
     if (!(e.key === "Meta" || e.key === "Control")) {
       setIsKeyDown(true);
@@ -365,10 +313,8 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
               writeCell(input.value);
               dispatch(setEditingAddress(""));
               dispatch(setInputting(""));
-	  //console.log("===========================")
-	  editing = false;
-      setKey([{}]);
-
+              editing = false;
+              setKey([{}]);
             }
           }
         } else if (editingOnEnter && selectingZone.endY === -1) {
@@ -420,7 +366,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
         return false;
 
       case "ArrowLeft": // LEFT
-	        console.log("ArrowLeft")
+        console.log("ArrowLeft");
         if (!editing) {
           dispatch(
             arrow({
@@ -628,14 +574,14 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   };
 
   const handleDoubleClick = (e: React.MouseEvent<HTMLTextAreaElement>) => {
-      //console.log("Editor handleDoubleClick", editing, e.currentTarget);
+    //console.log("Editor handleDoubleClick", editing, e.currentTarget);
     if (prevention.hasOperation(cell?.prevention, prevention.Write)) {
       console.warn("This cell is protected from writing.");
       return;
     }
     const input = e.currentTarget;
     if (!editing) {
-       //console.log("set input", valueString, address)
+      //console.log("set input", valueString, address)
       dispatch(setInputting(valueString));
       dispatch(setEditingAddress(address()));
       requestAnimationFrame(() => {
@@ -710,64 +656,35 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     e.stopPropagation();
     return false;
   };
- // console.log("editing", editing)
 
-/*
-      style={
-        editing
-          ? {
-              top: top + "px",
-              left: left + "px",
-              height: height + "px",
-	      "z-index": "10000",
-            }
-          : {}
-      }
-
-      style={
-         true
-          ? {
-              top:  "130px",
-              left:  "30px",
-              height:  "30px",
-	      "z-index": "10000",
-            }
-          : {}
-      }
-
-
-          : {display: "none"}
-*/
- 
   return (
-   <For each={key()}>{() =>
-    <Fixed
-      class={`gs-editor ${editing ? "gs-editing" : ""}`}
-      style={
-        editing
-          ? {
-              top: top + "px",
-              left: left + "px",
-              height: height + "px",
-	      "z-index": "10000",
-            }
-          : {display: "none"}
-      }
-
-      table={tableRef}
-      {...{
-        "data-mode": mode,
-        "data-sheet-id": sheetId,
-      }}
-
-    >
-    {/*
+    <For each={key()}>
+      {() => (
+        <Fixed
+          class={`gs-editor ${editing ? "gs-editing" : ""}`}
+          style={
+            editing
+              ? {
+                  top: top + "px",
+                  left: left + "px",
+                  height: height + "px",
+                  "z-index": "10000",
+                }
+              : { display: "none" }
+          }
+          table={tableRef}
+          {...{
+            "data-mode": mode,
+            "data-sheet-id": sheetId,
+          }}
+        >
+          {/*
       <div class={`gs-cell-label ${editing ? " gs-hidden" : ""}`}>
         {address()}
       </div>
       */}
-      <div class="gs-editor-inner" style={{ width: width }}>
-      {/*
+          <div class="gs-editor-inner" style={{ width: width }}>
+            {/*
         <pre
           class="gs-editor-hl"
           style={{
@@ -779,55 +696,55 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
           {cell?.disableFormula ? inputting() : editorStyle(inputting())}
         </pre>
 */}
-        <textarea
-          data-sheet-id={sheetId}
-          name="gs-editor-input"
-          data-size="small"
-          autoFocus={true}
-          spellCheck={false}
-          draggable={false}
-          ref={_editorRef}
-          rows={numLines}
-          onFocus={handleFocus}
-	  z-index={10009}
-          style={{
-            //"min-width": width + "px",
-            //"min-height": (height-6) + "px",
-	    "resize": "none",
-	    "border": "0px",
-            "width": (width-4) + "px",
-            "height": (height-4) + "px",
-          }}
-      //onClick={() => console.log('TextArea Clicked!',x,y)}
-      //onDblClick={(e) => console.log('TextArea Double Clicked!',e, x,y)}
-     
-      //on:myCustomEvent={(e) => console.log('TextArea Double Clicked!',e, x,y)}
-      on:myCustomEvent={handleDoubleClick}
+            <textarea
+              data-sheet-id={sheetId}
+              name="gs-editor-input"
+              data-size="small"
+              autoFocus={true}
+              spellCheck={false}
+              draggable={false}
+              ref={_editorRef}
+              rows={numLines}
+              onFocus={handleFocus}
+              z-index={10009}
+              style={{
+                //"min-width": width + "px",
+                //"min-height": (height-6) + "px",
+                resize: "none",
+                border: "0px",
+                width: width - 4 + "px",
+                height: height - 4 + "px",
+              }}
+              //onClick={() => console.log('TextArea Clicked!',x,y)}
+              //onDblClick={(e) => console.log('TextArea Double Clicked!',e, x,y)}
 
-          //onDoubleClick={handleDoubleClick}
-         onBlur={handleBlur}
-          value={inputting()}
-          onChange={handleChange}
-          onPaste={handlePaste}
-          onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUpInternal}
-        />
-      </div>
-      <ul
-        class="gs-editor-options"
-        style={{ marginTop: editorRef?.scrollHeight }}
-      >
-        {filteredOptions.map((option, i) => (
-          <li
-            class={`gs-editor-option ${selected === i ? " gs-editor-option-selected" : ""}`}
-            onMouseDown={(e) => handleOptionMouseDown(e, i)}
+              //on:myCustomEvent={(e) => console.log('TextArea Double Clicked!',e, x,y)}
+              on:myCustomEvent={handleDoubleClick}
+              //onDoubleClick={handleDoubleClick}
+              onBlur={handleBlur}
+              value={inputting()}
+              onChange={handleChange}
+              onPaste={handlePaste}
+              onKeyDown={handleKeyDown}
+              onKeyUp={handleKeyUpInternal}
+            />
+          </div>
+          <ul
+            class="gs-editor-options"
+            style={{ marginTop: editorRef?.scrollHeight }}
           >
-            {option.label ?? option.value}
-          </li>
-        ))}
-      </ul>
-    </Fixed>
-}</For>
+            {filteredOptions.map((option, i) => (
+              <li
+                class={`gs-editor-option ${selected === i ? " gs-editor-option-selected" : ""}`}
+                onMouseDown={(e) => handleOptionMouseDown(e, i)}
+              >
+                {option.label ?? option.value}
+              </li>
+            ))}
+          </ul>
+        </Fixed>
+      )}
+    </For>
   );
 };
 

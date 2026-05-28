@@ -40,8 +40,7 @@ export const Resizer = () => {
     [y, startY, endY] = posY;
     [x, startX, endX] = posX;
 
-
-     cell = table.getCellByPoint(
+    cell = table.getCellByPoint(
       { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
       "SYSTEM",
     );
@@ -57,7 +56,6 @@ export const Resizer = () => {
     width = baseWidth + (endX - startX);
     height = baseHeight + (endY - startY);
 
-
     setKey([{}]);
   });
 
@@ -68,8 +66,7 @@ export const Resizer = () => {
     [y, startY, endY] = posY;
     [x, startX, endX] = posX;
 
-
-     cell = table.getCellByPoint(
+    cell = table.getCellByPoint(
       { y: y === -1 ? 0 : y, x: x === -1 ? 0 : x },
       "SYSTEM",
     );
@@ -86,7 +83,6 @@ export const Resizer = () => {
     height = baseHeight + (endY - startY);
     //console.log(width, height);
 
-
     setKey([{}]);
   });
 
@@ -94,7 +90,7 @@ export const Resizer = () => {
   let [x, startX, endX] = posX;
 
   if (mainRef == null || editorRef == null || !table) {
-     console.log("return", mainRef, editorRef);
+    console.log("return", mainRef, editorRef);
     return <div class="gs-resizing gs-hidden" />;
   }
 
@@ -113,7 +109,7 @@ export const Resizer = () => {
   /***********************************************************************/
 
   const handleResizeEnd = () => {
-    console.log("handleResizeEnd")
+    console.log("handleResizeEnd");
     const selectingArea = zoneToArea(selectingZone);
     const { top, left, bottom, right } = selectingArea;
     const diff: CellsByAddressType = {};
@@ -145,7 +141,7 @@ export const Resizer = () => {
     dispatch(
       setStore({
         //tableReactive: { current: table },
-        tableReactive:  table ,   //TODO
+        tableReactive: table, //TODO
       }),
     );
     dispatch(setResizingPositionY([-1, -1, -1]));
@@ -174,30 +170,40 @@ export const Resizer = () => {
   };
 
   return (
-  <For each={key()}>{() =>
-    <div
-      class={`gs-resizing ${y === -1 && x === -1 ? "gs-hidden" : ""}`}
-      onMouseUp={handleResizeEnd}
-      onMouseMove={handleResizeMove}
-      //onClick={() => console.log('Resizer Clicked!')}
-    >
-      <div class={`gs-line-vertical ${x === -1 ? "gs-hidden" : ""}`}>
+    <For each={key()}>
+      {() => (
         <div
-          class={"gs-line"}
-          style={{ width: "1px" , height: "100%", left: (endX - offsetX) + "px" }}
+          class={`gs-resizing ${y === -1 && x === -1 ? "gs-hidden" : ""}`}
+          onMouseUp={handleResizeEnd}
+          onMouseMove={handleResizeMove}
+          //onClick={() => console.log('Resizer Clicked!')}
         >
-          <span style={{ left: "-50%" }}>{width}px</span>
+          <div class={`gs-line-vertical ${x === -1 ? "gs-hidden" : ""}`}>
+            <div
+              class={"gs-line"}
+              style={{
+                width: "1px",
+                height: "100%",
+                left: endX - offsetX + "px",
+              }}
+            >
+              <span style={{ left: "-50%" }}>{width}px</span>
+            </div>
+          </div>
+          <div class={`gs-line-horizontal ${y === -1 ? "gs-hidden" : ""}`}>
+            <div
+              class={"gs-line"}
+              style={{
+                width: "100%",
+                height: "1px",
+                top: endY - offsetY + "px",
+              }}
+            >
+              <span style={{ top: "-50%" }}>{height}px</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class={`gs-line-horizontal ${y === -1 ? "gs-hidden" : ""}`}>
-        <div
-          class={"gs-line"}
-          style={{  width: "100%", height: "1px", top: (endY - offsetY) + "px" }}
-        >
-          <span style={{  top: "-50%" }}>{height}px</span>
-        </div>
-      </div>
-    </div>
-}</For>
+      )}
+    </For>
   );
 };

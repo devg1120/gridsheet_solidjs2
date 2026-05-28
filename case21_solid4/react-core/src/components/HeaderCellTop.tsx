@@ -28,7 +28,6 @@ type Props = {
   freezeStyle: CSSProperties; //GUSA
 };
 
-//export const HeaderCellTop: FC<Props> = memo(({ x, isFreeze, freezeStyle }) => {
 export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
   const colId = x2c(x);
   const { store, dispatch } = useContext(Context);
@@ -190,9 +189,9 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
       </th>
     );
   }
+
   const id = `CH-${colId}`;
-  //style={{ width, minWidth: width, maxWidth: width, "z-index":150,  }}
-  //style={{ width, minWidth: width, maxWidth: width, "z-index":150, ...freezeStyle, }}
+
   return (
     <th
       id={id}
@@ -214,7 +213,7 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
 
       style={mergeProps(
         {
-          "width": width + "px",
+          width: width + "px",
           "min-width": width + "px",
           "max-width": width + "px",
         },
@@ -258,7 +257,7 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
                   gs-resizer 
                   ${prevention.hasOperation(col?.prevention, prevention.Resize) ? "gs-protected" : ""}
                   ${dragging ? "gs-hidden" : ""} `}
-              style={{ height: table.headerHeight + "px"}}
+              style={{ height: table.headerHeight + "px" }}
               onMouseDown={handleResizeMouseDown}
             >
               <i />
@@ -270,5 +269,4 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
       </div>
     </th>
   );
-  //});
 };

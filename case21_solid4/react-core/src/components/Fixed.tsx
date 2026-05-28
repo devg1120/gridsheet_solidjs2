@@ -19,33 +19,11 @@ export const Fixed: FC<Props> = ({
   ...attrs
 }) => {
 
-/*
-  const { document } = useBrowser();
-  if (document == null) {
-     console.log("****************");
-    return null;
-  }
-  */
-  /*
-    return createPortal(
-        <div {...attrs} class={`gs-fixed ${className}`} style={style}>
-            {children}
-        </div>,
-        document.body,
-    );
-
-  <Portal mount={document.window}>
-    <div id="gusa" {...attrs} class={`gs-fixed ${className}`} style={style}>
-      {children}
-    </div>
-  </Portal>
-
-    */
-return (
-  <Portal mount={document.body}>
-    <div  {...attrs} class={`gs-fixed ${className}`} style={style}>
-      {children}
-    </div>
-  </Portal>
- )
+  return (
+    <Portal mount={document.body}>
+      <div {...attrs} class={`gs-fixed ${className}`} style={style}>
+        {children}
+      </div>
+    </Portal>
+  );
 };

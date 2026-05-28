@@ -201,10 +201,10 @@ export const createHub = (props: WireProps = {}): HubType => {
 export const useHub = (props: WireProps = {}) => {
   //const [hub, setHub] = createSignal<HubType>(() => createHub(props));
 
-  const hub_ =  createHub(props);
+  const hub_ = createHub(props);
   const [hub, setHub] = createSignal<HubType>(hub_);
   const wire = hub().wire;
-  wire.ready = true;              //TODO
+  wire.ready = true; //TODO
 
   wire.transmit = (patch?: TransmitProps) => {
     Object.assign(wire, patch);

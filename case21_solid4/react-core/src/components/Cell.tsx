@@ -19,7 +19,14 @@ import { insertRef, isRefInsertable } from "../lib/input";
 import { isXSheetFocused } from "../store/helpers";
 import { isTouching, safePreventDefault } from "../lib/events";
 import { UserTable } from "../lib/table";
-import { useContext, createEffect, on, onMount, createMemo, mergeProps } from "solid-js";
+import {
+  useContext,
+  createEffect,
+  on,
+  onMount,
+  createMemo,
+  mergeProps,
+} from "solid-js";
 
 type Props = {
   x: number;
@@ -42,16 +49,13 @@ export const Cell: FC<Props> = ({
   freeze_y,
   freeze_x,
 }) => {
-
   const rowId = y2r(y);
   const colId = x2c(x);
   const address = `${colId}${rowId}`;
-  
+
   const { store, dispatch } = useContext(Context);
-  //const isFirstPointed = useRef(true);
   let isFirstPointed = true;
 
-  //const cellRef = useRef<HTMLTableCellElement>(null);
   let cellRef = null;
   let {
     tableReactive: tableRef,
@@ -66,8 +70,6 @@ export const Cell: FC<Props> = ({
     contextMenuItems,
   } = store();
   const table = tableRef;
-  
-  
 
   // Whether the focus is on another sheet
   const xSheetFocused = isXSheetFocused(store);
@@ -82,7 +84,7 @@ export const Cell: FC<Props> = ({
   let _cellRef = null;
 
   onMount(() => {
-     _cellRef = cellRef
+    _cellRef = cellRef;
   });
 
   const _setEditorRect = () => {
@@ -91,26 +93,18 @@ export const Cell: FC<Props> = ({
     if (rect == null) {
       return null;
     }
-    //console.log("_setEditorRect", _cellRef, rect)
     dispatch(
       setEditorRect({
-     
-        //y: rect.y + 30,
-        y: rect.y ,
+        y: rect.y,
         x: rect.x,
         height: rect.height,
         width: rect.width,
-	
-      /*
-        y: 100,
-        x: 200,
-        height: 20,
-        width: 100,
-	*/
+
       }),
     );
   };
-/*
+
+  /*
   createEffect(
     on(
       () => [pointed, editing],
@@ -125,6 +119,7 @@ export const Cell: FC<Props> = ({
     ),
   );
 */
+
   if (!table) {
     return null;
   }
@@ -142,7 +137,7 @@ export const Cell: FC<Props> = ({
   let rendered: any;
   try {
     rendered = table.render({ table, point: { y, x }, sync });
-    
+
     if (rendered == "") {
       // GUSA
       rendered = " ";
@@ -163,27 +158,26 @@ export const Cell: FC<Props> = ({
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     //console.log("handleDragStart", store().choosing, y,x)
-    //console.log(tableRef);  
     //e.stopPropagation();
     safePreventDefault(e);
-    
-    if ( store().choosing.y == y &&
-         store().choosing.x == x) {
 
-              //console.log("editing...");
-              //_setEditorRect(); //TODO
-              onDoubleClick(e);
-	      return false;
-	 }
+    if (store().choosing.y == y && store().choosing.x == x) {
+      //console.log("editing...");
+      //_setEditorRect(); //TODO
+      onDoubleClick(e);
+      return false;
+    }
 
-          _setEditorRect(); //TODO
+    _setEditorRect(); //TODO
     if (!isTouching(e)) {
       return false;
     }
+
     if (!input) {
       return false;
     }
-/*
+
+    /*
     if (!e.shiftKey) {
       //_setEditorRect(); //TODO
       //dispatch(choose({ y, x }));
@@ -195,7 +189,8 @@ export const Cell: FC<Props> = ({
       isFirstPointed = false;
       }
     }
-*/
+    */
+
     // Single cell selection only for touch events
     if (e.type.startsWith("touch")) {
       // Blur the input field to commit current value when selecting via touch
@@ -243,10 +238,9 @@ export const Cell: FC<Props> = ({
     return true;
   };
 
-
   const handleClick2 = (e: React.MouseEvent | React.TouchEvent) => {
     //console.log("handleClick2")
-   
+
     e.stopPropagation();
     safePreventDefault(e);
 
@@ -254,12 +248,12 @@ export const Cell: FC<Props> = ({
       //_setEditorRect(); //TODO
       //dispatch(choose({ y, x }));
       if (pointed && !isFirstPointed) {
-           _setEditorRect(); //TODO
-          onDoubleClick(e);
+        _setEditorRect(); //TODO
+        onDoubleClick(e);
       } else {
-      _setEditorRect(); //TODO
-      dispatch(choose({ y, x }));
-       //isFirstPointed = false;
+        _setEditorRect(); //TODO
+        dispatch(choose({ y, x }));
+        //isFirstPointed = false;
       }
     }
     return true;
@@ -267,7 +261,7 @@ export const Cell: FC<Props> = ({
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     //console.log("handleClick")
-   
+
     e.stopPropagation();
     safePreventDefault(e);
 
@@ -276,14 +270,13 @@ export const Cell: FC<Props> = ({
       dispatch(choose({ y, x }));
       //_setEditorRect(); //TODO
       onDoubleClick(e);
-
-      }
+    }
     return true;
   };
 
   const handleDblClick = (e: React.MouseEvent | React.TouchEvent) => {
     //console.log("handleDblClick")
-   
+
     e.stopPropagation();
     safePreventDefault(e);
 
@@ -375,21 +368,21 @@ export const Cell: FC<Props> = ({
   const onDoubleClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
     //console.log("handler onDoubleClick");
     e.stopPropagation();
-          _setEditorRect(); //TODO
+    _setEditorRect(); //TODO
     safePreventDefault(e);
     setEditingAddress(address);
     //const dblclick = document.createEvent("MouseEvents");
     //dblclick.initEvent("dblclick", true, false);
 
-const dblclick2 = new MouseEvent('dblclick', {
-  bubbles: true,
-  cancelable: true,
-  view: window,
-});
+    const dblclick2 = new MouseEvent("dblclick", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
     const event = new CustomEvent("myCustomEvent", {
       detail: { message: "Hello from Child!" },
-      bubbles: true,    // 親にバブリングさせる
-      composed: true,   // Shadow DOMを越えて通信する
+      bubbles: true, // 親にバブリングさせる
+      composed: true, // Shadow DOMを越えて通信する
     });
 
     //console.log(input)
@@ -409,29 +402,6 @@ const dblclick2 = new MouseEvent('dblclick', {
     return "gs-autofill-drag gs-hidden";
   });
 
-  /*
-      const span_list = [
-       {  x:  5, y:  5, col_size: 2, row_size: 1 },
-    //   {  x:  3, y: 10, col_size: 2, row_size: 2 },
-      ]
-    */
-  /*
-      let colSpan_size = 1; // default
-      let rowSpan_size = 1; // default
-    
-      if (typeof span_list !== 'undefined') {
-        for ( let i = 0; i < span_list.length; i++){
-          if ( x == span_list[i].x && y == span_list[i].y ) {
-              if (span_list[i].col_size > 1 ) {
-                 colSpan_size = span_list[i].col_size;
-              }
-              if (span_list[i].row_size > 1 ) {
-                 rowSpan_size = span_list[i].row_size;
-              }
-          }
-        }
-      }
-    */
 
   if (!input) {
     return (
@@ -451,7 +421,6 @@ const dblclick2 = new MouseEvent('dblclick', {
     );
   }
 
-
   return (
     <td
       ref={cellRef}
@@ -460,9 +429,9 @@ const dblclick2 = new MouseEvent('dblclick', {
       data-address={address}
       colSpan={colSpan_size}
       rowSpan={rowSpan_size}
-      onContextMenu={onContextMenu}  //NEW
+      onContextMenu={onContextMenu} //NEW
       //onDoubleClick={onDoubleClick}  //NEW
-      
+
       //onClick={() => console.log('Cell Clicked!',x,y)}
       //onDblClick={() => console.log('Cell Double Clicked!',x,y)}
       //onDblClick={handleDblClick}
@@ -479,16 +448,15 @@ const dblclick2 = new MouseEvent('dblclick', {
       } ${pointed ? "gs-choosing" : ""} ${
         editing ? "gs-editing_" : ""
       } ${freeze_y ? "freeze_y" : ""}  ${freeze_x ? "freeze_x" : ""} `}
-      style={mergeProps(() => cell?.style, operationStyle, freezeStyle) }
+      style={mergeProps(() => cell?.style, operationStyle, freezeStyle)}
     >
       <div
         class={`gs-cell-inner-wrap`}
         // shift-key  abalable               TODO
-        onMouseDown={handleDragStart}   //NEW
-        onTouchStart={handleDragStart}  //NEW
-        onMouseEnter={handleDragging}   //NEW
-        onMouseUp={handleDragEnd}       //NEW
-	
+        onMouseDown={handleDragStart} //NEW
+        onTouchStart={handleDragStart} //NEW
+        onMouseEnter={handleDragging} //NEW
+        onMouseUp={handleDragEnd} //NEW
       >
         <div class={"gs-cell-inner"} style={{}}>
           {errorMessage && (
@@ -504,5 +472,4 @@ const dblclick2 = new MouseEvent('dblclick', {
       </div>
     </td>
   );
-  //    },
-}; //FIX
+}; 

@@ -27,7 +27,6 @@ type Props = {
   isFreeze: boolean;
 };
 
-//export const HeaderCellLeft: FC<Props> = memo(({ y, isFreeze }) => {
 export const HeaderCellLeft = ({ y, isFreeze }) => {
   const rowId = `${y2r(y)}`;
   const { store, dispatch } = useContext(Context);
@@ -191,7 +190,9 @@ export const HeaderCellLeft = ({ y, isFreeze }) => {
   if (!table) {
     return null;
   }
+
   const id = `RH-${rowId}`;
+
   return (
     <th
       id={id}
@@ -218,7 +219,7 @@ export const HeaderCellLeft = ({ y, isFreeze }) => {
         onTouchStart={handleDragStart}
         onMouseEnter={handleDragging}
         onMouseUp={handleDragEnd}
-	//onClick={() => console.log('Cell Clicked!')}
+        //onClick={() => console.log('Cell Clicked!')}
       >
         <div
           class="gs-th-inner"
@@ -248,5 +249,4 @@ export const HeaderCellLeft = ({ y, isFreeze }) => {
       </div>
     </th>
   );
-  //});
 };

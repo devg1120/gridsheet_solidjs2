@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "build2": "vite build",
     "fmt": "npx prettier --write ./react-core/src; ",
+    "fmt2": "npx prettier --write ./src; ",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -22,11 +22,6 @@ import { createEffect, on, onMount, useContext, createSignal } from "solid-js";
 export const Tabular = () => {
   const [palette, setPalette] = createSignal<RefPaletteType>({});
   const { store, dispatch } = useContext(Context);
-/*
-  createEffect(() => {
-    console.log("Tabluar store update: ", store().choosing);
-  });
-*/
 
   let {
     tableReactive,
@@ -41,72 +36,26 @@ export const Tabular = () => {
     topHeaderSelecting,
   } = store();
 
-const [key, setKey] = createSignal([{}]);
-const [tablekey, setTableKey] = createSignal([{}]);
+  const [key, setKey] = createSignal([{}]);
 
-const [choosing, setChoosing] = createSignal(store().choosing);
+  const [tablekey, setTableKey] = createSignal([{}]);
 
-const [tableFocus, setTableFocus] = createSignal(true);
+  const [choosing, setChoosing] = createSignal(store().choosing);
 
-/*
- createEffect(() => {
-     if (tableFocus() == true ) {
-         console.log("tabularRef.focus");
-         tabularRef.focus();
-     } else {
-         console.log("tabularRef.blur");
-         tabularRef.blur();
-     }
-  });
-*/
-/*
- createEffect(() => {
-      //console.log("editingAddress", store().editingAddress);
-      if (store().editingAddress == "") {
-	 console.log("tableRef.focus");
-	 //console.log(document.activeElement) 
-	 //console.log(tableRef) 
-         tabularRef.focus();
-         //tableRef.focus();
-      } else {
-         tabularRef.blur();
-         //tableRef.blur();
-      }
-  });
-*/
+  const [tableFocus, setTableFocus] = createSignal(true);
+
 
   const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-     //console.log("handleFocus");
+    //console.log("handleFocus");
   };
 
-   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-     //console.log("handleDragStart");
-     //tableRef.focus();
-     //tableRef.focus();
-     tabularRef.focus();
-     tabularRef.focus();
-	 //console.log("activeElement", document.activeElement) 
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleDragStart");
+    tabularRef.focus();
+    tabularRef.focus();
+  };
 
-   };
-/*
- createEffect(() => {
-
-  let { y, x } = choosing();
-  let rowId = `${y2r(y)}`;
-  let colId = x2c(x);
-  let address = `${colId}${rowId}`;
-  let editing = store().editingAddress === address;
-      if (!editing) {
-	 console.log("tabularRef.focus");
-         //tabularRef.focus();
-         tabularRef.focus();
-      } else {
-         tabularRef.blur();
-      }
-  });
-*/
-
- createEffect(() => {
+  createEffect(() => {
     //console.log("choosing...");
     setChoosing(store().choosing);
     operationStyles = useOperationStyles(store, {
@@ -117,53 +66,28 @@ const [tableFocus, setTableFocus] = createSignal(true);
     setKey([{}]);
   });
 
- createEffect(() => {
+  createEffect(() => {
     table = store().tableReactive;
     setTableKey([{}]);
   });
-/*
- createEffect(() => {
-    console.log("choosing",choosing());
-  operationStyles = useOperationStyles(store, {
-    ...palette(),
-    ...table.wire.paletteBySheetName[table.sheetName],
-  });
-    setKey([{}]);
-
-  });
-*/
-
-  //choosing = {y:3, x:3};
-
-  //console.log("-",store()) ;
-  //console.log("-", sheetHeight);
-  //console.log("-",sheetWidth) ;
 
   let table = tableReactive;
-  //console.log("table", table);
 
-  //const tableRef = useRef<HTMLTableElement>(null);
   let tableRef = null;
 
   const [virtualized, setVirtualized] = createSignal<Virtualization | null>(
     null,
   );
-/*
-  createEffect(() => {
-    console.log("virtualized: ", virtualized());
-  });
-*/
 
   const handleMouseMove = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-const handleWheel = (e: WheelEvent) => {
-    console.log("wheel")
+  const handleWheel = (e: WheelEvent) => {
+    //console.log("wheel");
     //e.preventDefault(); // Prevents the default page scroll
     //e.stopPropagation();
-    //e.scrollTo({top:e.deltaY})
     /*
      if(e.shiftKey){
          tabularRef.scrollTo({left:tabularRef.scrollLeft + e.deltaY })
@@ -172,53 +96,24 @@ const handleWheel = (e: WheelEvent) => {
          tabularRef.scrollTo({top:tabularRef.scrollTop + e.deltaY })
 
      }
-*/
-
+    */
 
     //setVirtualized(virtualize(table, e.currentTarget));
+    
     setVirtualized(virtualize(table, tabularRef));
     setTableKey([{}]);
-    //setKey([{}]);
 
-/*
-    if (table) {
-      //console.log(virtualize(table, e.currentTarget));
-      setVirtualized(virtualize(table, e.currentTarget));
-    }
-   */
-/*
-    if (e.deltaY > 0) {
-      setCount(count() + 1);
-    } else {
-      setCount(count() - 1);
-    }
-   */
   };
 
-/*
-  const onScrollbar = (event) => {
-    if (event.target instanceof Element) {
-      const { clientWidth, clientHeight } = event.target
-      const { offsetX, offsetY } = event.target
-      console.log(clientWidth , offsetX , clientHeight , offsetY) 
 
-      if (clientWidth > offsetX && clientHeight < offsetY) {
-        return true
-      }
-    }
-
-    return false
-  }
-*/
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    //console.log("scroll",e)
     //console.log("scroll")
     //e.preventDefault();
     //e.stopPropagation();
-    
+
     //if  (!pointerDown) { return;}
-	/*
+    /*
     if  (!pointerDown) { 
 	  if(!pageDown  && !pageUp) {
 	    return;
@@ -228,23 +123,10 @@ const handleWheel = (e: WheelEvent) => {
     } else {
        console.log("scrollBar scroll")
     }
-*/
-
-    /*
-    if (table) {
-      //console.log(virtualize(table, e.currentTarget));
-      setVirtualized(virtualize(table, e.currentTarget));
-    }
-    e.preventDefault();
-    e.stopPropagation();
     */
-    //tabularRef.scrollTo({top:e.scrollTop() + e.deltaY })
 
-    console.log("scroll")
-    //setVirtualized(virtualize(table, e.currentTarget));
     setVirtualized(virtualize(table, tabularRef));
     setTableKey([{}]);
-    
   };
 
   const handleSelectAllClick = () => {
@@ -264,7 +146,6 @@ const handleWheel = (e: WheelEvent) => {
       );
     });
   };
-
 
   createEffect(
     on(
@@ -314,7 +195,6 @@ const handleWheel = (e: WheelEvent) => {
     ),
   );
 
-
   createEffect(
     on(
       () => [choosing()],
@@ -328,39 +208,18 @@ const handleWheel = (e: WheelEvent) => {
     ),
   );
 
-/*
-  createEffect(
-    on(
-    
-      () => [
-        tabularRef,
-        tableReactive,
-        mainRef?.clientHeight,
-        mainRef?.clientWidth,
-      ],
-      
-      () => {
-        if (!table) {
-          return;
-        }
-        setVirtualized(virtualize(table, tabularRef));
-      },
-    ),
-  );
-*/
-
 
   onMount(() => {
-        //tabularRef.focus();
-        if (!table) {
-          return;
-        }
-        setVirtualized(virtualize(table, tabularRef));
-     tabularRef.focus();
-     tabularRef.focus();
+    //tabularRef.focus();
+    if (!table) {
+      return;
+    }
+    setVirtualized(virtualize(table, tabularRef));
+    tabularRef.focus();
+    tabularRef.focus();
   });
 
-/*
+  /*
  createEffect(() => {
     if (!table) {
       return;
@@ -419,102 +278,12 @@ const handleWheel = (e: WheelEvent) => {
     setVirtualized(virtualize(table, tabularRef.current));
   });
 */
-  /*
-    if (!table || !table.wire.ready) {
-        return null;
-    }
-*/
+
   let operationStyles = useOperationStyles(store, {
     ...palette(),
     ...table.wire.paletteBySheetName[table.sheetName],
   });
-  //console.log("operationStyles", operationStyles);
-  //console.log("table", table);
 
-  /*
-    const setStyle = (x,y) => {
-        if ( x == 3 && y == 3 ) {
-             return "background-color: red;";
-        } else {
-             return "";
-        }
-  
-    }
-  */
-
-  /*
-    const span_list = [
-     {  x:  5, y:  5, col_size: 2, row_size: 1 },
-     {  x:  3, y: 10, col_size: 1, row_size: 2 },
-     {  x:  6, y: 12, col_size: 3, row_size: 3 },
-    ]
-   */
-  /*
-    const skip_matrix = [
-     // 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //1
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //2
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //3
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //4
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //5
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //6
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //7
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //8
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //9
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //10
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //11
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //12
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //13
-  
-    ];
-  */
-  /*
-    const isSkip = (x,y) =>{
-      let skip = false; // default
-  
-      if (typeof span_matrix !== 'undefined') {
-           
-      }
-      return skip;
-    }
-  */
-  /*
-    const isSkip_ = (x,y) =>{
-      if (typeof span_list !== 'undefined') {
-          if ( x == 6 && y == 5 ) {
-               return true
-          } 
-  
-          if ( x == 3 && y == 11 ) {
-               return true
-          } 
-  
-          if (( (x == 7 || x == 8) && y == 12 ) ||
-              ( (x == 6 || x == 7 || x == 8) && y == 13 ) ||
-              ( (x == 6 || x == 7 || x == 8) && y == 14 ) 
-             )
-           {
-               return true
-          } 
-       }
-       return false
-    }
-  */
-
-  /*
-    let span_list = [
-     {  x:  5, y:  5, col_size: 2, row_size: 1 },
-     {  x:  3, y: 10, col_size: 1, row_size: 2 },
-     {  x:  6, y: 12, col_size: 3, row_size: 3 },
-    ]
-  */
-
-  /*
-    let span_list = [];
-    for (let i = 0; i < table.spanList.length; i++) {
-         span_list.push(table.spanList[i]);
-    }
-  */
 
   const span_list: SpanElementType[] = table.spanList;
 
@@ -580,7 +349,6 @@ const handleWheel = (e: WheelEvent) => {
 
   let freeze_point = null;
   if (table.isFreeze) {
-    //console.log("isFreeze")
     if (table.freeze) {
       freeze_point = table.freeze;
     }
@@ -594,7 +362,6 @@ const handleWheel = (e: WheelEvent) => {
       if (ele && ele.clientHeight) {
         height += ele?.clientHeight + 1;
       }
-      //height = table.headerHeight;
       for (let i = 1; i < y; i++) {
         const rowId = y2r(y);
         const id = `RH-${rowId}`;
@@ -614,22 +381,18 @@ const handleWheel = (e: WheelEvent) => {
     let width = 10; // 10
     if (tableRef) {
       let ele = tableRef.querySelector("#CR");
-      //width -= ele?.clientWidth;
       width -= table.headerWidth;
       for (let i = 1; i <= x; i++) {
         const colId = x2c(x);
         const id = `CH-${colId}`;
         if (tableRef) {
           let ele = tableRef.querySelector("#" + id);
-          //console.log(ele)
           if (ele) {
             width += ele?.clientWidth;
           }
         }
       }
     }
-    //console.log(width);
-    //return width-50;
     return width;
   };
 
@@ -645,35 +408,19 @@ const handleWheel = (e: WheelEvent) => {
         const id = `CH-${colId}`;
         if (tableRef) {
           let ele = tableRef.querySelector("#" + id);
-          //console.log(ele)
           if (ele) {
             width += ele?.clientWidth;
           }
         }
       }
     }
-    //console.log(width);
-    //return width-50;
     return width;
   };
-  /*
-    const sum_top_hight = (y:number) => {
-          if ( y == 2) { return 50; }
-          if ( y == 1) { return 25; }
-    }
-  
-    const sum_left_width = (x:number) => {
-          if ( x == 2) { return 140; }
-          if ( x == 1) { return 50; }
-    }
-  */
+
 
   const set_freeze_tr_style = (y: number) => {
-    //const rowId  = y2r(y);
-    //console.log(rowId);
     if (freeze_point && y < freeze_point.y) {
       let tophight = sum_top_hight(y);
-      //console.log("tophight", tophight);
       let style = {
         position: "sticky",
         top: `${tophight}px`,
@@ -693,8 +440,6 @@ const handleWheel = (e: WheelEvent) => {
   };
 
   const set_freeze_td_style = (x: number, y: number) => {
-    //const colId  = x2c(x);
-    //console.log(colId);
 
     if (freeze_point && x < freeze_point.x) {
       let leftwidth = sum_left_width(x);
@@ -731,8 +476,6 @@ const handleWheel = (e: WheelEvent) => {
   };
 
   const set_freeze_headertop_td_style = (x: number) => {
-    //const colId  = x2c(x);
-    //console.log(colId);
 
     if (freeze_point && x < freeze_point.x) {
       let leftwidth = sum_left_top_width(x);
@@ -761,6 +504,7 @@ const handleWheel = (e: WheelEvent) => {
       return false;
     }
   };
+
   const is_freeze_x = (x: number) => {
     if (freeze_point && x < freeze_point.x) {
       return true;
@@ -768,118 +512,105 @@ const handleWheel = (e: WheelEvent) => {
       return false;
     }
   };
-            //console.log("== w",table.headerWidth)
-           // console.log("== h",table.totalHeight)
-            //table.headerWidth = 2500;
-            //table.totalHeight = 499*20/2  ; //TODO
-            //table.totalHeight = 499*20/1.8; //TODO
-            //table.totalHeight = 2000*20/1.8; //TODO
-            //table.totalHeight = 10000; //TODO
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
     //console.log("Tabular:handleKeyDown", e.key);
-    //e.stopPropagation();
 
     switch (e.key) {
       case "ArrowLeft": // LEFT
-          dispatch(
-            arrow({
-              //shiftKey,
-              shiftKey:  false, //shiftKey,
-              numRows: table.getNumRows(),
-              numCols: table.getNumCols(),
-              deltaY: 0,
-              deltaX: -1,
-            })
-	  )
-    setVirtualized(virtualize(table, tabularRef));
-	  //return false
+        dispatch(
+          arrow({
+            //shiftKey,
+            shiftKey: false, //shiftKey,
+            numRows: table.getNumRows(),
+            numCols: table.getNumCols(),
+            deltaY: 0,
+            deltaX: -1,
+          }),
+        );
+        //setVirtualized(virtualize(table, tabularRef));
+        //return false
         break;
       case "ArrowRight": // RIGHT
-          dispatch(
-            arrow({
-              //shiftKey,
-              shiftKey:  false, //shiftKey,
-              numRows: table.getNumRows(),
-              numCols: table.getNumCols(),
-              deltaY: 0,
-              deltaX: 1,
-            }),
-          );
-          //return false;
-    setVirtualized(virtualize(table, tabularRef));
+        dispatch(
+          arrow({
+            //shiftKey,
+            shiftKey: false, //shiftKey,
+            numRows: table.getNumRows(),
+            numCols: table.getNumCols(),
+            deltaY: 0,
+            deltaX: 1,
+          }),
+        );
+        //return false;
+        //setVirtualized(virtualize(table, tabularRef));
         break;
-     case "ArrowUp": // UP
-          dispatch(
-            arrow({
-              //shiftKey,
-              shiftKey:  false, //shiftKey,
-              numRows: table.getNumRows(),
-              numCols: table.getNumCols(),
-              deltaY: -1,
-              deltaX: 0,
-            }),
-          );
-          //return false;
-    setVirtualized(virtualize(table, tabularRef));
+      case "ArrowUp": // UP
+        dispatch(
+          arrow({
+            //shiftKey,
+            shiftKey: false, //shiftKey,
+            numRows: table.getNumRows(),
+            numCols: table.getNumCols(),
+            deltaY: -1,
+            deltaX: 0,
+          }),
+        );
+        //return false;
+        //setVirtualized(virtualize(table, tabularRef));
         break;
       case "ArrowDown": // DOWN
-          dispatch(
-            arrow({
-              //shiftKey,
-              shiftKey:  false, //shiftKey,
-              numRows: table.getNumRows(),
-              numCols: table.getNumCols(),
-              deltaY: 1,
-              deltaX: 0,
-            }),
-          );
-          //return false;
-    setVirtualized(virtualize(table, tabularRef));
+        dispatch(
+          arrow({
+            //shiftKey,
+            shiftKey: false, //shiftKey,
+            numRows: table.getNumRows(),
+            numCols: table.getNumCols(),
+            deltaY: 1,
+            deltaX: 0,
+          }),
+        );
+        //return false;
+        //setVirtualized(virtualize(table, tabularRef));
         break;
       case "PageDown": // DOWN
-	      pageDown = true;
-	 break;
+        pageDown = true;
+        break;
       case "PageUp": // DOWN
-	      pageUp = true;
-	 break;
-     }
-
+        pageUp = true;
+        break;
+    }
   };
 
   const handleKeyUp = (e: EditorEventWithNativeEvent) => {
     //console.log("Tabular:handleKeyUp", e.key);
     switch (e.key) {
       case "PageDown": // DOWN
-	      pageDown = false;
-	 break;
+        pageDown = false;
+        break;
       case "PageUp": // DOWN
-	      pageUp = false;
-	 break;
+        pageUp = false;
+        break;
     }
-  }
+  };
 
   let pageUp = false;
   let pageDown = false;
-
   let pointerDown = false;
+
   const handlePointerDown = (event: PointerEvent) => {
-    // ポインター（マウスや指）が押されたときの座標を取得
-   // setPosition({ x: event.clientX, y: event.clientY });
-    //console.log("Pointer Down at:");
     pointerDown = true;
   };
+
   const handlePointerUp = (event: PointerEvent) => {
-    // ポインター（マウスや指）が押されたときの座標を取得
-   // setPosition({ x: event.clientX, y: event.clientY });
-    //console.log("Pointer Up at:");
     pointerDown = false;
   };
-  window.addEventListener('pointerup', handlePointerUp);
+
+  window.addEventListener("pointerup", handlePointerUp);
 
   return (
     <>
-     {/*<For each={key()}>{() => */}
+      {/*<For each={key()}>{() => */}
       <div
         class="gs-tabular"
         style={{
@@ -890,154 +621,149 @@ const handleWheel = (e: WheelEvent) => {
         onMouseMove={handleMouseMove}
         onScroll={handleScroll}
         onPointerDown={handlePointerDown}
-
-	onWheel={handleWheel}
-	onFocus={handleFocus}
-	onKeyDown={handleKeyDown}
-	onKeyUp={handleKeyUp}
-	     tabindex="0"
-	   //  onKeyDown={handleKeyDown}
+        onWheel={handleWheel}
+        onFocus={handleFocus}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        tabindex="0"
+        //  onKeyDown={handleKeyDown}
       >
         <div
           class={"gs-tabular-inner"}
           style={{
             width: table.totalWidth + 1 + "px",
             height: table.totalHeight + 1 + "px",
-            //width: "500px",
-            //height: "400px",
           }}
         >
-   <For each={tablekey()}>{() => 
-          <table ref={tableRef} class={`gs-table`}
-	    tabindex="0"
-	     //onKeyDown={handleKeyDown}
-	      onMouseDown={handleDragStart}   //NEW
-	onFocus={handleFocus}
-	  >
-            <thead class="gs-thead" style={{ height: table.headerHeight }}>
-              <tr class="gs-row">
-                <th
-                  id="CR"
-                  class="gs-th gs-th-left gs-th-top header_freeze_x"
-                  style={{
-                    position: "sticky",
-                    width: table.headerWidth + "px",
-                    height: table.headerHeight + "px",
-                    "z-index": 200,
-                  }}
-                  onClick={handleSelectAllClick}
-                >
-                  <div class="gs-th-inner">
-                    <ScrollHandle
-                      class={
-                        leftHeaderSelecting || topHeaderSelecting
-                          ? "gs-hidden"
-                          : ""
-                      }
-                      style={{ position: "absolute" }}
-                      horizontal={leftHeaderSelecting ? 0 : -1}
-                      vertical={topHeaderSelecting ? 0 : -1}
-                    />
-                  </div>
-                </th>
-
-                <th
-                  class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left"
-                  //style={{ width: virtualized()?.adjuster?.left ?? 1}}
-                  style={{ width: (virtualized()?.adjuster?.left ?? 1) + "px" }} //ヨコMAX
-                ></th>
-                {/*
-                {virtualized?.xs?.map?.((x) => <HeaderCellTop x={x} key={x} />)}
-*/}
-                {virtualized()?.xs?.map?.((x) => (
-                  <HeaderCellTop
-                    x={x}
-                    isFreeze={is_freeze_x(x)}
-                    freezeStyle={set_freeze_headertop_td_style(x)}
-                  />
-                ))}
-
-                <th
-                  class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-right"
-                  //style={{ width: virtualized()?.adjuster?.right }}
-                  style={{ width: virtualized()?.adjuster?.right + "px" }}
-                ></th>
-              </tr>
-            </thead>
-
-            <tbody class="gs-table-body-adjuster">
-              <tr class="gs-row">
-                <th
-                  class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
-                  //style={{ height: virtualized()?.adjuster?.top ?? 1}}
-                  style={{ height: (virtualized()?.adjuster?.top ?? 1) + "px" }}   //TODO
-                ></th>
-                <td class="gs-adjuster gs-adjuster-vertical"></td>
-
-                {virtualized()?.xs?.map((x) => (
-                  <td class="gs-adjuster gs-adjuster-vertical"></td>
-                ))}
-
-                <th
-                  class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
-                ></th>
-
-              </tr>
-            </tbody>
-
-            <tbody class="gs-table-body-data">
-              {virtualized()?.ys?.map((y) => {
-	        //console.log("y",y,isSkip(1,y));
-                return (
-                  <tr class="gs-row" style={set_freeze_tr_style(y)}>
-                    <HeaderCellLeft y={y} isFreeze={is_freeze_y(y)} />
-
-                    <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left" />
-
-                    {virtualized()?.xs?.map((x) => {
-                      //if ( x == 1) { console.log("ok") }
-                      if (isSkip(x, y)) {
-                        //return <></>;
-                        return;
-                      }
-
-                      return (
-
-     <For each={key()}>{() =>
-
-                        <Cell
-                          y={y}
-                          x={x}
-                          freeze_y={is_freeze_y(y) ? true : false}
-                          freeze_x={is_freeze_x(x) ? true : false}
-                          freezeStyle={set_freeze_td_style(x, y)}
-                          colSpan_size={colSpan_size(x, y)}
-                          rowSpan_size={rowSpan_size(x, y)}
-                          operationStyle={
-                            operationStyles[
-                              p2a({
-                                y: y,
-                                x: x,
-                              })
-                            ]
+          <For each={tablekey()}>
+            {() => (
+              <table
+                ref={tableRef}
+                class={`gs-table`}
+                tabindex="0"
+                //onKeyDown={handleKeyDown}
+                onMouseDown={handleDragStart} //NEW
+                onFocus={handleFocus}
+              >
+                <thead class="gs-thead" style={{ height: table.headerHeight }}>
+                  <tr class="gs-row">
+                    <th
+                      id="CR"
+                      class="gs-th gs-th-left gs-th-top header_freeze_x"
+                      style={{
+                        position: "sticky",
+                        width: table.headerWidth + "px",
+                        height: table.headerHeight + "px",
+                        "z-index": 200,
+                      }}
+                      onClick={handleSelectAllClick}
+                    >
+                      <div class="gs-th-inner">
+                        <ScrollHandle
+                          class={
+                            leftHeaderSelecting || topHeaderSelecting
+                              ? "gs-hidden"
+                              : ""
                           }
+                          style={{ position: "absolute" }}
+                          horizontal={leftHeaderSelecting ? 0 : -1}
+                          vertical={topHeaderSelecting ? 0 : -1}
                         />
+                      </div>
+                    </th>
 
-      }</For>
+                    <th
+                      class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left"
+                      style={{
+                        width: (virtualized()?.adjuster?.left ?? 1) + "px",
+                      }}
+                    ></th>
+                    {virtualized()?.xs?.map?.((x) => (
+                      <HeaderCellTop
+                        x={x}
+                        isFreeze={is_freeze_x(x)}
+                        freezeStyle={set_freeze_headertop_td_style(x)}
+                      />
+                    ))}
 
-                      );
-                    })}
-
-                    <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-right" />
+                    <th
+                      class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-right"
+                      style={{ width: virtualized()?.adjuster?.right + "px" }}
+                    ></th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-  }</For> 
+                </thead>
+
+                <tbody class="gs-table-body-adjuster">
+                  <tr class="gs-row">
+                    <th
+                      class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
+                      style={{
+                        height: (virtualized()?.adjuster?.top ?? 1) + "px",
+                      }} 
+                    ></th>
+                    <td class="gs-adjuster gs-adjuster-vertical"></td>
+
+                    {virtualized()?.xs?.map((x) => (
+                      <td class="gs-adjuster gs-adjuster-vertical"></td>
+                    ))}
+
+                    <th
+                      class={`gs-adjuster gs-adjuster-horizontal gs-adjuster-vertical`}
+                    ></th>
+                  </tr>
+                </tbody>
+
+                <tbody class="gs-table-body-data">
+                  {virtualized()?.ys?.map((y) => {
+                    //console.log("y",y,isSkip(1,y));
+                    return (
+                      <tr class="gs-row" style={set_freeze_tr_style(y)}>
+                        <HeaderCellLeft y={y} isFreeze={is_freeze_y(y)} />
+
+                        <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-left" />
+
+                        {virtualized()?.xs?.map((x) => {
+                          if (isSkip(x, y)) {
+                            //return <></>;
+                            return;
+                          }
+
+                          return (
+                            <For each={key()}>
+                              {() => (
+                                <Cell
+                                  y={y}
+                                  x={x}
+                                  freeze_y={is_freeze_y(y) ? true : false}
+                                  freeze_x={is_freeze_x(x) ? true : false}
+                                  freezeStyle={set_freeze_td_style(x, y)}
+                                  colSpan_size={colSpan_size(x, y)}
+                                  rowSpan_size={rowSpan_size(x, y)}
+                                  operationStyle={
+                                    operationStyles[
+                                      p2a({
+                                        y: y,
+                                        x: x,
+                                      })
+                                    ]
+                                  }
+                                />
+                              )}
+                            </For>
+                          );
+                        })}
+
+                        <td class="gs-adjuster gs-adjuster-horizontal gs-adjuster-horizontal-right" />
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </For>
         </div>
       </div>
-    {/*  }</For> */}
+      {/*  }</For> */}
     </>
   );
 };
@@ -1051,7 +777,6 @@ const SEARCH_MATCHING_BORDER = "solid 2px #00aa78";
 const AUTOFILL_BORDER = "dashed 1px #444444";
 
 const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
-
   const cellStyles: { [key: string]: React.CSSProperties } = {};
   const updateStyle = (point: PointType, style: React.CSSProperties) => {
     const address = p2a(point);
@@ -1131,7 +856,7 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
     //updateStyle({ y: y - 1, x }, { "border-bottom": BORDER_POINTED }); //GUSA
     //updateStyle({ y: y + 1, x }, { "border-top": BORDER_POINTED });  //GUSA
   }
-  
+
   if (table.sheetId === copyingSheetId) {
     // copying
     const borderStyle = cutting ? BORDER_CUTTING : BORDER_COPYING;

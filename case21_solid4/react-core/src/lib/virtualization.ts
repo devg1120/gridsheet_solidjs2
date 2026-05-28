@@ -31,8 +31,7 @@ export const getCellRectPositions = (table: Table, { y, x }: PointType) => {
 };
 
 export const getScreenRect = (e: HTMLDivElement) => {
-
-  const top = e.scrollTop ,
+  const top = e.scrollTop,
     left = e.scrollLeft;
   const height = e.offsetHeight,
     width = e.offsetWidth;
@@ -49,35 +48,13 @@ export const virtualize = (
     return null;
   }
 
-
   let boundaryTop = 0,
     boundaryLeft = 0,
     boundaryBottom = table.getNumRows(),
     boundaryRight = table.getNumCols();
-/*
-  //console.log("boundary", boundaryBottom, boundaryRight)
-  const { top, left, bottom, right } = getScreenRect(e);
-  let width = 0,
-    height = 0;
-  for (let x = 1; x <= table.getNumCols(); x++) {
-    const w =
-      table.getCellByPoint({ y: 0, x }, "SYSTEM")?.width || DEFAULT_WIDTH;
-    width += w;
-    if (boundaryLeft === 0 && width > left) {
-      boundaryLeft = Math.max(x - OVERSCAN_X, 1);
-    }
-    if (width > right) {
-      boundaryRight = Math.min(x + OVERSCAN_X, table.getNumCols());
-      break;
-    }
-  }
-*/
 
-  //console.log("boundary", boundaryBottom, boundaryRight)
   const { top, left, bottom, right } = getScreenRect(e);
-  //console.log( "top", top)
-  //console.log( "bottom", bottom)
- // console.log( "bottom - top", bottom -top  )
+
   let width = 0,
     height = 0;
   for (let x = 1; x <= table.getNumCols(); x++) {
@@ -89,7 +66,6 @@ export const virtualize = (
     }
     if (width > right) {
       boundaryRight = Math.min(x + OVERSCAN_X, table.getNumCols());
-      //console.log("boundaryRight", boundaryRight)
       break;
     }
   }
@@ -97,31 +73,25 @@ export const virtualize = (
   for (let y = 1; y <= table.getNumRows(); y++) {
     const h =
       table.getCellByPoint({ y, x: 0 }, "SYSTEM")?.height || DEFAULT_HEIGHT;
-    //console.log("h",h);
-    height += h ;
-    
+    height += h;
+
     if (boundaryTop === 0 && height > top) {
       boundaryTop = Math.max(y - OVERSCAN_Y, 1);
     }
-   
-     //boundaryTop = 1;
-   
-    if (height > bottom ) {
+
+    //boundaryTop = 1;
+
+    if (height > bottom) {
       //console.log("height", height, "bottom", bottom)
       boundaryBottom = Math.min(y + OVERSCAN_Y, table.getNumRows());
       break;
-
     }
   }
-    // boundaryTop = 1;
-  //
-  //console.log("boundary Top/Right", boundaryTop, boundaryRight)
 
   //console.log("boundary", boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
-  console.log("boundary",  boundaryTop, boundaryBottom, "-", boundaryBottom - boundaryTop);
+
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
- 
 
   let xp = table.freeze.x;
   let yp = table.freeze.y;
@@ -140,7 +110,7 @@ export const virtualize = (
   const before = table.getRectSize({
     top: 1,
     left: 1,
-    bottom: boundaryTop ,
+    bottom: boundaryTop,
     right: boundaryLeft,
   });
   const after = table.getRectSize({
@@ -150,10 +120,6 @@ export const virtualize = (
     right: table.getNumCols(),
   });
 
-  //console.log(ys.length, xs.length);
-  // console.log("adjuster",    before.height,
-  //     after.height);
-  //
   //console.log("adjuster",    before.height);
 
   return {
@@ -178,7 +144,7 @@ export const smartScroll = (
     return;
   }
   console.log("smartScroll");
-  
+
   const screen = getScreenRect(e);
   const target = getCellRectPositions(table, targetPoint);
 
