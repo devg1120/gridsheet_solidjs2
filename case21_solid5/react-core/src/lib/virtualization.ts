@@ -149,12 +149,15 @@ export const smartScroll = (
 
   const screen = getScreenRect(e);
   const target = getCellRectPositions(table, targetPoint);
-
+  target.bottom += 80; //GUSA
   // when header is sticky
   const up = target.top - table.headerHeight;
   const left = target.left - table.headerWidth;
+
   //const down = target.bottom - screen.height + 1 ;
-  const down = target.bottom - screen.height + table.headerHeight; //GUSA
+  //const down = target.bottom - screen.height + table.headerHeight +100; //GUSA
+  const down = target.bottom - screen.height + table.headerHeight -1; //GUSA
+  
   //const right = target.right - screen.width + 1 + 10;
   const right = target.right - screen.width + table.headerWidth; //GUSA
 
@@ -188,10 +191,12 @@ export const smartScroll = (
   } else {
     if (isTopOver) {
       // go up
-      e.scrollTo({ left: screen.left, top: up, behavior });
+      console.log("up")
+      e.scrollTo({ left: screen.left, top: up , behavior });
     } else if (isBottomOver) {
       // go down
-      e.scrollTo({ left: screen.left, top: down, behavior });
+      console.log("down")
+      e.scrollTo({ left: screen.left, top: down , behavior });
     } else {
       // go nowhere
     }

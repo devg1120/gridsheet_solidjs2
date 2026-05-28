@@ -139,7 +139,7 @@ const App = () => {
     //default HEADER_HEIGHT = 24;
     //default HEADER_WIDTH = 50;
 
-    freeze: "C3",
+    //freeze: "C3",
     //freeze : 'C5',
     //freeze : 'D3',
     //freeze : 'B2',

@@ -519,6 +519,8 @@ export const Tabular = () => {
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
     //console.log("Tabular:handleKeyDown", e.key);
+    e.preventDefault(); // Prevents the default page scroll
+    e.stopPropagation();
 
     switch (e.key) {
       case "ArrowLeft": // LEFT
@@ -584,6 +586,7 @@ export const Tabular = () => {
         pageUp = true;
         break;
     }
+        return true
   };
 
   const handleKeyUp = (e: EditorEventWithNativeEvent) => {
