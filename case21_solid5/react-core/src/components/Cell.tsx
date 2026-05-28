@@ -1,0 +1,475 @@
+import { x2c, y2r } from "../lib/converters";
+import { zoneToArea, among, areaToRange } from "../lib/structs";
+import {
+  choose,
+  select,
+  drag,
+  write,
+  setEditorRect,
+  setContextMenuPosition,
+  setAutofillDraggingTo,
+  setEditingAddress,
+  setDragging,
+  submitAutofill,
+  setStore,
+} from "../store/actions";
+import { Context } from "../store";
+import { FormulaError } from "../formula/evaluator";
+import { insertRef, isRefInsertable } from "../lib/input";
+import { isXSheetFocused } from "../store/helpers";
+import { isTouching, safePreventDefault } from "../lib/events";
+import { UserTable } from "../lib/table";
+import {
+  useContext,
+  createEffect,
+  on,
+  onMount,
+  createMemo,
+  mergeProps,
+} from "solid-js";
+
+type Props = {
+  x: number;
+  y: number;
+  colSpan_size: number;
+  rowSpan_size: number;
+  freezeStyle: CSSProperties;
+  operationStyle?: CSSProperties;
+  freeze_y: boolean;
+  freeze_x: boolean;
+};
+
+export const Cell: FC<Props> = ({
+  y,
+  x,
+  freezeStyle,
+  colSpan_size,
+  rowSpan_size,
+  operationStyle,
+  freeze_y,
+  freeze_x,
+}) => {
+  const rowId = y2r(y);
+  const colId = x2c(x);
+  const address = `${colId}${rowId}`;
+
+  const { store, dispatch } = useContext(Context);
+  let isFirstPointed = true;
+
+  let cellRef = null;
+  let {
+    tableReactive: tableRef,
+    editingAddress,
+    choosing,
+    selectingZone,
+    leftHeaderSelecting,
+    topHeaderSelecting,
+    editorRef,
+    showAddress,
+    autofillDraggingTo,
+    contextMenuItems,
+  } = store();
+  const table = tableRef;
+
+  // Whether the focus is on another sheet
+  const xSheetFocused = isXSheetFocused(store);
+
+  const lastFocused = table?.wire.lastFocused;
+
+  const selectingArea = zoneToArea(selectingZone); // (top, left) -> (bottom, right)
+
+  const editing = editingAddress === address;
+  const pointed = choosing.y === y && choosing.x === x;
+
+  let _cellRef = null;
+
+  onMount(() => {
+    _cellRef = cellRef;
+  });
+
+  const _setEditorRect = () => {
+    let rect = _cellRef?.getBoundingClientRect();
+    //console.log("_setEditorRect",rect)
+    if (rect == null) {
+      return null;
+    }
+    dispatch(
+      setEditorRect({
+        y: rect.y,
+        x: rect.x,
+        height: rect.height,
+        width: rect.width,
+
+      }),
+    );
+  };
+
+  /*
+  createEffect(
+    on(
+      () => [pointed, editing],
+      () => {
+        // Avoid setting coordinates on the initial render to account for shifts caused by redrawing due to virtualization.
+        if (pointed && !isFirstPointed) {
+          _setEditorRect();
+          return;
+        }
+        isFirstPointed = false;
+      },
+    ),
+  );
+*/
+
+  if (!table) {
+    return null;
+  }
+
+  const cell = table.getCellByPoint({ y, x }, "SYSTEM");
+  const writeCell = (value: string) => {
+    dispatch(write({ value }));
+  };
+
+  const sync = (table: UserTable) => {
+    dispatch(setStore({ tableReactive: { current: table.__raw__ } }));
+  };
+  1;
+  let errorMessage = "";
+  let rendered: any;
+  try {
+    rendered = table.render({ table, point: { y, x }, sync });
+
+    if (rendered == "") {
+      // GUSA
+      rendered = " ";
+    }
+  } catch (e: any) {
+    if (e instanceof FormulaError) {
+      errorMessage = e.message;
+      rendered = e.code;
+    } else {
+      errorMessage = e.message;
+      rendered = "#UNKNOWN";
+      console.error(e);
+    }
+    // TODO: debug flag
+  }
+  const input = editorRef;
+  const editingAnywhere = !!(table.wire.editingAddress || editingAddress);
+
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleDragStart", store().choosing, y,x)
+    //e.stopPropagation();
+    safePreventDefault(e);
+
+    if (store().choosing.y == y && store().choosing.x == x) {
+      //console.log("editing...");
+      //_setEditorRect(); //TODO
+      onDoubleClick(e);
+      return false;
+    }
+
+    _setEditorRect(); //TODO
+    if (!isTouching(e)) {
+      return false;
+    }
+
+    if (!input) {
+      return false;
+    }
+
+    /*
+    if (!e.shiftKey) {
+      //_setEditorRect(); //TODO
+      //dispatch(choose({ y, x }));
+      if (pointed && !isFirstPointed) {
+          _setEditorRect(); //TODO
+          onDoubleClick(e);
+      } else {
+      _setEditorRect(); //TODO
+      isFirstPointed = false;
+      }
+    }
+    */
+
+    // Single cell selection only for touch events
+    if (e.type.startsWith("touch")) {
+      // Blur the input field to commit current value when selecting via touch
+      if (editingAnywhere && input) {
+        input.blur();
+      }
+      dispatch(choose({ y, x }));
+      dispatch(select({ startY: y, startX: x, endY: y, endX: x }));
+      return true;
+    }
+
+    // Normal drag operation for mouse events
+    if (e.shiftKey) {
+      dispatch(drag({ y, x }));
+    } else {
+      dispatch(select({ startY: y, startX: x, endY: -1, endX: -1 }));
+    }
+
+    dispatch(setDragging(true));
+    const fullAddress = `${table.sheetPrefix(!xSheetFocused)}${address}`;
+    if (editingAnywhere) {
+      const inserted = insertRef({
+        input: lastFocused || null,
+        ref: fullAddress,
+      });
+      if (inserted) {
+        return false;
+      }
+    }
+
+    table.wire.lastFocused = input;
+    input.focus();
+    dispatch(setEditingAddress(""));
+
+    if (autofillDraggingTo) {
+      return false;
+    }
+
+    if (editingAnywhere) {
+      //writeCell(input.value);  //TODO
+    }
+    if (!e.shiftKey) {
+      dispatch(choose({ y, x }));
+    }
+    return true;
+  };
+
+  const handleClick2 = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleClick2")
+
+    e.stopPropagation();
+    safePreventDefault(e);
+
+    if (!e.shiftKey) {
+      //_setEditorRect(); //TODO
+      //dispatch(choose({ y, x }));
+      if (pointed && !isFirstPointed) {
+        _setEditorRect(); //TODO
+        onDoubleClick(e);
+      } else {
+        _setEditorRect(); //TODO
+        dispatch(choose({ y, x }));
+        //isFirstPointed = false;
+      }
+    }
+    return true;
+  };
+
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleClick")
+
+    e.stopPropagation();
+    safePreventDefault(e);
+
+    if (!e.shiftKey) {
+      _setEditorRect(); //TODO
+      dispatch(choose({ y, x }));
+      //_setEditorRect(); //TODO
+      onDoubleClick(e);
+    }
+    return true;
+  };
+
+  const handleDblClick = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handleDblClick")
+
+    e.stopPropagation();
+    safePreventDefault(e);
+
+    if (!e.shiftKey) {
+      //   _setEditorRect(); //TODO
+      //dispatch(choose({ y, x }));
+      onDoubleClick(e);
+    }
+    return true;
+  };
+
+  const handleDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    if (e.type.startsWith("touch")) {
+      return;
+    }
+
+    safePreventDefault(e);
+    dispatch(setDragging(false));
+    if (autofillDraggingTo) {
+      dispatch(submitAutofill(autofillDraggingTo));
+      input?.focus();
+      return false;
+    }
+    if (editingAnywhere) {
+      dispatch(drag({ y: -1, x: -1 }));
+    }
+  };
+
+  const handleDragging = (e: React.MouseEvent | React.TouchEvent) => {
+    //console.log("handler handleDragging");
+    if (!isTouching(e)) {
+      return false;
+    }
+
+    // Do nothing for touch events
+    if (e.type.startsWith("touch")) {
+      return false;
+    }
+
+    safePreventDefault(e);
+    e.stopPropagation();
+
+    if (autofillDraggingTo) {
+      dispatch(setAutofillDraggingTo({ x, y }));
+      return false;
+    }
+    if (leftHeaderSelecting) {
+      dispatch(drag({ y, x: table.getNumCols() }));
+      return false;
+    }
+    if (topHeaderSelecting) {
+      dispatch(drag({ y: table.getNumRows(), x }));
+      return false;
+    }
+    if (editingAnywhere && !isRefInsertable(lastFocused || null)) {
+      return false;
+    }
+    dispatch(drag({ y, x }));
+
+    if (editingAnywhere) {
+      const newArea = zoneToArea({ ...selectingZone, endY: y, endX: x });
+      const fullRange = `${table.sheetPrefix(!xSheetFocused)}${areaToRange(newArea)}`;
+      insertRef({ input: lastFocused || null, ref: fullRange });
+    }
+    //table.wire.transmit(); // Force drawing because the formula is not reflected in largeInput
+    return true;
+  };
+
+  const handleAutofillMouseDown = (e: React.MouseEvent) => {
+    console.log("handler handleAutofillMouseDown");
+    dispatch(setAutofillDraggingTo({ x, y }));
+    dispatch(setDragging(true));
+    e.stopPropagation();
+  };
+
+  // --- Memoize event handlers with useCallback ---
+  const onContextMenu = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    console.log("handler onContextMenu");
+    if (contextMenuItems.length > 0) {
+      e.stopPropagation();
+      safePreventDefault(e);
+      dispatch(setContextMenuPosition({ y: e.clientY, x: e.clientX }));
+      return false;
+    }
+    return true;
+  };
+
+  const onDoubleClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    //console.log("handler onDoubleClick");
+    e.stopPropagation();
+    _setEditorRect(); //TODO
+    safePreventDefault(e);
+    setEditingAddress(address);
+    //const dblclick = document.createEvent("MouseEvents");
+    //dblclick.initEvent("dblclick", true, false);
+
+    const dblclick2 = new MouseEvent("dblclick", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    const event = new CustomEvent("myCustomEvent", {
+      detail: { message: "Hello from Child!" },
+      bubbles: true, // 親にバブリングさせる
+      composed: true, // Shadow DOMを越えて通信する
+    });
+
+    //console.log(input)
+    //input.dispatchEvent(dblclick2);
+    input.dispatchEvent(event);
+    return false;
+  };
+
+  const autofillDragClass = createMemo(() => {
+    if (!editing && pointed && selectingArea.bottom === -1) {
+      return "gs-autofill-drag";
+    }
+
+    if (selectingArea.bottom === y && selectingArea.right === x) {
+      return "gs-autofill-drag";
+    }
+    return "gs-autofill-drag gs-hidden";
+  });
+
+
+  if (!input) {
+    return (
+      <td
+        data-x={x}
+        data-y={y}
+        data-address={address}
+        class="gs-cell gs-hidden"
+      >
+        <div class="gs-cell-inner-wrap">
+          <div class="gs-cell-inner">
+            <div class="gs-cell-rendered"></div>
+          </div>
+          <div class="gs-autofill-drag"></div>
+        </div>
+      </td>
+    );
+  }
+
+  return (
+    <td
+      ref={cellRef}
+      data-x={x}
+      data-y={y}
+      data-address={address}
+      colSpan={colSpan_size}
+      rowSpan={rowSpan_size}
+      onContextMenu={onContextMenu} //NEW
+      //onDoubleClick={onDoubleClick}  //NEW
+
+      //onClick={() => console.log('Cell Clicked!',x,y)}
+      //onDblClick={() => console.log('Cell Double Clicked!',x,y)}
+      //onDblClick={handleDblClick}
+
+      //onClick={handleClick2}
+
+      class={`gs-cell ${
+        among(selectingArea, {
+          y: y,
+          x: x,
+        })
+          ? "gs-selecting"
+          : ""
+      } ${pointed ? "gs-choosing" : ""} ${
+        editing ? "gs-editing_" : ""
+      } ${freeze_y ? "freeze_y" : ""}  ${freeze_x ? "freeze_x" : ""} `}
+      style={mergeProps(() => cell?.style, operationStyle, freezeStyle)}
+    >
+      <div
+        class={`gs-cell-inner-wrap`}
+        // shift-key  abalable               TODO
+        onMouseDown={handleDragStart} //NEW
+        onTouchStart={handleDragStart} //NEW
+        onMouseEnter={handleDragging} //NEW
+        onMouseUp={handleDragEnd} //NEW
+      >
+        <div class={"gs-cell-inner"} style={{}}>
+          {errorMessage && (
+            <div class="gs-formula-error-triangle" title={errorMessage} />
+          )}
+          {showAddress && <div class="gs-cell-label">{address}</div>}
+          <div class="gs-cell-rendered">{rendered}</div>
+        </div>
+        <div
+          class={autofillDragClass()}
+          onMouseDown={handleAutofillMouseDown}
+        ></div>
+      </div>
+    </td>
+  );
+}; 

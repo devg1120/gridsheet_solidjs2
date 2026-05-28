@@ -1,0 +1,24 @@
+
+
+==================================================
+Cell.tsx
+ 88   const _setEditorRect = () => {
+ 89     let rect = _cellRef?.getBoundingClientRect();
+
+    let rect = _cellRef?.getBoundingClientRect();
+    ALL ZERO
+
+Editor.tsx
+285   createEffect(() => {
+286       //{ y: top, x: left, height, width } = editorRect();
+287       console.log("editorRect update", editorRect());
+288       const rect = editorRect();
+289       top = rect.y;
+290       left = rect.x;
+291       height = rect.height;
+292       width = rect.width;
+293       setKey([{}]);
+294   });
+
+   duble click でないと反映されない
+
