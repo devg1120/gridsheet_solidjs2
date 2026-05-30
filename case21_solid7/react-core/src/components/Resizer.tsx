@@ -131,7 +131,7 @@ export const Resizer = () => {
         diff[p2a({ y, x: 0 })] = { height };
       });
     }
-    console.log("diff", diff);
+    //console.log("diff", diff);
     table.update({
       diff,
       partial: true,

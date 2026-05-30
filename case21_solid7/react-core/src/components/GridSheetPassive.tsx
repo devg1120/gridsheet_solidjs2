@@ -128,10 +128,12 @@ export function GridSheetPassive({
     initialState(),
   );
 
+/*
   createEffect(() => {
     let s = store();
     console.log("update store: ");
   });
+*/
 
   const [loading, setLoading] = createSignal(true);
 

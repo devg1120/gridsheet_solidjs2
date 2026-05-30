@@ -76,6 +76,7 @@ export const Tabular = () => {
   });
 
   createEffect(() => {
+    //console.log("store update");
     table = store().tableReactive;
     setTableKey([{}]);
   });
@@ -163,7 +164,7 @@ export const Tabular = () => {
         const formulaEditing = editingAddress && inputting.startsWith("=");
         if (!formulaEditing) {
           setPalette({});
-          table.wire.paletteBySheetName = {};
+          //table.wire.paletteBySheetName = {}; //TODO
           return;
         }
         const palette: RefPaletteType = {};

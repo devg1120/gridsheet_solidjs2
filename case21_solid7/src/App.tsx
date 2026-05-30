@@ -217,6 +217,9 @@ const App = () => {
   createEffect(() => {
     console.log("update Table: ", table());
   });
+  createEffect(() => {
+    console.log("update hub: ", hub());
+  });
 
   cells["9"] = { height: 80 };
   cells["D7"] = { value: "1" };

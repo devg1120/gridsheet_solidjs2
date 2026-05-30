@@ -91,7 +91,7 @@ export function ScrollHandle({
   };
 
   const scrollStep = (e: React.MouseEvent) => {
-    console.log("scrollStep");
+    //console.log("scrollStep");
     if (!isScrolling || tabularRef === null || !table) {
       return;
     }
