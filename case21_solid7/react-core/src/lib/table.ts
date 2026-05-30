@@ -1260,6 +1260,9 @@ export class Table implements UserTable {
     operation?: OperationType;
     formulaIdentify?: boolean;
   }) {
+
+    console.log("table update")
+
     const diffBefore: CellsByIdType = {};
     const diffAfter: CellsByIdType = {};
     const changedAt = new Date();
@@ -1326,6 +1329,7 @@ export class Table implements UserTable {
       if (patch.width != null || patch.height != null) {
         resized = true;
       }
+      console.log("resized", resized);
       // must not partial
       diffBefore[id] = { ...original };
 
@@ -1344,13 +1348,12 @@ export class Table implements UserTable {
         diffAfter[id] = this.wire.data[id] = patch;
       }
     });
-
+    
     // Call onEdit with cloned table containing updated area
     if (this.wire.onEdit && Object.keys(diff).length > 0) {
       const updatedArea = this.getUpdatedArea(diff);
       this.wire.onEdit({ table: this.__raw__.trim(updatedArea) });
     }
-
     //this.clearSolvedCaches();
     return {
       diffBefore,

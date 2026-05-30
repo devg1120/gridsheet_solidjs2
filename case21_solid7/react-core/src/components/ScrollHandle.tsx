@@ -131,7 +131,7 @@ export function ScrollHandle({
   };
 
   const handleMouseEnter = (e: React.MouseEvent) => {
-    console.log("MouseEnter");
+    //console.log("MouseEnter");
     e.preventDefault();
     e.stopPropagation();
     if (isScrolling) {

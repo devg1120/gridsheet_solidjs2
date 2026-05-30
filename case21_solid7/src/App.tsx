@@ -37,7 +37,16 @@ const App = () => {
     },
     labelers: {},
     onInit: ({ table }) => {
-      console.log(`Table initialized: ${table.sheetName}`);
+      console.log(`hub Table initialized: ${table.sheetName}`);
+    },
+    onEdit: ({ table }) => {
+      console.log(`hub Table edit: ${table.sheetName}`);
+    },
+    onKeyUp: ({ e, point }) => {
+      console.log(`hub Table KeyUp: ${table.sheetName}`);
+    },
+    onChange: ({ table, point }) => {
+      console.log(`hub Table change: ${table.sheetName}`, point);
     },
   };
   //console.log(hubProps);

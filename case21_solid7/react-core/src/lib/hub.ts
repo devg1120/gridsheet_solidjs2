@@ -124,6 +124,7 @@ export class Wire {
       }
       table.identifyFormula();
       dispatch(updateTable(table));
+      console.log("updateTable")
     }
     this.ready = true;
   }
