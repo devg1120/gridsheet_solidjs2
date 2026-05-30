@@ -156,8 +156,8 @@ export const Cell: FC<Props> = ({
   const editingAnywhere = !!(table.wire.editingAddress || editingAddress);
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    console.log("handleDragStart", store().choosing, y,x)
-    //e.stopPropagation();
+    //console.log("handleDragStart", store().choosing, y,x)
+    e.stopPropagation();
     safePreventDefault(e);
 
     if (store().choosing.y == y && store().choosing.x == x) {
@@ -454,7 +454,7 @@ export const Cell: FC<Props> = ({
         // shift-key  abalable               TODO
         onMouseDown={handleDragStart} //NEW
         onTouchStart={handleDragStart} //NEW
-        onMouseEnter={handleDragging} //NEW   TODO
+        //onMouseEnter={handleDragging} //NEW   TODO
         onMouseUp={handleDragEnd} //NEW
       >
         <div class={"gs-cell-inner"} style={{}}>
