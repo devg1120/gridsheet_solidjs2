@@ -69,6 +69,8 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     sheetId,
   } = store();
 
+  //console.log("start------------------", mainRef.id)
+
   const [choosing, _setChoosing] = createSignal(store().choosing);
   const [inputting, _setInputting] = createSignal(store().inputting);
   const [editingAddress, _setEditingAddress] = createSignal(
@@ -86,7 +88,6 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   });
 
   const table = tableRef;
-
   if (!table) {
     return null;
   }
@@ -140,9 +141,14 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     .map(({ option }) => option);
 
   let _editorRef = null;
+  let mainRef = null
 
   onMount(() => {
     dispatch(setStore({ editorRef: _editorRef }));
+    let { mainRef: mainRef_  } = store();
+    //console.log("main", mainRef_.id);
+    mainRef = mainRef_
+
   });
 
   createEffect(() => {
@@ -219,10 +225,12 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
 
   const selectValue = (selected: number) => {
     const option = filteredOptions[selected];
+    console.log("setValue", mainRef.id)
     if (option) {
       const t = table.update({
         diff: { [address()]: { value: option.value } },
         partial: true,
+	gsid: mainRef.id
       });
       dispatch(updateTable(t.clone()));
       dispatch(setEditingAddress(""));
@@ -250,8 +258,10 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   });
 
   const writeCell = (value: string) => {
+     //console.log("witeCell", mainRef.id);
+     const gsid = mainRef.id;
     if (before !== value) {
-      dispatch(write({ value }));
+      dispatch(write({ value, gsid }));
     }
     setBefore(value);
   };
@@ -259,7 +269,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
   const numLines = valueString.split("\n").length;
   const [isKeyDown, setIsKeyDown] = createSignal(false);
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    console.log("Editor:handleKeyDown", e.key);
+    //console.log("Editor:handleKeyDown", e.key);
     if (isKeyDown()) {
       return;
     }

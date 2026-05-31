@@ -39,12 +39,14 @@ const App = () => {
     onInit: ({ table }) => {
       console.log(`hub Table initialized: ${table.sheetName}`);
     },
-    onEdit: ({ table }) => {
-      console.log(`hub Table edit: ${table.sheetName}`);
+    onEdit: ({ table, gsid }) => {
+      console.log(`hub Table edit: [${gsid}] ${table.sheetName}`);
     },
+    /*
     onKeyUp: ({ e, point }) => {
       console.log(`hub Table KeyUp: ${table.sheetName}`);
     },
+    */
     onChange: ({ table, point }) => {
       console.log(`hub Table change: ${table.sheetName}`, point);
     },
@@ -223,12 +225,14 @@ const App = () => {
     }),
   );
 
+/*
   createEffect(() => {
     console.log("update Table: ", table());
   });
   createEffect(() => {
     console.log("update hub: ", hub());
   });
+*/
 
   cells["9"] = { height: 80 };
   cells["D7"] = { value: "1" };
@@ -304,6 +308,7 @@ const App = () => {
       <br />
       <div class="grid-container">
         <GridSheetPassive
+	  gsid="TABLE-A"
           hub={hub}
           table={table()}
           /*
@@ -339,6 +344,7 @@ const App = () => {
         <br />
         
                 <GridSheetPassive
+	            gsid="TABLE-B"
                     hub={hub}
                     table={table()}
                     //initialCells={ cells }

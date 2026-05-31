@@ -35,6 +35,7 @@ import { setStore } from "../store/actions";
 
 export function GridSheetPassive({
   //initialCells,
+  gsid = "ABC",
   table, //GUSA
   sheetName = "",
   connector: initialConnector,
@@ -200,6 +201,7 @@ export function GridSheetPassive({
         <div
           class={`gs-main ${className || ""}`}
           ref={mainRef}
+	  id={gsid}
           style={mergeProps(
             {
               "max-width": (store().tableReactive?.totalWidth || 0) + 2 + "px",

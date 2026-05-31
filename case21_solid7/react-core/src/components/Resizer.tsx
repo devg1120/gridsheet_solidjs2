@@ -28,7 +28,7 @@ export const Resizer = () => {
     mainRef,
   } = store();
 
-  //console.log("start------------------")
+  //console.log("start------------------", mainRef.id)
   const table = tableRef;
 
   const [key, setKey] = createSignal([{}]);
@@ -109,7 +109,7 @@ export const Resizer = () => {
   /***********************************************************************/
 
   const handleResizeEnd = () => {
-    console.log("handleResizeEnd");
+    //console.log("handleResizeEnd");
     const selectingArea = zoneToArea(selectingZone);
     const { top, left, bottom, right } = selectingArea;
     const diff: CellsByAddressType = {};
@@ -137,6 +137,7 @@ export const Resizer = () => {
       partial: true,
       operator: "USER",
       undoReflection: { selectingZone, sheetId: table.sheetId },
+      gsid: mainRef.id
     });
     dispatch(
       setStore({

@@ -577,7 +577,7 @@ class WriteAction<
   T extends { value: string; point?: PointType },
 > extends CoreAction<T> {
   reduce(store: StoreType, payload: T): StoreWithCallback {
-    let { value, point } = payload;
+    let { value, point , gsid} = payload;
 
     const { choosing, selectingZone, tableReactive: tableRef } = store;
     if (point == null) {
@@ -601,6 +601,7 @@ class WriteAction<
         selectingZone,
         choosing: point,
       },
+      gsid: gsid,
     });
     //console.log(newTable);
 
@@ -665,6 +666,7 @@ class ClearAction<T extends null> extends CoreAction<T> {
         selectingZone,
         choosing,
       },
+      gsid: "XXXXX",
     });
     return {
       ...store,
