@@ -28,9 +28,18 @@ function colNumToId(colNum: number): string {
 const App = () => {
   const [enableDecimalLabeler, setEnableDecimalLabeler] = createSignal(false);
 
-  const [keyA, setKeyA] = createSignal([{}]);
-  const [keyB, setKeyB] = createSignal([{}]);
+  const [keyA, setKeyA] = createSignal(0);
+  const [keyB, setKeyB] = createSignal(0);
 
+  const funcA = () => { 
+    const element = document.getElementById("TABLE-A");
+     console.log(element);
+
+  }
+  const funcB = () => { 
+    const element = document.getElementById("TABLE-B");
+     console.log(element);
+  }
 
   const hubProps: HubProps = {
     renderers: {
@@ -46,11 +55,18 @@ const App = () => {
     onEdit: ({ table, gsid }) => {
       console.log(`hub Table edit: [${gsid}] ${table.sheetName}`);
       if ( gsid == "TABLE-A" ) {
-          //setKeyB([{}]);
+          setKeyB(keyB() + 1);
           //setKeyA([{}]);
 	  //table = table
+	  //console.log(refB);
+	  //refB.focus()
+	  //funcB()
       } else if ( gsid == "TABLE-B" ) {
+          setKeyA(keyA() + 1);
           //setKeyA([{}]);
+	  //console.log(refA);
+	  //refC.focus()
+	  //funcA()
       }
     },
     /*
@@ -324,6 +340,7 @@ const App = () => {
       <div class="grid-container">
         <GridSheetPassive
 	  gsid="TABLE-A"
+	  key={keyA}
           hub={hub}
           table={table()}
           /*
@@ -359,6 +376,7 @@ const App = () => {
         
                 <GridSheetPassive
 	            gsid="TABLE-B"
+	  key={keyB}
                     hub={hub}
                     table={table()}
                     //initialCells={ cells }

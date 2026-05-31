@@ -36,6 +36,7 @@ import { setStore } from "../store/actions";
 export function GridSheetPassive({
   //initialCells,
   gsid = "ABC",
+  key,
   table, //GUSA
   sheetName = "",
   connector: initialConnector,
@@ -132,9 +133,24 @@ export function GridSheetPassive({
 /*
   createEffect(() => {
     let s = store();
-    console.log("update store: ", s);
+    console.log("update store: ", gsid);
+    dispatch(setStore({ mainRef: mainRef }));
   });
 */
+
+  createEffect(() => {
+    let s = hub();
+    console.log("update hub: ", gsid);
+    //dispatch(setStore({ mainRef: mainRef }));
+    dispatch(setStore({ tabularRef: tabularRef }));
+  });
+
+  createEffect(() => {
+    let s = key();
+    console.log("update key: ", gsid);
+    //dispatch(setStore({ mainRef: mainRef }));
+    dispatch(setStore({ tabularRef: tabularRef }));
+  });
 
 
   const [loading, setLoading] = createSignal(true);
