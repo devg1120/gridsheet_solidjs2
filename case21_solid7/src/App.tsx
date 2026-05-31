@@ -28,6 +28,10 @@ function colNumToId(colNum: number): string {
 const App = () => {
   const [enableDecimalLabeler, setEnableDecimalLabeler] = createSignal(false);
 
+  const [keyA, setKeyA] = createSignal([{}]);
+  const [keyB, setKeyB] = createSignal([{}]);
+
+
   const hubProps: HubProps = {
     renderers: {
       checkbox: new Renderer({ mixins: [CheckboxRendererMixin] }),
@@ -41,6 +45,13 @@ const App = () => {
     },
     onEdit: ({ table, gsid }) => {
       console.log(`hub Table edit: [${gsid}] ${table.sheetName}`);
+      if ( gsid == "TABLE-A" ) {
+          //setKeyB([{}]);
+          //setKeyA([{}]);
+	  //table = table
+      } else if ( gsid == "TABLE-B" ) {
+          //setKeyA([{}]);
+      }
     },
     /*
     onKeyUp: ({ e, point }) => {
@@ -225,6 +236,9 @@ const App = () => {
     }),
   );
 
+  //const [tableA, setTableA] = createSignal([table()]);
+  //const [tableB, setTableB] = createSignal([table()]);
+
 /*
   createEffect(() => {
     console.log("update Table: ", table());
@@ -306,6 +320,7 @@ const App = () => {
     <main>
       <br />
       <br />
+
       <div class="grid-container">
         <GridSheetPassive
 	  gsid="TABLE-A"
@@ -340,7 +355,6 @@ const App = () => {
           //style={{ width: 800, height: 300 }}
           //
         />
-
         <br />
         
                 <GridSheetPassive
@@ -355,170 +369,10 @@ const App = () => {
                 //style={{ width: 800, height: 300 }}
                 />
 
+
         <br />
-        {/*
-                <GridSheet
-                    hub={hub}
-                    initialCells={{
-                        default: {
-                            width: 100,
-                            height: 20,
-                            style: { fontSize: "14px" },
-                            default: { labeler: "decimal" }
-                        },
-                        0: {
-                            height: 20,
-                            width: 100
-                        },
-                        A4: {
-                            value: "TEST",
-                            colsize: 2,
-                            rowsize: 2,
-                            style: { backgroundColor: "#ccff99" }
-                        },
-                        C3: { value: "=SUM(Sheet1!A2:B3)" },
-                        X20: { value: 789 },
-                        get "A7:E7"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        bottom: "4px double #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        D8: {
-                            value: "abc",
-                            style: {
-                                backgroundColor: "#3498db",
-                                color: "white",
-                                fontWeight: "bold",
-                                textAlign: "center"
-                            }
-                        },
-                        A10: { style: { height: "40px" } },
-                        C10: {
-                            value: "製品",
-                            style: {
-                                textAlign: "left",
-                                verticalAlign: "bottom"
-                            }
-                        },
-                        D10: {
-                            value: "コード",
-                            style: {
-                                textAlign: "center",
-                                verticalAlign: "center"
-                            }
-                        },
-                        E10: {
-                            value: "価格",
-                            style: {
-                                textAlign: "right",
-                                verticalAlign: "top"
-                            }
-                        },
-                        get "C10:E10"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        bottom: "4px double #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "C9:E9"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        bottom: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "C11:E11"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        bottom: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "C12:E12"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        bottom: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "B10:B12"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        right: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "C10:C12"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        right: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "D10:D12"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        right: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        get "E10:E12"() {
-                            return {
-                                get style() {
-                                    return mergeProps(() => makeBorder({
-                                        right: "1px solid #000000",
-                                    }))
-                                }
-                            }
-                        },
-                        F: {
-                            labeler: "Done",
-                            width: 50,
-                            renderer: "checkbox",
-                            style: { backgroundColor: "#f8f9fa" },
-                            alignItems: "center",
-                            justifyContent: "center"
-                        },
-                        F1: { value: false },
-                        F2: { value: true },
-                        G: {
-                            labeler: "Count",
-                            width: 150,
-                            renderer: "thousand_separator",
-                            style: {
-                                backgroundColor: "#f8f9fa",
-                                textAlign: "right"
-                            }
-                        },
-                        G1: { value: 123456789 },
-                        G2: { value: 888888 }
-                    }}
-                    //style={{ width: 800, height: 300 }}
-                    options={{}}
-                    sheetName="Sheet2"
-                />
-*/}
       </div>
-      {/* Labeler Control */}
+
       <div class="labeler-control">
         <label>
           <input
@@ -529,6 +383,7 @@ const App = () => {
           Enable Decimal Labeler for Sheet2
         </label>
       </div>
+
     </main>
   );
 };
