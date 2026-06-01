@@ -31,6 +31,16 @@ const App = () => {
   const [keyA, setKeyA] = createSignal(0);
   const [keyB, setKeyB] = createSignal(0);
 
+  const syncScroll = (gsid, ele, top, left) => {
+       console.log("syncScroll:", gsid, ele, top, left);
+      if ( gsid == "TABLE-A" ) {
+	      const el = document.querySelector("#TABLE-B" + "_Tabular");
+	      el.scrollTo(left, top)
+      } else if ( gsid == "TABLE-B" ) {
+	      const el = document.querySelector("#TABLE-A" + "_Tabular");
+	      el.scrollTo(left, top)
+      }
+  }
 
   const hubProps: HubProps = {
     renderers: {
@@ -159,7 +169,7 @@ const App = () => {
     //default HEADER_HEIGHT = 24;
     //default HEADER_WIDTH = 50;
 
-    //freeze: "C3",
+    freeze: "C3",
     //freeze : 'C5',
     //freeze : 'D3',
     //freeze : 'B2',
@@ -322,6 +332,7 @@ const App = () => {
       <div class="grid-container">
         <GridSheetPassive
 	  gsid="TABLE-A"
+	  syncScroll={syncScroll}
 	  key={keyA}
           hub={hub}
           table={table()}
@@ -358,6 +369,7 @@ const App = () => {
         
                 <GridSheetPassive
 	            gsid="TABLE-B"
+	  syncScroll={syncScroll}
 	  key={keyB}
                     hub={hub}
                     table={table()}

@@ -5,7 +5,9 @@
   width: fit-content;
   max-width: 100%;
   overflow: auto;
-  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", Arial, Meiryo, sans-serif;
+  font-family:
+    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, Meiryo,
+    sans-serif;
   visibility: hidden;
   opacity: 0;
 }
@@ -42,14 +44,14 @@
   position: relative;
   top: 0;
   left: 0;
-  border: dotted 1px #0077ff;
+  border: dotted 1px #07f;
   box-sizing: border-box;
 }
 .gs-root1 .gs-line span {
   font-size: 10px;
   padding: 3px;
-  background-color: #0077ff;
-  color: #ffffff;
+  background-color: #07f;
+  color: #fff;
   margin: 0;
   position: absolute;
   top: 0;
@@ -79,12 +81,12 @@
 }
 .gs-root1[data-mode="light"] {
   background-color: #e2e2e2;
-  color: #000000;
+  color: #000;
 }
 .gs-root1[data-mode="light"] .gs-main {
   background-color: #e2e2e2;
-  border-right: solid 1px #dddddd;
-  border-bottom: solid 1px #dddddd;
+  border-right: solid 1px #ddd;
+  border-bottom: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-tabular {
   background-color: #e2e2e2;
@@ -93,43 +95,43 @@
   background-color: #efefef;
 }
 .gs-root1[data-mode="light"] .gs-formula-bar-editor-inner {
-  color: #555555;
+  color: #555;
 }
 .gs-root1[data-mode="light"] .gs-cell {
-  border-top: solid 1px #dddddd;
-  border-left: solid 1px #dddddd;
+  border-top: solid 1px #ddd;
+  border-left: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-adjuster {
-  background-color: #dddddd;
+  background-color: #ddd;
 }
 .gs-root1[data-mode="light"] .gs-tabular-inner {
   background-color: #f7f7f7;
 }
 .gs-root1[data-mode="light"] .gs-th {
   background-color: #efefef;
-  color: #666666;
+  color: #666;
 }
 .gs-root1[data-mode="light"] .gs-th.gs-selecting {
   background-color: #d2d2d2;
 }
 .gs-root1[data-mode="light"] .gs-th.gs-choosing {
-  background-color: #bbbbbb;
+  background-color: #bbb;
 }
 .gs-root1[data-mode="light"] .gs-th.gs-th-selecting {
-  background-color: #555555;
-  color: #ffffff;
+  background-color: #555;
+  color: #fff;
 }
 .gs-root1[data-mode="light"] .gs-th-top {
-  border-left: solid 1px #dddddd;
+  border-left: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-th-top .gs-th-inner {
-  border-top: solid 1px #dddddd;
+  border-top: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-th-left {
-  border-top: solid 1px #dddddd;
+  border-top: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-th-left .gs-th-inner {
-  border-left: solid 1px #dddddd;
+  border-left: solid 1px #ddd;
 }
 .gs-root1[data-mode="light"] .gs-search-bar {
   color: rgba(0, 0, 0, 0.3);
@@ -139,16 +141,16 @@
 }
 .gs-editor[data-mode="light"].gs-editing .gs-editor-hl {
   background-color: #f7f7f7;
-  color: #000000;
+  color: #000;
 }
 .gs-editor[data-mode="light"] .gs-editor-options {
-  color: #000000;
+  color: #000;
   background-color: #f7f7f7;
-  border: solid 1px #dddddd;
+  border: solid 1px #ddd;
 }
 .gs-root1[data-mode="dark"] {
   background-color: #5a5a5a;
-  color: #eeeeee;
+  color: #eee;
 }
 .gs-root1[data-mode="dark"] .gs-main {
   background-color: #3f3f3f;
@@ -162,7 +164,7 @@
   background-color: #4f4f4f;
 }
 .gs-root1[data-mode="dark"] .gs-formula-bar-editor-inner {
-  color: #bbbbbb;
+  color: #bbb;
 }
 .gs-root1[data-mode="dark"] .gs-cell {
   border-top: solid 1px #5a5a5a;
@@ -175,22 +177,22 @@
   background-color: #212121;
 }
 .gs-root1[data-mode="dark"] .gs-large-editor textarea {
-  color: #eeeeee;
+  color: #eee;
   caret-color: #eeeeee;
 }
 .gs-root1[data-mode="dark"] .gs-th {
   background-color: #4f4f4f;
-  color: #eeeeee;
+  color: #eee;
 }
 .gs-root1[data-mode="dark"] .gs-th.gs-selecting {
   background-color: #606060;
 }
 .gs-root1[data-mode="dark"] .gs-th.gs-choosing {
-  background-color: #777777;
+  background-color: #777;
 }
 .gs-root1[data-mode="dark"] .gs-th.gs-th-selecting {
-  background-color: #aaaaaa;
-  color: #444444;
+  background-color: #aaa;
+  color: #444;
 }
 .gs-root1[data-mode="dark"] .gs-th-top {
   border-left: solid 1px #5a5a5a;
@@ -205,7 +207,7 @@
   border-left: solid 1px #5a5a5a;
 }
 .gs-root1[data-mode="dark"] .gs-search-bar textarea {
-  color: #eeeeee;
+  color: #eee;
   caret-color: #eeeeee;
 }
 .gs-root1[data-mode="dark"] .gs-search-bar {
@@ -216,10 +218,10 @@
 }
 .gs-editor[data-mode="dark"].gs-editing .gs-editor-hl {
   background-color: #212121;
-  color: #eeeeee;
+  color: #eee;
 }
 .gs-editor[data-mode="dark"] .gs-editor-options {
-  color: #eeeeee;
+  color: #eee;
   background-color: #5a5a5a;
   border: solid 1px #5a5a5a;
 }
@@ -240,13 +242,6 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   text-align: center;
-  /*
-  .gs-cell-inner-wrap {
-    &.gs-selecting {
-      background-color: rgba(0, 128, 255, 0.2);
-    }
-  }
-*/
 }
 .gs-cell.gs-copying textarea:focus {
   outline: solid 1px #0077ff;
@@ -283,7 +278,7 @@
 }
 .gs-cell .gs-cell-label {
   font-size: 8px;
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-family: math, monospace, serif;
   letter-spacing: 1px;
@@ -317,7 +312,6 @@
   cursor: cell;
   word-wrap: break-word;
   word-break: break-all;
-  /* padding: 0 2px;*/
   width: 100%;
   height: 100%;
 }
@@ -328,7 +322,7 @@
   z-index: 0;
 }
 .gs-cell .gs-autofill-drag {
-  background-color: #0077ff;
+  background-color: #07f;
   position: absolute;
   width: 7px;
   height: 7px;
@@ -359,14 +353,16 @@
 .gs-contextmenu {
   z-index: 3;
   position: fixed;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 5px 0;
   border-radius: 5px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0 1px 2px 0,
+    rgba(60, 64, 67, 0.15) 0 1px 3px 1px;
 }
 .gs-contextmenu ul {
   min-width: 250px;
-  color: #555555;
+  color: #555;
   margin: 0;
   padding: 0;
 }
@@ -379,14 +375,14 @@
   cursor: pointer;
 }
 .gs-contextmenu li.gs-enabled:hover {
-  background-color: #eeeeee;
+  background-color: #eee;
 }
 .gs-contextmenu li.gs-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 .gs-contextmenu li.gs-menu-divider {
-  background-color: #aaaaaa;
+  background-color: #aaa;
   margin: 10px 0;
   padding: 0;
   height: 1px;
@@ -399,7 +395,7 @@
 .gs-contextmenu li .gs-menu-shortcut {
   font-size: 10px;
   line-height: 20px;
-  color: #999999;
+  color: #999;
 }
 .gs-contextmenu li .gs-menu-shortcut:before {
   content: "( ";
@@ -431,7 +427,7 @@
 }
 .gs-editor .gs-editor-hl {
   box-sizing: content-box;
-  border: solid 2px #0077ff;
+  border: solid 2px #07f;
   margin: -2px -1px;
 }
 .gs-editor textarea {
@@ -446,7 +442,7 @@
   left: 0;
   border: 0;
   outline: 0;
-  background-color: yellow;
+  background-color: transparent;
   color: transparent;
   resize: none;
   box-sizing: border-box;
@@ -469,10 +465,10 @@
   right: 0;
   margin-top: -15px;
   margin-right: -2px;
-  padding: 0px 2px;
+  padding: 0 2px;
   font-size: 10px;
   background-color: rgba(0, 119, 255, 0.75);
-  color: #ffffff;
+  color: #fff;
   z-index: 1;
 }
 .gs-formula-bar {
@@ -491,7 +487,7 @@
   vertical-align: middle;
   width: 60px;
   color: rgba(200, 200, 200);
-  color: black;
+  color: #000;
   font-size: 13px;
   text-align: center;
 }
@@ -500,7 +496,7 @@
   vertical-align: middle;
   width: 30px;
   color: rgba(200, 200, 200);
-  color: black;
+  color: #000;
   font-style: italic;
   font-family: cursive;
   text-align: center;
@@ -520,12 +516,12 @@
   width: 100%;
   vertical-align: bottom;
   color: transparent;
-  color: black;
+  color: #000;
   border: none;
   background-color: transparent;
   padding: 0 2px;
   box-sizing: border-box;
-  outline: none;
+  outline: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -541,14 +537,14 @@
   word-break: break-all;
 }
 .gs-token-type-INVALID_REF {
-  color: #ff0000;
+  color: red;
 }
-.gs-token-type-VALUE.gs-token-entity-type-number,
-.gs-token-type-VALUE.gs-token-entity-type-boolean {
-  color: #3399ff;
+.gs-token-type-VALUE.gs-token-entity-type-boolean,
+.gs-token-type-VALUE.gs-token-entity-type-number {
+  color: #39f;
 }
 .gs-token-type-VALUE.gs-token-entity-type-string {
-  color: #009900;
+  color: #090;
 }
 .gs-editor-options {
   padding: 0;
@@ -591,7 +587,7 @@
   padding: 0;
   position: sticky;
   font-size: 13px;
-  font-weight: normal;
+  font-weight: 400;
   box-sizing: border-box;
   vertical-align: top;
 }
@@ -602,7 +598,7 @@
   z-index: 2;
 }
 .gs-th .gs-resizer:hover {
-  background-color: #0077ff;
+  background-color: #07f;
 }
 .gs-th .gs-resizer.gs-protected {
   display: none;
@@ -667,7 +663,7 @@
   border-bottom: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
-  background: lavender;
+  background: #e6e6fa;
   z-index: -1;
 }
 .header_freeze_x:before {
@@ -681,7 +677,7 @@
   border-bottom: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
-  background: lavender;
+  background: #e6e6fa;
   z-index: -1;
 }
 .freeze_y:before {
@@ -695,7 +691,7 @@
   border-bottom: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
-  background: white;
+  background: #fff;
   z-index: -1;
 }
 .freeze_x:before {
@@ -709,7 +705,7 @@
   border-bottom: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
-  background: white;
+  background: #fff;
   z-index: -1;
 }
 .gs-search-bar {
@@ -741,7 +737,7 @@
   border: none;
   padding: 0 2px;
   box-sizing: border-box;
-  outline: none;
+  outline: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -761,7 +757,7 @@
 }
 .gs-search-progress {
   display: table-cell;
-  color: #999999;
+  color: #999;
   font-size: 13px;
   width: 60px;
   vertical-align: middle;
@@ -785,14 +781,13 @@
   padding: 0 3px;
 }
 .gs-search-casesensitive span.gs-search-casesensitive-on {
-  color: #0077ff;
+  color: #07f;
   background-color: rgba(200, 200, 255, 0.5);
   border-radius: 3px;
 }
-/* Loading indicator animation */
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0);
   }
   100% {
     transform: rotate(360deg);
