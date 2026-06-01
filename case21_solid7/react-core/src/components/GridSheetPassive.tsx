@@ -142,14 +142,16 @@ export function GridSheetPassive({
     let s = hub();
     console.log("update hub: ", gsid);
     //dispatch(setStore({ mainRef: mainRef }));
-    dispatch(setStore({ tabularRef: tabularRef }));
+    //dispatch(setStore({ tabularRef: tabularRef }));
+    dispatch(setStore({ tableReactive: tableReactive }));
   });
 
   createEffect(() => {
     let s = key();
     console.log("update key: ", gsid);
     //dispatch(setStore({ mainRef: mainRef }));
-    dispatch(setStore({ tabularRef: tabularRef }));
+    //dispatch(setStore({ tabularRef: tabularRef }));
+    dispatch(setStore({ tableReactive: tableReactive }));
   });
 
 

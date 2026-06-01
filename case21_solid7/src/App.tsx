@@ -31,15 +31,6 @@ const App = () => {
   const [keyA, setKeyA] = createSignal(0);
   const [keyB, setKeyB] = createSignal(0);
 
-  const funcA = () => { 
-    const element = document.getElementById("TABLE-A");
-     console.log(element);
-
-  }
-  const funcB = () => { 
-    const element = document.getElementById("TABLE-B");
-     console.log(element);
-  }
 
   const hubProps: HubProps = {
     renderers: {
@@ -56,17 +47,8 @@ const App = () => {
       console.log(`hub Table edit: [${gsid}] ${table.sheetName}`);
       if ( gsid == "TABLE-A" ) {
           setKeyB(keyB() + 1);
-          //setKeyA([{}]);
-	  //table = table
-	  //console.log(refB);
-	  //refB.focus()
-	  //funcB()
       } else if ( gsid == "TABLE-B" ) {
           setKeyA(keyA() + 1);
-          //setKeyA([{}]);
-	  //console.log(refA);
-	  //refC.focus()
-	  //funcA()
       }
     },
     /*
