@@ -11,7 +11,7 @@
     "less": "npx lessc  ./src/styles/root.less ./src/styles/root.min.css",
     "less-min": "npx lessc --clean-css ./src/styles/root.less ./src/styles/root.min.css",
     "generate-style": "node ./src/generate-style.js",
-    "gen": "node ./generate-style.js",
+    "gen": "npm run less; node ./generate-style.js",
     "jest": "jest"
   },
   "repository": {
