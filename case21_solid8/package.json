@@ -1,0 +1,28 @@
+{
+  "name": "solid_org",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 3000",
+    "build": "tsc -b && vite build",
+    "build2": "vite build",
+    "fmt": "npx prettier --write ./react-core/src; ",
+    "fmt2": "npx prettier --write ./src; ",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@solid-primitives/memo": "^1.4.5",
+    "@suid/system": "^0.14.0",
+    "dayjs": "^1.11.20",
+    "prettier": "^3.8.3",
+    "solid-js": "^1.9.11"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.1",
+    "vite-plugin-solid": "^2.11.11"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
