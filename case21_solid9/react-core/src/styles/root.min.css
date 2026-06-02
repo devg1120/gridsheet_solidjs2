@@ -422,6 +422,10 @@
   position: relative;
   display: table-cell;
 }
+.gs-editor-inner textarea {
+  font-size: 12px;
+  font-family: monospace, Arial;
+}
 .gs-editor-inner textarea:focus {
   outline: 2px solid #ff5722;
 }

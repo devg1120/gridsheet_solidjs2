@@ -1,5 +1,5 @@
 // pnpm generate-style
-export const LAST_MODIFIED = 1780386075;
+export const LAST_MODIFIED = 1780401693;
 export const CSS = `.gs-root1 {
   display: inline-block;
   position: relative;
@@ -423,6 +423,10 @@ export const CSS = `.gs-root1 {
 .gs-formula-bar-editor-inner {
   position: relative;
   display: table-cell;
+}
+.gs-editor-inner textarea {
+  font-size: 12px;
+  font-family: monospace, Arial;
 }
 .gs-editor-inner textarea:focus {
   outline: 2px solid #ff5722;
