@@ -446,7 +446,7 @@
   left: 0;
   border: 0;
   outline: 0;
-  background-color: yellow;
+  background-color: transparent;
   color: transparent;
   resize: none;
   box-sizing: border-box;
@@ -472,6 +472,7 @@
   padding: 0px 2px;
   font-size: 10px;
   background-color: rgba(0, 119, 255, 0.75);
+  background-color: yellow;
   color: #ffffff;
   z-index: 1;
 }
