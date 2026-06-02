@@ -561,24 +561,29 @@
 .gs-token-type-VALUE.gs-token-entity-type-string {
   color: #009900;
 }
+/*
 .gs-editor-options {
   padding: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(128, 128, 128, 0.2);
   border-radius: 4px;
 }
+
 .gs-editor-option {
   cursor: pointer;
   list-style: none;
   padding: 5px;
   font-size: 12px;
+
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+  }
 }
-.gs-editor-option:hover {
-  background-color: rgba(128, 128, 128, 0.1);
-}
+
 .gs-editor-option-selected {
   background-color: rgba(128, 128, 128, 0.2);
 }
+*/
 .gs-adjuster {
   padding: 0;
 }
