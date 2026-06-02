@@ -667,6 +667,11 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
     return false;
   };
 
+
+  /*
+          class={`gs-editor ${editing ? "gs-editing" : ""}`}
+*/
+
   return (
     <For each={key()}>
       {() => (
@@ -717,6 +722,7 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
               rows={numLines}
               onFocus={handleFocus}
               z-index={10009}
+	      
               style={{
                 //"min-width": width + "px",
                 //"min-height": (height-6) + "px",
@@ -724,7 +730,9 @@ export const Editor: Component<Props> = ({ mode }: Props) => {
                 border: "0px",
                 width: width - 4 + "px",
                 height: height - 4 + "px",
+		//"background-color": "green",
               }}
+	     
               //onClick={() => console.log('TextArea Clicked!',x,y)}
               //onDblClick={(e) => console.log('TextArea Double Clicked!',e, x,y)}
 

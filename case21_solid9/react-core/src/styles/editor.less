@@ -12,17 +12,26 @@
   display: table-cell;
 }
 
+
+.gs-editor-inner {
+  textarea:focus {
+    //outline: none;
+    outline: 2px solid #ff5722;  //GUSA
+  }
+}
+
+/*
 .gs-editor {
   opacity: 0;
   z-index: -1;
   .gs-editor-inner {
     position: relative;
-  }
+  };
   .gs-editor-hl {
     box-sizing: content-box;
     border: solid 2px #0077ff;
     margin: -2px -1px;
-  }
+  };
   textarea {
     width: 100%;
     padding: 0 2px !important;
@@ -35,7 +44,8 @@
     left: 0;
     border: 0;
     outline: 0;
-    background-color: transparent;
+    //background-color: transparent;
+    background-color: yellow;
     color: transparent;
     resize: none;
     box-sizing: border-box;
@@ -66,6 +76,7 @@
     }
   }
 }
+*/
 
 .gs-formula-bar {
   width: 100%;
@@ -117,6 +128,7 @@
     color: black;
     border: none;
     background-color: transparent;
+    background-color: red;
     padding: 0 2px;
     box-sizing: border-box;
     outline: none;

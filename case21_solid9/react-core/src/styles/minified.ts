@@ -1,5 +1,5 @@
 // pnpm generate-style
-export const LAST_MODIFIED = 1780356256;
+export const LAST_MODIFIED = 1780382545;
 export const CSS = `.gs-root1 {
   display: inline-block;
   position: relative;
@@ -424,60 +424,66 @@ export const CSS = `.gs-root1 {
   position: relative;
   display: table-cell;
 }
+.gs-editor-inner textarea:focus {
+  outline: 2px solid #ff5722;
+}
+/*
 .gs-editor {
   opacity: 0;
   z-index: -1;
+  .gs-editor-inner {
+    position: relative;
+  };
+  .gs-editor-hl {
+    box-sizing: content-box;
+    border: solid 2px #0077ff;
+    margin: -2px -1px;
+  };
+  textarea {
+    width: 100%;
+    padding: 0 2px !important;
+    position: absolute;
+    font-size: 12px;
+    font-family: monospace, Arial;
+    line-height: 24px;
+    letter-spacing: 1px;
+    top: 0;
+    left: 0;
+    border: 0;
+    outline: 0;
+    //background-color: transparent;
+    background-color: yellow;
+    color: transparent;
+    resize: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    overflow: hidden;
+    cursor: default;
+    white-space: pre;
+    height: auto;
+  }
+  &.gs-editing {
+    z-index: 3;
+    opacity: 1;
+
+    .gs-cell-label {
+      pointer-events: none;
+      font-family: math, monospace, serif;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: -15px;
+      margin-right: -2px;
+      padding: 0px 2px;
+      font-size: 10px;
+      background-color: rgba(0, 119, 255, 0.75);
+      color: #ffffff;
+      z-index: 1;
+    }
+  }
 }
-.gs-editor .gs-editor-inner {
-  position: relative;
-}
-.gs-editor .gs-editor-hl {
-  box-sizing: content-box;
-  border: solid 2px #0077ff;
-  margin: -2px -1px;
-}
-.gs-editor textarea {
-  width: 100%;
-  padding: 0 2px !important;
-  position: absolute;
-  font-size: 12px;
-  font-family: monospace, Arial;
-  line-height: 24px;
-  letter-spacing: 1px;
-  top: 0;
-  left: 0;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
-  color: transparent;
-  resize: none;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  overflow: hidden;
-  cursor: default;
-  white-space: pre;
-  height: auto;
-}
-.gs-editor.gs-editing {
-  z-index: 3;
-  opacity: 1;
-}
-.gs-editor.gs-editing .gs-cell-label {
-  pointer-events: none;
-  font-family: math, monospace, serif;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-top: -15px;
-  margin-right: -2px;
-  padding: 0px 2px;
-  font-size: 10px;
-  background-color: rgba(0, 119, 255, 0.75);
-  background-color: yellow;
-  color: #ffffff;
-  z-index: 1;
-}
+*/
 .gs-formula-bar {
   width: 100%;
   position: relative;
@@ -526,6 +532,7 @@ export const CSS = `.gs-root1 {
   color: black;
   border: none;
   background-color: transparent;
+  background-color: red;
   padding: 0 2px;
   box-sizing: border-box;
   outline: none;
