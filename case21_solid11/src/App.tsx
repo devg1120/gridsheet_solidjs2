@@ -32,6 +32,7 @@ const App = () => {
   const [keyB, setKeyB] = createSignal(0);
 
   const syncScroll = (gsid, ele, top, left) => {
+/*
        console.log("syncScroll:", gsid, ele, top, left);
       if ( gsid == "TABLE-A" ) {
 	      const el = document.querySelector("#TABLE-B" + "_Tabular");
@@ -40,6 +41,7 @@ const App = () => {
 	      const el = document.querySelector("#TABLE-A" + "_Tabular");
 	      el.scrollTo(left, top)
       }
+     */
   }
 
   const hubProps: HubProps = {

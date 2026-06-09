@@ -238,7 +238,7 @@ export function Tabular({
     tabularRef.focus();
   });
 
-  /*
+ 
  createEffect(() => {
     if (!table) {
       return;
@@ -296,7 +296,7 @@ export function Tabular({
     }
     setVirtualized(virtualize(table, tabularRef.current));
   });
-*/
+
 
   let operationStyles = useOperationStyles(store, {
     ...palette(),
@@ -637,12 +637,18 @@ export function Tabular({
           width: (sheetWidth === -1 ? undefined : sheetWidth) + "px",
           height: (sheetHeight === -1 ? undefined : sheetHeight) + "px",
         }}
+  */   
+     /*
+        style={{
+          width: "100vw",
+          height: "100vh",
+        }}
        */
         style={{
           width: "100%",
           height: "100%",
         }}
-
+       
         ref={tabularRef}
         onMouseMove={handleMouseMove}
         onScroll={handleScroll}

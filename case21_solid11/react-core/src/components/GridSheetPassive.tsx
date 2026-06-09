@@ -158,16 +158,16 @@ export function GridSheetPassive({
 
 
   const [loading, setLoading] = createSignal(true);
+  const [mount, setMount] = createSignal(false);
 
   onMount(() => {
     embedStyle();
     dispatch(setStore({ mainRef: mainRef }));
     setLoading(false);
+    setMount(true);
   });
 
-  const [sheetHeight, setSheetHeight] = createSignal(
-    options?.sheetHeight || 400,
-  );
+  const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 400);
 
   const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
 
@@ -363,38 +363,100 @@ const PaneX: ParentComponent<{
         >
           <Editor mode={mode} />
 
+ 
+  <div style="height: 400px;  width:800px;">
+          <Tabular gsid={gsid} syncScroll={syncScroll} />
+  </div>
+  <div style="height: 300px;  width:600px;">
+          <Tabular gsid={gsid+"A"} syncScroll={syncScroll} />
+  </div>
+  <div style="height: 300px;  width:600px;">
+          <Tabular gsid={gsid+"B"} syncScroll={syncScroll} />
+  </div>
+
+
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
           <Tabular gsid={gsid}  />
           <Tabular gsid={gsid}  />
           <Tabular gsid={gsid}  />
+
 */}
 
-  <div style="height: 100%">
+{/*
+  <div style="height: 800px;  width:1800px;">
       <PaneY
         topElem={
           <PaneX
             leftElem={
-              <Tabular gsid={gsid+"A"}  />
+      	    <Show when={ Mount()}>
+              <Tabular gsid={gsid+"A"}   syncScroll={syncScroll}/>
+      	    </Show>
             }
             rightElem={
-              <Tabular gsid={gsid+"B"}  />
+      	    <Show when={ Mount()}>
+              <Tabular gsid={gsid+"B"}   syncScroll={syncScroll}/>
+      	    </Show>
             }
           ></PaneX>
         }
         bottomElem={
           <PaneX
             leftElem={
-              <Tabular gsid={gsid+"C"}  />
+      	    <Show when={ Mount()}>
+              <Tabular gsid={gsid+"C"}   syncScroll={syncScroll}/>
+      	    </Show>
             }
             rightElem={
-              <Tabular gsid={gsid+"D"}  />
+      	    <Show when={ Mount()}>
+              <Tabular gsid={gsid+"D"}   syncScroll={syncScroll}/>
+      	    </Show>
             }
           ></PaneX>
         }
       ></PaneY>
     </div>
+*/}
 
+{/*
+  <div style="height: 600px;  width:800px;">
+      <PaneY
+        topElem={
+          <PaneX
+            leftElem={
+	      <>
+               <div>top left text</div>
+               <input  type="date" tabindex={9999} />
+	      </>
+            }
+            rightElem={
+	      <>
+               <div>top right text</div>
+               <input  type="date" tabindex={9999} />
+	      </>
+            }
+          ></PaneX>
+        }
+        bottomElem={
+          <PaneX
+            leftElem={
+	      <>
+               <div>bottom left text</div>
+               <input  type="date" tabindex={9999} />
+	      </>
+            }
+            rightElem={
+	      <>
+               <div>bottom right text</div>
+               <input  type="date" tabindex={9999} />
+	      </>
+            }
+          ></PaneX>
+        }
+      ></PaneY>
+    </div>
+*/}
+    
           <StoreObserver
             {...{ ...options, sheetHeight, sheetWidth, sheetName }}
           />

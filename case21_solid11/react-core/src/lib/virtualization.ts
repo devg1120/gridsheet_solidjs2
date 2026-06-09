@@ -87,7 +87,7 @@ export const virtualize = (
       break;
     }
   }
-/*
+
   console.log(
     "boundary",
     boundaryTop,
@@ -95,7 +95,7 @@ export const virtualize = (
     "-",
     boundaryBottom - boundaryTop,
   );
-*/
+
   const ys = range(boundaryTop, boundaryBottom);
   const xs = range(boundaryLeft, boundaryRight);
 
