@@ -336,11 +336,12 @@ const App = () => {
 	  key={keyA}
           hub={hub}
           table={table()}
-
+/*
           options={{
             sheetHeight: 400,
-            sheetWidth: 800,
+            sheetWidth: 400,
           }}
+	*/  
           //sheetName="Sheet1"
           sheetName={sheetName}
           //style={{ width: 800, height: 300 }}

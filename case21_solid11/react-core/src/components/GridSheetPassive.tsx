@@ -27,8 +27,13 @@ import { onMount, createSignal, mergeProps, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { createEffect } from "solid-js";
 
+
+import type { ParentComponent, JSXElement } from 'solid-js';
+import { render } from "solid-js/web";
+
 import { createReducer } from "@solid-primitives/memo";
 import { setStore } from "../store/actions";
+
 
 //export const createConnector = () => createRef<Connector | null>();  //TODO
 //export const useConnector = () => useRef<Connector | null>(null);    //TODO
@@ -166,6 +171,133 @@ export function GridSheetPassive({
 
   const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
 
+const PaneY: ParentComponent<{
+  topElem: JSXElement,
+  bottomElem: JSXElement
+}> = (props) => {
+  const [height, setHeight] = createSignal(0)
+  let paneContainerRef: HTMLDivElement | undefined;
+
+  let onMouseDownHandler = (e: MouseEvent) => {
+    onmousemove = (e: MouseEvent) => {
+      //setHeight(e.clientY - paneContainerRef.offsetTop)
+      setHeight(e.clientY - paneContainerRef.getBoundingClientRect().top)
+    }
+    onmouseup = (e: MouseEvent) => {
+      onmousemove = () => null
+      onmouseup = () => null
+    }
+  }
+
+  onMount(() => {
+    if (paneContainerRef) {
+      setHeight(paneContainerRef.clientHeight / 2)
+    }
+  })
+
+  return (
+    <>
+      <div
+        ref={paneContainerRef}
+        style={{
+          'display': 'flex',
+          'flex-flow': 'column',
+          'height': '100%',
+        }}
+      >
+        <div style={{
+          'height': `${paneContainerRef ? (height() / paneContainerRef.clientHeight)*100 : 50}%`,
+          'background-color': 'rgba(120, 120, 230, 0.2)'
+        }}>
+          {props.topElem}
+        </div>
+        <div
+          onMouseDown={onMouseDownHandler}
+          style='
+            min-width: 5px;
+            min-height: 5px;
+            background-color: #c0c0c0;
+            cursor: row-resize;
+	    z-index: 9999999;
+          '
+        ></div>
+        <div
+          style={{
+            'height': `${paneContainerRef ? (100 - (height() / paneContainerRef?.clientHeight)*100) : 50}%`,
+            'background-color': 'rgba(120, 230, 120, 0.2)'
+          }}
+        >
+          {props.bottomElem}
+        </div>
+      </div>
+    </>
+  )
+}
+
+const PaneX: ParentComponent<{
+  leftElem: JSXElement,
+  rightElem: JSXElement,
+}> = (props) => {
+  const [width, setWidth] = createSignal(0)
+  let paneContainerRef: HTMLDivElement | undefined;
+
+  let onMouseDownHandler = (e: MouseEvent) => {
+    onmousemove = (e: MouseEvent) => {
+      //setWidth(e.clientX - paneContainerRef.offsetLeft)
+      setWidth(e.clientX - paneContainerRef.getBoundingClientRect().left)
+    }
+    onmouseup = (e: MouseEvent) => {
+      onmousemove = () => null
+      onmouseup = () => null
+    }
+  }
+
+  onMount(() => {
+    if (paneContainerRef) {
+      setWidth(paneContainerRef.clientWidth / 2)
+    }
+  })
+
+  return (
+    <>
+      <div
+        ref={paneContainerRef}
+        style={{
+          'display': 'flex',
+          'flex-flow': 'row',
+          'height': '100%',
+          'width': '100%',
+        }}
+      >
+        <div style={{
+          'width': `${paneContainerRef ? (width() / paneContainerRef.clientWidth)*100 : 50}%`,
+          'background-color': 'rgba(120, 120, 230, 0.2)'
+        }}>
+          {props.leftElem}
+        </div>
+        <div
+          onMouseDown={onMouseDownHandler}
+          style='
+            min-width: 5px;
+            min-height: 5px;
+            background-color: #c0c0c0;
+            cursor: col-resize;
+	    z-index: 9999999;
+          '
+        ></div>
+        <div
+          style={{
+            'width': `${paneContainerRef ? (100 - (width() / paneContainerRef?.clientWidth)*100) : 50}%`,
+            'background-color': 'rgba(120, 230, 120, 0.2)'
+          }}
+        >
+          {props.rightElem}
+        </div>
+      </div>
+    </>
+  )
+}
+
   return (
     <Context.Provider
       value={{
@@ -230,10 +362,39 @@ export function GridSheetPassive({
           )}
         >
           <Editor mode={mode} />
+
+{/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
           <Tabular gsid={gsid}  />
           <Tabular gsid={gsid}  />
           <Tabular gsid={gsid}  />
+*/}
+
+  <div style="height: 100%">
+      <PaneY
+        topElem={
+          <PaneX
+            leftElem={
+              <Tabular gsid={gsid+"A"}  />
+            }
+            rightElem={
+              <Tabular gsid={gsid+"B"}  />
+            }
+          ></PaneX>
+        }
+        bottomElem={
+          <PaneX
+            leftElem={
+              <Tabular gsid={gsid+"C"}  />
+            }
+            rightElem={
+              <Tabular gsid={gsid+"D"}  />
+            }
+          ></PaneX>
+        }
+      ></PaneY>
+    </div>
+
           <StoreObserver
             {...{ ...options, sheetHeight, sheetWidth, sheetName }}
           />
