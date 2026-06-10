@@ -34,6 +34,11 @@ import { render } from "solid-js/web";
 import { createReducer } from "@solid-primitives/memo";
 import { setStore } from "../store/actions";
 
+//import Resizable from '@corvu/resizable' // 'corvu/resizable'
+//import './index.css'
+
+import { PanelGroup, Panel, ResizeHandle } from 'solid-resizable-panels';
+import './styles.css';
 
 //export const createConnector = () => createRef<Connector | null>();  //TODO
 //export const useConnector = () => useRef<Connector | null>(null);    //TODO
@@ -161,10 +166,10 @@ export function GridSheetPassive({
   const [mount, setMount] = createSignal(false);
 
   onMount(() => {
+    setMount(true);
     embedStyle();
     dispatch(setStore({ mainRef: mainRef }));
     setLoading(false);
-    setMount(true);
   });
 
   const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 400);
@@ -363,18 +368,159 @@ const PaneX: ParentComponent<{
         >
           <Editor mode={mode} />
 
- 
+{/*
   <div style="height: 400px;  width:800px;">
-          <Tabular gsid={gsid} syncScroll={syncScroll} />
-  </div>
-  <div style="height: 300px;  width:600px;">
           <Tabular gsid={gsid+"A"} syncScroll={syncScroll} />
   </div>
   <div style="height: 300px;  width:600px;">
           <Tabular gsid={gsid+"B"} syncScroll={syncScroll} />
   </div>
+  <div style="height: 300px;  width:600px;">
+          <Tabular gsid={gsid+"C"} syncScroll={syncScroll} />
+  </div>
+  <div style="height: 300px;  width:600px;">
+          <Tabular gsid={gsid+"D"} syncScroll={syncScroll} />
+  </div>
+*/}
 
+	  {/*	  
+<div class="wrapper" style={{width: "800px", height: "800px"}}>
+<PanelGroup direction="column">
+  <Panel id="1">
+       <PanelGroup >
+         <Panel id="11">
+                 <Tabular gsid={gsid}  />
+         </Panel>
+         <ResizeHandle />
+         <Panel id="12">
+                 <Tabular gsid={gsid}  />
+         </Panel>
+       </PanelGroup>
+  </Panel>
+  <ResizeHandle />
+  <Panel id="2">
+       <PanelGroup >
+         <Panel id="21">
+                 <Tabular gsid={gsid}  />
+         </Panel>
+         <ResizeHandle />
+         <Panel id="22">
+                 <Tabular gsid={gsid}  />
+         </Panel>
+       </PanelGroup>
+  </Panel>
+</PanelGroup>
 
+</div>
+*/}
+
+	  
+<div class="wrapper" style={{width: "800px", height: "400px"}}>
+<PanelGroup direction="row">
+  <Panel id="1">
+          <Tabular gsid={gsid}  />
+  </Panel>
+  <ResizeHandle />
+  <Panel id="2">
+          <Tabular gsid={gsid}  />
+  </Panel>
+</PanelGroup>
+</div>
+
+	  {/*
+    <PanelGroup direction="column">
+      <Panel id="1">Panel 1</Panel>
+      <ResizeHandle />
+      <Panel id="2">Panel 2</Panel>
+      <ResizeHandle />
+      <Panel id="3">Panel 3</Panel>
+    </PanelGroup>
+*/}
+
+{/*
+  <div class="wrapper" style={{width: "500px", height: "400px"}}>
+      <Resizable orientation="vertical">
+        <Resizable.Panel initialSize={0.7} minSize={0.2}>
+          <Resizable orientation="horizontal">
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
+      	    <Show when={ mount()}>
+              <Tabular gsid={gsid}   syncScroll={syncScroll}/>
+      	    </Show>
+
+            </Resizable.Panel>
+
+            <Resizable.Handle aria-label="Resize Handle">
+              <div class="inner_handle" />
+            </Resizable.Handle>
+
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
+          </Resizable>
+
+        </Resizable.Panel>
+
+        <Resizable.Handle aria-label="Resize Handle">
+          <div class="inner_handle" />
+        </Resizable.Handle>
+
+        <Resizable.Panel initialSize={0.7} minSize={0.2}>
+          <Resizable orientation="horizontal">
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
+
+            <Resizable.Handle aria-label="Resize Handle">
+              <div class="inner_handle" />
+            </Resizable.Handle>
+
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
+          </Resizable>
+
+        </Resizable.Panel>
+      </Resizable>
+    </div>
+*/}
+
+{/*
+  <div class="wrapper" style={{width: "500px", height: "400px"}}>
+      <Resizable orientation="vertical">
+        <Resizable.Panel initialSize={0.7} minSize={0.2}>
+          <Resizable orientation="horizontal">
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
+                <Tabular gsid={gsid} syncScroll={syncScroll} />
+            </Resizable.Panel>
+
+            <Resizable.Handle aria-label="Resize Handle">
+              <div class="inner_handle" />
+            </Resizable.Handle>
+
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
+                <Tabular gsid={gsid+"B"} syncScroll={syncScroll} />
+            </Resizable.Panel>
+          </Resizable>
+
+        </Resizable.Panel>
+
+        <Resizable.Handle aria-label="Resize Handle">
+          <div class="inner_handle" />
+        </Resizable.Handle>
+
+        <Resizable.Panel initialSize={0.7} minSize={0.2}>
+          <Resizable orientation="horizontal">
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
+                <Tabular gsid={gsid+"C"} syncScroll={syncScroll} />
+            </Resizable.Panel>
+
+            <Resizable.Handle aria-label="Resize Handle">
+              <div class="inner_handle" />
+            </Resizable.Handle>
+
+            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
+                <Tabular gsid={gsid+"D"} syncScroll={syncScroll} />
+            </Resizable.Panel>
+          </Resizable>
+
+        </Resizable.Panel>
+      </Resizable>
+    </div>
+*/}
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
           <Tabular gsid={gsid}  />
@@ -389,28 +535,20 @@ const PaneX: ParentComponent<{
         topElem={
           <PaneX
             leftElem={
-      	    <Show when={ Mount()}>
               <Tabular gsid={gsid+"A"}   syncScroll={syncScroll}/>
-      	    </Show>
             }
             rightElem={
-      	    <Show when={ Mount()}>
               <Tabular gsid={gsid+"B"}   syncScroll={syncScroll}/>
-      	    </Show>
             }
           ></PaneX>
         }
         bottomElem={
           <PaneX
             leftElem={
-      	    <Show when={ Mount()}>
               <Tabular gsid={gsid+"C"}   syncScroll={syncScroll}/>
-      	    </Show>
             }
             rightElem={
-      	    <Show when={ Mount()}>
               <Tabular gsid={gsid+"D"}   syncScroll={syncScroll}/>
-      	    </Show>
             }
           ></PaneX>
         }
