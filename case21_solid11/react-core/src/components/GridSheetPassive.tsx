@@ -397,8 +397,9 @@ const h_resize = (id, size) => {
   </div>
 */}
 
+  <div style="max-height: 600px;  max-width:800px;">
 
-              <PanelGroup direction="column">
+              <PanelGroup  direction="column">
                    <Panel id="1" onResize={(size) => v_resize("1", size)}>
                       <PanelGroup>
                         <Panel id="11" onResize={(size) => h_resize("11", size)}>
@@ -406,7 +407,7 @@ const h_resize = (id, size) => {
 			</Panel>
                         <ResizeHandle />
                         <Panel id="12" onResize={(size) => h_resize("12", size)}>
-                            <Tabular gsid={gsid+"B"}  />
+                            <Tabular gsid={gsid}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
@@ -414,15 +415,16 @@ const h_resize = (id, size) => {
                    <Panel id="2" onResize={(size) => v_resize("2", size)}>
                       <PanelGroup>
                         <Panel id="21" onResize={(size) => h_resize("21", size)}>
-                            <Tabular gsid={gsid+"C"}  />
+                            <Tabular gsid={gsid}  />
 			</Panel>
                         <ResizeHandle />
                         <Panel id="22" onResize={(size) => h_resize("22", size)}>
-                            <Tabular gsid={gsid+"D"}  />
+                            <Tabular gsid={gsid}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
               </PanelGroup>
+</div>
 
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
