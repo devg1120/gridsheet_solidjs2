@@ -37,8 +37,13 @@ import { setStore } from "../store/actions";
 //import Resizable from '@corvu/resizable' // 'corvu/resizable'
 //import './index.css'
 
-import { PanelGroup, Panel, ResizeHandle } from 'solid-resizable-panels';
-import './styles.css';
+//import { PanelGroup, Panel, ResizeHandle } from 'solid-resizable-panels';
+//import './styles.css';
+
+import { PanelGroup, type PanelGroupAPI, Panel, ResizeHandle } from "./lib";
+
+import "./lib/styles.css";
+import "./styles.css";
 
 //export const createConnector = () => createRef<Connector | null>();  //TODO
 //export const useConnector = () => useRef<Connector | null>(null);    //TODO
@@ -263,6 +268,15 @@ const PaneX: ParentComponent<{
     }
   })
 
+
+const v_resize = (id, size) => {
+      console.log("..  v_resize", id,size);
+}
+
+const h_resize = (id, size) => {
+      console.log("   ..  h_resize", id,size);
+}
+
   return (
     <>
       <div
@@ -414,7 +428,33 @@ const PaneX: ParentComponent<{
 </div>
 */}
 
-	  
+              <PanelGroup direction="column">
+                   <Panel id="1" onResize={(size) => v_resize("1", size)}>
+                      <PanelGroup>
+                        <Panel id="11" onResize={(size) => h_resize("11", size)}>
+                            <Tabular gsid={gsid}  />
+			</Panel>
+                        <ResizeHandle />
+                        <Panel id="12" onResize={(size) => h_resize("12", size)}>
+                            <Tabular gsid={gsid}  />
+			</Panel>
+                      </PanelGroup>
+                   </Panel>
+                <ResizeHandle />
+                   <Panel id="2" onResize={(size) => v_resize("2", size)}>
+                      <PanelGroup>
+                        <Panel id="21" onResize={(size) => h_resize("21", size)}>
+                            <Tabular gsid={gsid}  />
+			</Panel>
+                        <ResizeHandle />
+                        <Panel id="22" onResize={(size) => h_resize("22", size)}>
+                            <Tabular gsid={gsid}  />
+			</Panel>
+                      </PanelGroup>
+                   </Panel>
+              </PanelGroup>
+
+{/*	  
 <div class="wrapper" style={{width: "800px", height: "400px"}}>
 <PanelGroup direction="row">
   <Panel id="1">
@@ -426,7 +466,7 @@ const PaneX: ParentComponent<{
   </Panel>
 </PanelGroup>
 </div>
-
+*/}
 	  {/*
     <PanelGroup direction="column">
       <Panel id="1">Panel 1</Panel>
