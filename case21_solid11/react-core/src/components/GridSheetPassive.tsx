@@ -398,7 +398,6 @@ const h_resize = (id, size) => {
 */}
 
 
-<div class="wrapper" style={{width: "850px", height: "700px"}}>
               <PanelGroup direction="column">
                    <Panel id="1" onResize={(size) => v_resize("1", size)}>
                       <PanelGroup>
@@ -424,7 +423,6 @@ const h_resize = (id, size) => {
                       </PanelGroup>
                    </Panel>
               </PanelGroup>
-</div>
 
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
