@@ -397,37 +397,8 @@ const h_resize = (id, size) => {
   </div>
 */}
 
-	  {/*	  
-<div class="wrapper" style={{width: "800px", height: "800px"}}>
-<PanelGroup direction="column">
-  <Panel id="1">
-       <PanelGroup >
-         <Panel id="11">
-                 <Tabular gsid={gsid}  />
-         </Panel>
-         <ResizeHandle />
-         <Panel id="12">
-                 <Tabular gsid={gsid}  />
-         </Panel>
-       </PanelGroup>
-  </Panel>
-  <ResizeHandle />
-  <Panel id="2">
-       <PanelGroup >
-         <Panel id="21">
-                 <Tabular gsid={gsid}  />
-         </Panel>
-         <ResizeHandle />
-         <Panel id="22">
-                 <Tabular gsid={gsid}  />
-         </Panel>
-       </PanelGroup>
-  </Panel>
-</PanelGroup>
 
-</div>
-*/}
-
+<div class="wrapper" style={{width: "850px", height: "700px"}}>
               <PanelGroup direction="column">
                    <Panel id="1" onResize={(size) => v_resize("1", size)}>
                       <PanelGroup>
@@ -436,7 +407,7 @@ const h_resize = (id, size) => {
 			</Panel>
                         <ResizeHandle />
                         <Panel id="12" onResize={(size) => h_resize("12", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"B"}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
@@ -444,123 +415,17 @@ const h_resize = (id, size) => {
                    <Panel id="2" onResize={(size) => v_resize("2", size)}>
                       <PanelGroup>
                         <Panel id="21" onResize={(size) => h_resize("21", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"C"}  />
 			</Panel>
                         <ResizeHandle />
                         <Panel id="22" onResize={(size) => h_resize("22", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"D"}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
               </PanelGroup>
-
-{/*	  
-<div class="wrapper" style={{width: "800px", height: "400px"}}>
-<PanelGroup direction="row">
-  <Panel id="1">
-          <Tabular gsid={gsid}  />
-  </Panel>
-  <ResizeHandle />
-  <Panel id="2">
-          <Tabular gsid={gsid}  />
-  </Panel>
-</PanelGroup>
 </div>
-*/}
-	  {/*
-    <PanelGroup direction="column">
-      <Panel id="1">Panel 1</Panel>
-      <ResizeHandle />
-      <Panel id="2">Panel 2</Panel>
-      <ResizeHandle />
-      <Panel id="3">Panel 3</Panel>
-    </PanelGroup>
-*/}
 
-{/*
-  <div class="wrapper" style={{width: "500px", height: "400px"}}>
-      <Resizable orientation="vertical">
-        <Resizable.Panel initialSize={0.7} minSize={0.2}>
-          <Resizable orientation="horizontal">
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
-      	    <Show when={ mount()}>
-              <Tabular gsid={gsid}   syncScroll={syncScroll}/>
-      	    </Show>
-
-            </Resizable.Panel>
-
-            <Resizable.Handle aria-label="Resize Handle">
-              <div class="inner_handle" />
-            </Resizable.Handle>
-
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
-          </Resizable>
-
-        </Resizable.Panel>
-
-        <Resizable.Handle aria-label="Resize Handle">
-          <div class="inner_handle" />
-        </Resizable.Handle>
-
-        <Resizable.Panel initialSize={0.7} minSize={0.2}>
-          <Resizable orientation="horizontal">
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
-
-            <Resizable.Handle aria-label="Resize Handle">
-              <div class="inner_handle" />
-            </Resizable.Handle>
-
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" />
-          </Resizable>
-
-        </Resizable.Panel>
-      </Resizable>
-    </div>
-*/}
-
-{/*
-  <div class="wrapper" style={{width: "500px", height: "400px"}}>
-      <Resizable orientation="vertical">
-        <Resizable.Panel initialSize={0.7} minSize={0.2}>
-          <Resizable orientation="horizontal">
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
-                <Tabular gsid={gsid} syncScroll={syncScroll} />
-            </Resizable.Panel>
-
-            <Resizable.Handle aria-label="Resize Handle">
-              <div class="inner_handle" />
-            </Resizable.Handle>
-
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
-                <Tabular gsid={gsid+"B"} syncScroll={syncScroll} />
-            </Resizable.Panel>
-          </Resizable>
-
-        </Resizable.Panel>
-
-        <Resizable.Handle aria-label="Resize Handle">
-          <div class="inner_handle" />
-        </Resizable.Handle>
-
-        <Resizable.Panel initialSize={0.7} minSize={0.2}>
-          <Resizable orientation="horizontal">
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
-                <Tabular gsid={gsid+"C"} syncScroll={syncScroll} />
-            </Resizable.Panel>
-
-            <Resizable.Handle aria-label="Resize Handle">
-              <div class="inner_handle" />
-            </Resizable.Handle>
-
-            <Resizable.Panel initialSize={0.5} minSize={0.2} class="panel" >
-                <Tabular gsid={gsid+"D"} syncScroll={syncScroll} />
-            </Resizable.Panel>
-          </Resizable>
-
-        </Resizable.Panel>
-      </Resizable>
-    </div>
-*/}
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
           <Tabular gsid={gsid}  />
