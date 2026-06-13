@@ -43,7 +43,7 @@ import { setStore } from "../store/actions";
 import { PanelGroup, type PanelGroupAPI, Panel, ResizeHandle } from "./lib";
 
 import "./lib/styles.css";
-import "./styles.css";
+//import "./styles.css";
 
 //export const createConnector = () => createRef<Connector | null>();  //TODO
 //export const useConnector = () => useRef<Connector | null>(null);    //TODO
@@ -382,21 +382,21 @@ const h_resize = (id, size) => {
         >
           <Editor mode={mode} />
 
-{/*
+
   <div style="height: 400px;  width:800px;">
           <Tabular gsid={gsid+"A"} syncScroll={syncScroll} />
   </div>
   <div style="height: 300px;  width:600px;">
           <Tabular gsid={gsid+"B"} syncScroll={syncScroll} />
   </div>
-  <div style="height: 300px;  width:600px;">
+  <div style="height: 300px;  width:400px;">
           <Tabular gsid={gsid+"C"} syncScroll={syncScroll} />
   </div>
-  <div style="height: 300px;  width:600px;">
+  <div style="height: 200px;  width:300px;">
           <Tabular gsid={gsid+"D"} syncScroll={syncScroll} />
   </div>
-*/}
 
+{/*
   <div style="max-height: 600px;  max-width:800px;">
 
               <PanelGroup  direction="column">
@@ -425,7 +425,7 @@ const h_resize = (id, size) => {
                    </Panel>
               </PanelGroup>
 </div>
-
+*/}
 {/*
           <Tabular gsid={gsid} syncScroll={syncScroll} />
           <Tabular gsid={gsid}  />
