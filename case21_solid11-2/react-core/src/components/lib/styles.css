@@ -1,0 +1,46 @@
+.ResizeablePanelGroup {
+  display: flex;
+  /*
+  width:  100vw;
+  height: 100vh;
+  */
+  width:  100%;
+  height: 100%;
+}
+
+.ResizeablePanelGroup-ResizeHandle {
+  --size-px: 4px;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  /* Remove default styles for button */
+  border: none;
+  padding: 0;
+
+  border-radius: 8px;
+  background-color: #ccc;
+}
+
+.ResizeablePanelGroup-ResizeHandle_disabled {
+  cursor: not-allowed;
+}
+
+.ResizeablePanelGroup > .ResizeablePanelGroup-ResizeHandle {
+  width: var(--size-px);
+}
+
+.ResizeablePanelGroup
+  > .ResizeablePanelGroup-ResizeHandle:not(.ResizeablePanelGroup-ResizeHandle_disabled) {
+  cursor: ew-resize;
+}
+
+.ResizeablePanelGroup_vertical > .ResizeablePanelGroup-ResizeHandle {
+  height: var(--size-px);
+  width: 100%;
+}
+
+.ResizeablePanelGroup_vertical
+  > .ResizeablePanelGroup-ResizeHandle:not(.ResizeablePanelGroup-ResizeHandle_disabled) {
+  cursor: ns-resize;
+}
