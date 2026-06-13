@@ -632,18 +632,18 @@ export function Tabular({
       <div
         class="gs-tabular"
 	id={ gsid + "_Tabular" }
-/*
+
         style={{
           width: (sheetWidth === -1 ? undefined : sheetWidth) + "px",
           height: (sheetHeight === -1 ? undefined : sheetHeight) + "px",
         }}
-*/
-      
+
+      /*
         style={{
           width: "100%",
           height: "100%",
         }}
-
+*/
         ref={tabularRef}
         onMouseMove={handleMouseMove}
         onScroll={handleScroll}

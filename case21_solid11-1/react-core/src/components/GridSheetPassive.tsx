@@ -117,8 +117,8 @@ export function GridSheetPassive({
       editingAddress: "--",
       editorRect: { y: 0, x: 0, height: 0, width: 0 },
       dragging: false,
-      sheetHeight: 400,
-      sheetWidth: 800,
+      sheetHeight: 300,
+      sheetWidth: 400,
       entering: false,
       matchingCells: [],
       matchingCellIndex: 0,
@@ -181,94 +181,6 @@ export function GridSheetPassive({
 
   const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
 
-const PaneY: ParentComponent<{
-  topElem: JSXElement,
-  bottomElem: JSXElement
-}> = (props) => {
-  const [height, setHeight] = createSignal(0)
-  let paneContainerRef: HTMLDivElement | undefined;
-
-  let onMouseDownHandler = (e: MouseEvent) => {
-    onmousemove = (e: MouseEvent) => {
-      //setHeight(e.clientY - paneContainerRef.offsetTop)
-      setHeight(e.clientY - paneContainerRef.getBoundingClientRect().top)
-    }
-    onmouseup = (e: MouseEvent) => {
-      onmousemove = () => null
-      onmouseup = () => null
-    }
-  }
-
-  onMount(() => {
-    if (paneContainerRef) {
-      setHeight(paneContainerRef.clientHeight / 2)
-    }
-  })
-
-  return (
-    <>
-      <div
-        ref={paneContainerRef}
-        style={{
-          'display': 'flex',
-          'flex-flow': 'column',
-          'height': '100%',
-        }}
-      >
-        <div style={{
-          'height': `${paneContainerRef ? (height() / paneContainerRef.clientHeight)*100 : 50}%`,
-          'background-color': 'rgba(120, 120, 230, 0.2)'
-        }}>
-          {props.topElem}
-        </div>
-        <div
-          onMouseDown={onMouseDownHandler}
-          style='
-            min-width: 5px;
-            min-height: 5px;
-            background-color: #c0c0c0;
-            cursor: row-resize;
-	    z-index: 9999999;
-          '
-        ></div>
-        <div
-          style={{
-            'height': `${paneContainerRef ? (100 - (height() / paneContainerRef?.clientHeight)*100) : 50}%`,
-            'background-color': 'rgba(120, 230, 120, 0.2)'
-          }}
-        >
-          {props.bottomElem}
-        </div>
-      </div>
-    </>
-  )
-}
-
-const PaneX: ParentComponent<{
-  leftElem: JSXElement,
-  rightElem: JSXElement,
-}> = (props) => {
-  const [width, setWidth] = createSignal(0)
-  let paneContainerRef: HTMLDivElement | undefined;
-
-  let onMouseDownHandler = (e: MouseEvent) => {
-    onmousemove = (e: MouseEvent) => {
-      //setWidth(e.clientX - paneContainerRef.offsetLeft)
-      setWidth(e.clientX - paneContainerRef.getBoundingClientRect().left)
-    }
-    onmouseup = (e: MouseEvent) => {
-      onmousemove = () => null
-      onmouseup = () => null
-    }
-  }
-
-  onMount(() => {
-    if (paneContainerRef) {
-      setWidth(paneContainerRef.clientWidth / 2)
-    }
-  })
-
-
 const v_resize = (id, size) => {
       console.log("..  v_resize", id,size);
 }
@@ -276,47 +188,6 @@ const v_resize = (id, size) => {
 const h_resize = (id, size) => {
       console.log("   ..  h_resize", id,size);
 }
-
-  return (
-    <>
-      <div
-        ref={paneContainerRef}
-        style={{
-          'display': 'flex',
-          'flex-flow': 'row',
-          'height': '100%',
-          'width': '100%',
-        }}
-      >
-        <div style={{
-          'width': `${paneContainerRef ? (width() / paneContainerRef.clientWidth)*100 : 50}%`,
-          'background-color': 'rgba(120, 120, 230, 0.2)'
-        }}>
-          {props.leftElem}
-        </div>
-        <div
-          onMouseDown={onMouseDownHandler}
-          style='
-            min-width: 5px;
-            min-height: 5px;
-            background-color: #c0c0c0;
-            cursor: col-resize;
-	    z-index: 9999999;
-          '
-        ></div>
-        <div
-          style={{
-            'width': `${paneContainerRef ? (100 - (width() / paneContainerRef?.clientWidth)*100) : 50}%`,
-            'background-color': 'rgba(120, 230, 120, 0.2)'
-          }}
-        >
-          {props.rightElem}
-        </div>
-      </div>
-    </>
-  )
-}
-
   return (
     <Context.Provider
       value={{
@@ -404,11 +275,11 @@ const h_resize = (id, size) => {
                    <Panel id="1" onResize={(size) => v_resize("1", size)}>
                       <PanelGroup>
                         <Panel id="11" onResize={(size) => h_resize("11", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"-A"}  />
 			</Panel>
                         <ResizeHandle />
                         <Panel id="12" onResize={(size) => h_resize("12", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"-B"}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
@@ -416,11 +287,11 @@ const h_resize = (id, size) => {
                    <Panel id="2" onResize={(size) => v_resize("2", size)}>
                       <PanelGroup>
                         <Panel id="21" onResize={(size) => h_resize("21", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"-C"}  />
 			</Panel>
                         <ResizeHandle />
                         <Panel id="22" onResize={(size) => h_resize("22", size)}>
-                            <Tabular gsid={gsid}  />
+                            <Tabular gsid={gsid+"-D"}  />
 			</Panel>
                       </PanelGroup>
                    </Panel>
@@ -437,71 +308,8 @@ const h_resize = (id, size) => {
 
 */}
 
-{/*
-  <div style="height: 800px;  width:1800px;">
-      <PaneY
-        topElem={
-          <PaneX
-            leftElem={
-              <Tabular gsid={gsid+"A"}   syncScroll={syncScroll}/>
-            }
-            rightElem={
-              <Tabular gsid={gsid+"B"}   syncScroll={syncScroll}/>
-            }
-          ></PaneX>
-        }
-        bottomElem={
-          <PaneX
-            leftElem={
-              <Tabular gsid={gsid+"C"}   syncScroll={syncScroll}/>
-            }
-            rightElem={
-              <Tabular gsid={gsid+"D"}   syncScroll={syncScroll}/>
-            }
-          ></PaneX>
-        }
-      ></PaneY>
-    </div>
-*/}
 
-{/*
-  <div style="height: 600px;  width:800px;">
-      <PaneY
-        topElem={
-          <PaneX
-            leftElem={
-	      <>
-               <div>top left text</div>
-               <input  type="date" tabindex={9999} />
-	      </>
-            }
-            rightElem={
-	      <>
-               <div>top right text</div>
-               <input  type="date" tabindex={9999} />
-	      </>
-            }
-          ></PaneX>
-        }
-        bottomElem={
-          <PaneX
-            leftElem={
-	      <>
-               <div>bottom left text</div>
-               <input  type="date" tabindex={9999} />
-	      </>
-            }
-            rightElem={
-	      <>
-               <div>bottom right text</div>
-               <input  type="date" tabindex={9999} />
-	      </>
-            }
-          ></PaneX>
-        }
-      ></PaneY>
-    </div>
-*/}
+
     
           <StoreObserver
             {...{ ...options, sheetHeight, sheetWidth, sheetName }}
