@@ -41,11 +41,13 @@ export function Tabular({
   const [palette, setPalette] = createSignal<RefPaletteType>({});
   const { store, dispatch } = useContext(Context);
 
+  const [focus, setFocus] = createSignal(false);
+
   let {
     tableReactive,
     //choosing,
     editingAddress,
-    tabularRef,
+    //tabularRef,
     mainRef,
     //sheetWidth,
     //sheetHeight,
@@ -53,6 +55,7 @@ export function Tabular({
     leftHeaderSelecting,
     topHeaderSelecting,
   } = store();
+  let  tabularRef = null
 
   const [key, setKey] = createSignal([{}]);
 
@@ -63,13 +66,19 @@ export function Tabular({
   const [tableFocus, setTableFocus] = createSignal(true);
 
   const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    //console.log("handleFocus");
+    console.log("handleFocus", gsid);
+    setFocus(true);
+    dispatch(setStore({ tabularRef: tabularRef }));  //Tabular change
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    console.log("handleBlur", gsid);
+    setFocus(false);
+  };
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    //console.log("handleDragStart");
-    tabularRef.focus();
-    tabularRef.focus();
+    console.log("handleDragStart",gsid);
+    //tabularRef.focus();
+    //tabularRef.focus();
   };
 
   createEffect(() => {
@@ -223,7 +232,7 @@ export function Tabular({
           return;
         }
         table.wire.choosingAddress = p2a(choosing());
-        tabularRef.focus();
+        //tabularRef.focus();
       },
     ),
   );
@@ -531,7 +540,7 @@ export function Tabular({
   };
 
   const handleKeyDown = (e: EditorEventWithNativeEvent) => {
-    //console.log("Tabular:handleKeyDown", e.key);
+    //console.log("Tabular:handleKeyDown", gsid, e.key);
     e.preventDefault(); // Prevents the default page scroll
     e.stopPropagation();
 
@@ -619,6 +628,9 @@ export function Tabular({
   let pointerDown = false;
 
   const handlePointerDown = (event: PointerEvent) => {
+     console.log("handlePointerDown", gsid);
+    //dispatch(setStore({ tabularRef: tabularRef }));  //Tabular change
+    tabularRef.focus();
     pointerDown = true;
   };
 
@@ -643,6 +655,12 @@ export function Tabular({
         style={{
           width:  sheetWidth() + "px",
           height: sheetHeight() + "px",
+	  /*"border-top": "solid 2px #00ff80",*/
+	  "border-top": focus() ? "solid 2px #00ff80" : "none" ,
+	  /*"outline-color": "orange",*/
+	  /*"outline-style": "solid",*/
+	  /*"outline-width": "2px",*/
+	  outline: "none",
         }}
       /*
         style={{
@@ -656,6 +674,7 @@ export function Tabular({
         onPointerDown={handlePointerDown}
         onWheel={handleWheel}
         onFocus={handleFocus}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         tabindex="0"
@@ -674,8 +693,8 @@ export function Tabular({
                 ref={tableRef}
                 class={`gs-table`}
                 tabindex="0"
-                //onKeyDown={handleKeyDown}
-                onMouseDown={handleDragStart} //NEW
+                onKeyDown={handleKeyDown}
+                //onMouseDown={handleDragStart} //NEW
                 onFocus={handleFocus}
               >
                 <thead class="gs-thead" style={{ height: table.headerHeight }}>

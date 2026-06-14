@@ -1,5 +1,5 @@
 // pnpm generate-style
-export const LAST_MODIFIED = 1780403981;
+export const LAST_MODIFIED = 1781405840;
 export const CSS = `.gs-root1 {
   display: inline-block;
   position: relative;

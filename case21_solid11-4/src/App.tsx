@@ -333,7 +333,7 @@ const App = () => {
 
       <div class="grid-container">
         <GridSheetPassive
-	  gsid="TABLE-A"
+	  gsid="TABLE-01"
 	  syncScroll={syncScroll}
 	  key={keyA}
           hub={hub}
