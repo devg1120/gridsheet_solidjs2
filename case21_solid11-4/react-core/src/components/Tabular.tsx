@@ -858,6 +858,7 @@ const useOperationStyles = (store: StoreType, refs: RefPaletteType) => {
   if (!table) {
     return {};
   }
+
   const { wire } = table;
 
   const { copyingSheetId, copyingZone, cutting } = wire;

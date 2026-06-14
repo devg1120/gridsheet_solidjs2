@@ -548,6 +548,7 @@ class DragAction<T extends PointType> extends CoreAction<T> {
       selectingZone.endY = -1;
       selectingZone.endX = -1;
     }
+    console.trace("drag...");
     return { ...store, selectingZone };
   }
 }

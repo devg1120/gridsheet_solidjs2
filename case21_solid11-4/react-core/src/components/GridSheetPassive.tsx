@@ -194,7 +194,7 @@ export function GridSheetPassive({
   const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
 
 const v_resize = (id, size) => {
-      console.log("..  v_resize", id,size); // 1  2
+      //console.log("..  v_resize", id,size); // 1  2
       if (id == "1") {
            set_c11_height(400*(size/100));
            set_c12_height(400*(size/100));
@@ -205,7 +205,7 @@ const v_resize = (id, size) => {
 }
 
 const h_resize = (id, size) => {
-      console.log("   ..  h_resize", id,size);  // 11 12 21 22
+      //console.log("   ..  h_resize", id,size);  // 11 12 21 22
       
       if (id == "11") {
            set_c11_width(800*(size/100));

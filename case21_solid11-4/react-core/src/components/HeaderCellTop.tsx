@@ -236,7 +236,7 @@ export const HeaderCellTop = ({ x, isFreeze, freezeStyle }) => {
         class="gs-th-inner-wrap"
         onMouseDown={handleDragStart}
         onTouchStart={handleDragStart}
-        onMouseEnter={handleDragging}
+        //onMouseEnter={handleDragging}
         onMouseUp={handleDragEnd}
       >
         <div
