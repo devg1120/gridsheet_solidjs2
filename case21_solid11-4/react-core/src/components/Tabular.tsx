@@ -656,7 +656,8 @@ export function Tabular({
           width:  sheetWidth() + "px",
           height: sheetHeight() + "px",
 	  /*"border-top": "solid 2px #00ff80",*/
-	  "border-top": focus() ? "solid 2px #00ff80" : "none" ,
+	  /* "border-top": focus() ? "solid 2px #00ff80" : "solid 2px #FFFFFF" , */
+	  "border-top": focus() ? "solid 2px orange" : "solid 2px #FFFFFF" ,
 	  /*"outline-color": "orange",*/
 	  /*"outline-style": "solid",*/
 	  /*"outline-width": "2px",*/
