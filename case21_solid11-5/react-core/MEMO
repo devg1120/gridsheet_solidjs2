@@ -1,0 +1,16 @@
+
+## less to css build
+
+
+nvm use 20.19
+
+yarn
+
+
+npm run less
+      src/styles/root.less =>  root.min.css
+
+npm run gen
+      src/styles/root.less =>  root.min.css
+      src/styles/root.min.css =>  minified.ts
+
