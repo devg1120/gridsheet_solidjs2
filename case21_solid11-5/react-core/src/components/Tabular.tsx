@@ -93,6 +93,17 @@ export function Tabular({
   });
 
   createEffect(() => {
+    let s = sheetWidth()
+    setVirtualized(virtualize(table, tabularRef));
+    //setTableKey([{}]);
+  });
+  createEffect(() => {
+    let h = sheetHeight()
+    setVirtualized(virtualize(table, tabularRef));
+    //setTableKey([{}]);
+  });
+
+  createEffect(() => {
     //console.log("store update");
     table = store().tableReactive;
     setTableKey([{}]);

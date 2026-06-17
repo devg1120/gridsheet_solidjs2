@@ -119,8 +119,8 @@ export function GridSheetPassive({
       editingAddress: "--",
       editorRect: { y: 0, x: 0, height: 0, width: 0 },
       dragging: false,
-      sheetHeight: 300,
-      sheetWidth: 400,
+      //sheetHeight: 300,
+      //sheetWidth: 400,
       entering: false,
       matchingCells: [],
       matchingCellIndex: 0,
@@ -202,9 +202,10 @@ export function GridSheetPassive({
     set_c22_height( mainRef.offsetHeight/2 )
   });
 
-  const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 400);
-
-  const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
+  //const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 400);
+  //const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 800);
+  //const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 600);
+  //const [sheetWidth, setSheetWidth] = createSignal(options?.sheetWidth || 1000);
 
 const v_resize = (id, size) => {
       //console.log("..  v_resize", id,size); // 1  2
@@ -282,19 +283,20 @@ const h_resize = (id, size) => {
         />
 
 {/*      TOP FORMULA BAR  */}
-{/*       
+       
         {typeof store.searchQuery === "undefined" ? (
           showFormulaBar && <FormulaBar ready={hub().wire.ready} />
         ) : (
           <SearchBar />
         )}
-*/}
+
 
         <div
           class={`gs-main ${className || ""}`}
           ref={mainRef}
 
           style="height: 600px;  width:1000px;"
+          //style="height: 400px;  width:800px;"
           style={mergeProps(
             {
               "max-width": (store().tableReactive?.totalWidth || 0) + 2 + "px",
@@ -375,11 +377,11 @@ const h_resize = (id, size) => {
 
 
 
-    
+    {/*
           <StoreObserver
             {...{ ...options, sheetHeight, sheetWidth, sheetName }}
           />
-
+*/}
           <ContextMenu />
           <Show when={!loading()} fallback={<div>Loading...</div>}>
             <Resizer />
