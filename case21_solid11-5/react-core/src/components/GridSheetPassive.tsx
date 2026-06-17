@@ -209,11 +209,15 @@ export function GridSheetPassive({
 const v_resize = (id, size) => {
       //console.log("..  v_resize", id,size); // 1  2
       if (id == "1") {
-           set_c11_height(400*(size/100));
-           set_c12_height(400*(size/100));
+           //set_c11_height(400*(size/100));
+           set_c11_height(mainRef.offsetHeight *(size/100));
+           //set_c12_height(400*(size/100));
+           set_c12_height(mainRef.offsetHeight *(size/100));
       } else if ( id == "2" ) {
-           set_c21_height(400*(size/100));
-           set_c22_height(400*(size/100));
+           //set_c21_height(400*(size/100));
+           set_c21_height(mainRef.offsetHeight *(size/100));
+           //set_c22_height(400*(size/100));
+           set_c22_height(mainRef.offsetHeight *(size/100));
       }
 }
 
@@ -221,13 +225,17 @@ const h_resize = (id, size) => {
       //console.log("   ..  h_resize", id,size);  // 11 12 21 22
       
       if (id == "11") {
-           set_c11_width(800*(size/100));
+           //set_c11_width(800*(size/100));
+           set_c11_width( mainRef.offsetWidth *(size/100));
       } else if ( id == "12" ) {
-           set_c12_width(800*(size/100));
+           //set_c12_width(800*(size/100));
+           set_c12_width( mainRef.offsetWidth *(size/100));
       } else if ( id == "21" ) {
-           set_c21_width(800*(size/100));
+           //set_c21_width(800*(size/100));
+           set_c21_width( mainRef.offsetWidth *(size/100));
       } else if ( id == "22" ) {
-           set_c22_width(800*(size/100));
+           //set_c22_width(800*(size/100));
+           set_c22_width( mainRef.offsetWidth *(size/100));
       }
       
 
