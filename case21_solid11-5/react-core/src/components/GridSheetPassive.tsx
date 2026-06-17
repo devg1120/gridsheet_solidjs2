@@ -65,6 +65,8 @@ export function GridSheetPassive({
 
   let rootRef = null;
   let mainRef = null;
+  let panelGroupRef = null;
+
   let searchInputRef = null;
   let editorRef = null;
   let largeEditorRef = null; //GUSA
@@ -187,6 +189,17 @@ export function GridSheetPassive({
     embedStyle();
     dispatch(setStore({ mainRef: mainRef }));
     setLoading(false);
+    console.log("mainRef", mainRef.offsetWidth)
+    console.log("mainRef", mainRef.offsetHeight)
+    set_c11_width( mainRef.offsetWidth/2 )
+    set_c12_width( mainRef.offsetWidth/2 )
+    set_c21_width( mainRef.offsetWidth/2 )
+    set_c22_width( mainRef.offsetWidth/2 )
+
+    set_c11_height( mainRef.offsetHeight/2 )
+    set_c12_height( mainRef.offsetHeight/2 )
+    set_c21_height( mainRef.offsetHeight/2 )
+    set_c22_height( mainRef.offsetHeight/2 )
   });
 
   const [sheetHeight, setSheetHeight] = createSignal( options?.sheetHeight || 400);
@@ -260,16 +273,20 @@ const h_resize = (id, size) => {
           vertical={1}
         />
 
+{/*      TOP FORMULA BAR  */}
+{/*       
         {typeof store.searchQuery === "undefined" ? (
           showFormulaBar && <FormulaBar ready={hub().wire.ready} />
         ) : (
           <SearchBar />
         )}
+*/}
 
         <div
           class={`gs-main ${className || ""}`}
           ref={mainRef}
-	  id={gsid}
+
+          style="height: 600px;  width:1000px;"
           style={mergeProps(
             {
               "max-width": (store().tableReactive?.totalWidth || 0) + 2 + "px",
@@ -282,6 +299,7 @@ const h_resize = (id, size) => {
             () => style,
           )}
         >
+	
           <Editor mode={mode} />
 
 {/*
@@ -299,9 +317,17 @@ const h_resize = (id, size) => {
   </div>
 */}
 
+{/*
+ <div 
+       ref={panelGroupRef}
+       style="height: 400px;  width:800px;"
+        >
+*/}
 
- <div style="height: 400px;  width:800px;">
-
+ <div 
+       ref={panelGroupRef}
+       style="height: 100%;  width:100%;"
+        >
               <PanelGroup  direction="column">
                    <Panel id="1" onResize={(size) => v_resize("1", size)}>
                       <PanelGroup>
