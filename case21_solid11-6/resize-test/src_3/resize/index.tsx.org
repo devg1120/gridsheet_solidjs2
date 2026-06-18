@@ -1,20 +1,17 @@
 import {
     mergeProps,
     createMemo,
-    type ParentComponent,
+    ParentComponent,
     For,
     createSignal,
     createEffect,
     onMount,
     onCleanup,
-    type JSX,
+    JSX,
 } from "solid-js";
 import { isServer } from "solid-js/web";
 import { createStore, unwrap } from "solid-js/store";
-import type { Direction } from "./resize";
-import type { ResizeCallback } from "./resize";
-import { ResizeHandle } from "./resize";
-import { directions  } from "./resize";
+import { directions, Direction, ResizeCallback, ResizeHandle } from "./resize";
 
 const clamp = (num: number, min: number, max: number) => {
     return Math.min(Math.max(num, min), max);

@@ -1,13 +1,13 @@
 import {
     mergeProps,
     createMemo,
-    type ParentComponent,
+    //ParentComponent,
     For,
     createSignal,
     createEffect,
     onMount,
     onCleanup,
-    type JSX,
+    //JSX,
 } from "solid-js";
 import { isServer } from "solid-js/web";
 import { createStore, unwrap } from "solid-js/store";
@@ -252,7 +252,8 @@ export const defaultProps = {
     disableUserSelect: true,
 };
 
-export const DragAndResize: ParentComponent<Props> = (unmergedProps) => {
+//export const DragAndResize: ParentComponent<Props> = (unmergedProps) => {
+export const DragAndResize: any = (unmergedProps) => {
     const props = mergeProps(defaultProps, unmergedProps);
     let mainElement: HTMLDivElement | undefined;
     const [state, setState] = createStore<State>(defaultState);
@@ -686,7 +687,8 @@ export const DragAndResize: ParentComponent<Props> = (unmergedProps) => {
                         "touch-action": "none",
                     },
                     props.style,
-                ) as JSX.CSSProperties
+                //) as JSX.CSSProperties
+                ) 
             } // Typescript massaging
             classList={Object.assign(
                 {

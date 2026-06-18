@@ -1,4 +1,5 @@
-import { Show, createMemo, type ParentComponent, type JSX } from "solid-js";
+//import { Show, createMemo, ParentComponent, JSX } from "solid-js";
+import { Show, createMemo,   } from "solid-js";
 
 export const directions = [
     "top",
@@ -103,9 +104,11 @@ interface ResizeProps {
     resizeAxes?: { [key in Direction]?: boolean };
 }
 
-export const ResizeHandle: ParentComponent<ResizeProps & Record<string, unknown>> = (props) => {
+//export const ResizeHandle: ParentComponent<ResizeProps & Record<string, unknown>> = (props) => {
+export const ResizeHandle: any = (props) => {
     let ref!: HTMLDivElement;
-    const onResize: JSX.EventHandler<HTMLDivElement, PointerEvent> = (event) => {
+    //const onResize: JSX.EventHandler<HTMLDivElement, PointerEvent> = (event) => {
+    const onResize: any = (event) => {
         props.resizeCallback(event, props.direction);
         ref.setPointerCapture(event.pointerId)
     };

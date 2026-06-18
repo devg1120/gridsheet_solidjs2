@@ -1,4 +1,4 @@
-import { Show, createMemo, type ParentComponent, type JSX } from "solid-js";
+import { Show, createMemo, ParentComponent, JSX } from "solid-js";
 
 export const directions = [
     "top",
@@ -38,8 +38,7 @@ const cornerStyles = {
     "z-index": 1,
 } as const;
 
-//const resizeStyles: { [key in Direction]: JSX.CSSProperties } = {
-const resizeStyles: { [key in Direction]: any } = {
+const resizeStyles: { [key in Direction]: JSX.CSSProperties } = {
     top: {
         ...rowStyles,
         top: "-7.5px",
