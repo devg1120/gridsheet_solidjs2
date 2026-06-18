@@ -1,0 +1,26 @@
+import { createSignal } from 'solid-js'
+import { DragAndResize } from './demo'
+
+function App() {
+  const [count, setCount] = createSignal(0)
+
+  return (
+    <>
+      <section id="center">
+        <button
+          type="button"
+          class="counter"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          Count is {count()}
+        </button>
+      </section>
+
+      <div class="ticks"></div>
+
+      <DragAndResize />
+    </>
+  )
+}
+
+export default App

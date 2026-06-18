@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2022",
+    "module": "es2022",
+    "lib": ["DOM", "DOM.Iterable", "es2022"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "types": [],
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "dist", "./dev"]
+}

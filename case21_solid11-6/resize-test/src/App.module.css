@@ -1,0 +1,23 @@
+.App {
+   /*
+    height: 500px;
+    width: 800px;
+    */
+    /*margin: 400px 80px;*/
+    background: lightgrey;
+}
+
+.DragAndResize {
+    /*
+    height: 200px;
+    width: 200px;
+    */
+    background: lightgreen;
+}
+
+.DragHandle {
+    height: 20px;
+    width: 20px;
+    margin: auto;
+    background: red;
+}
