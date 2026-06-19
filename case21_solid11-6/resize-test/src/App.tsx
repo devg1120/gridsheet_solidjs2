@@ -172,7 +172,20 @@ const App: Component = () => {
                 ]}
             >
                 <div class={styles.DragHandle} classList={{ handle: true }} />
+		
                 <div id="custom-handle-right" />
+		
+		<textarea id="story" name="story" 
+                         style={{
+			     width:"calc(100% - 5px)",
+			     height:"calc(100% - 30px)",
+                             "resize": "none",
+                         }}
+
+		>
+                それは暗い嵐の夜だった...
+                </textarea>
+
             </DragAndResize>
          </div>
         </>
