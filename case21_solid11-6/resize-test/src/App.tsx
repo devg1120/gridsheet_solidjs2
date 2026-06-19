@@ -38,8 +38,7 @@ const App: Component = () => {
             </button>
             <button class={styles.Button} style={{  "background-color": separateEnabling() ? "white" : "lightgray", }}
 	        onClick={() => setSeparateEnabling(!separateEnabling())}>
-                 {separateEnabling() ? "unseparate" : "separate"} enable/disable functions
-                for drag/resize
+                 {separateEnabling() ? "unseparate" : "separate"} enable/disable 
             </button>
             <button class={styles.Button} style={{  "background-color": dragEnabled() ? "white" : "lightgray", }}
 	        onClick={() => setDragEnabled(!dragEnabled())}>

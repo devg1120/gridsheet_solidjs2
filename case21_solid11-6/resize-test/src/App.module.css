@@ -11,10 +11,12 @@
 
 .Button {
   text-align: start;
-  width: 320px;
+  width: 360px;
   padding: 4px;
   margin-top: 6px;
   margin-right: 18px;
+  font: 1.0em "Fira Sans", sans-serif;
+
 }
 
 /*
