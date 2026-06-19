@@ -1,24 +1,23 @@
 
 .Menu {
-  width: 500px;
+  width: 800px;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
   text-align: start;
-  background: grey;
+  /*background: grey;*/
 }
 
-/*
-.Menu {
-    height: 400px;
-    width: 800px;
-    background: grey;
-}
-*/
 
 .Button {
   text-align: start;
+  width: 320px;
+  padding: 4px;
+  margin-top: 6px;
+  margin-right: 18px;
 }
 
+/*
 .DragAndResize {
     height: 100px;
     width: 100px;
@@ -31,3 +30,4 @@
     margin: auto;
     background: lightgrey;
 }
+*/

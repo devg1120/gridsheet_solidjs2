@@ -13,7 +13,7 @@ const App: Component = () => {
     const [state, setState] = createSignal<State>(defaultState);
     const [handleEnabled, setHandleEnabled] = createSignal<boolean>(false);
     let reference: HTMLElement | undefined = undefined;
-    const [boundaries, setBoundaries] = createSignal<boolean>(true);
+    const [boundaries, setBoundaries] = createSignal<boolean>(false);
     const [userSelect, setUserSelect] = createSignal<boolean>(true);
     const [className, setClassName] = createSignal<"" | "draggable">("draggable");
     createMemo(() => {
@@ -34,20 +34,20 @@ const App: Component = () => {
         <div class={styles.Menu}>
             <button class={styles.Button} style={{  "background-color": enabled() ? "white" : "lightgray", }} 
 	        onClick={() => setEnabled(!enabled())}>
-                Click to {enabled() ? "disable" : "enable"} overall
+                 {enabled() ? "disable" : "enable"} overall
             </button>
             <button class={styles.Button} style={{  "background-color": separateEnabling() ? "white" : "lightgray", }}
 	        onClick={() => setSeparateEnabling(!separateEnabling())}>
-                Click to {separateEnabling() ? "unseparate" : "separate"} enable/disable functions
+                 {separateEnabling() ? "unseparate" : "separate"} enable/disable functions
                 for drag/resize
             </button>
             <button class={styles.Button} style={{  "background-color": dragEnabled() ? "white" : "lightgray", }}
 	        onClick={() => setDragEnabled(!dragEnabled())}>
-                Click to {dragEnabled() ? "disable" : "enable"} drag
+                 {dragEnabled() ? "disable" : "enable"} drag
             </button>
             <button class={styles.Button} style={{  "background-color": resizeEnabled() ? "white" : "lightgray", }}
 	        onClick={() => setResizeEnabled(!resizeEnabled())}>
-                Click to {resizeEnabled() ? "disable" : "enable"} resize
+                 {resizeEnabled() ? "disable" : "enable"} resize
             </button>
             <button  class={styles.Button} 
                 onClick={() =>
@@ -57,7 +57,7 @@ const App: Component = () => {
                     })
                 }
             >
-                Click to jump to (150, 200)
+                 jump to (150, 200)
             </button>
             <button class={styles.Button} 
                 onClick={() =>
@@ -69,32 +69,36 @@ const App: Component = () => {
                     })
                 }
             >
-                Click to jump to (100, 100) with size (100, 100)
+                 jump to (100, 100) with size (100, 100)
             </button>
             <button  class={styles.Button} style={{  "background-color": handleEnabled() ? "white" : "lightgray", }}
 	        onClick={() => setHandleEnabled(!handleEnabled())}>
-                Click to {handleEnabled() ? "disable" : "enable"} the drag handle
+                 {handleEnabled() ? "disable" : "enable"} the drag handle
             </button>
             <button  class={styles.Button} 
-	        onClick={() => console.log(reference)}>Click to console log element ref</button>
-            <button  class={styles.Button} 
+	        onClick={() => console.log(reference)}> console log element ref</button>
+            <button  class={styles.Button} style={{  "background-color": boundaries() ? "white" : "lightgray", }}
 	        onClick={() => setBoundaries(!boundaries())}>
-                Click to toggle parent/window boundaries
+                 toggle parent/window boundaries
             </button>
             <button  class={styles.Button} style={{  "background-color": userSelect() ? "white" : "lightgray", }}
 	        onClick={() => setUserSelect(!userSelect())}>
-                Click to {userSelect() ? "disable" : "enable"} user select: none when moving
+                 {userSelect() ? "disable" : "enable"} user select: none when moving
             </button>
             <button  class={styles.Button} style={{  "background-color": rightHandlesOnly() ? "white" : "lightgray", }}
 	        onClick={() => setRightHandlesOnly(!rightHandlesOnly())}>
-                Click to enable {rightHandlesOnly() ? "only the right handle resize handles" : "all of the resize handles"}
+                 enable {rightHandlesOnly() ? "only the right handle resize handles" : "all of the resize handles"}
             </button>
         </div>
-	<div style={{ width:"1000px", height:"500px", "background-color": "lightgray",}} >
+	 <br/>
+	<div style={{ width:"800px", height:"300px", "background-color": "lightgray",}} >
             <DragAndResize
-                class={styles.DragAndResize + " " + className()}
+                //class={styles.DragAndResize + " " + className()}
+                class={ className()}
                 style={{
-                    "border-radius": "0.5rem",
+                    //"border-radius": "0.5rem",
+                    "background-color": "yellow",
+                    //"overflow": "hidden",
                 }}
                 ref={reference}
                 enabled={
@@ -106,16 +110,19 @@ const App: Component = () => {
                         : enabled()
                 }
                 disableUserSelect={userSelect()}
-                initialState={{ x: 10, y: 10, width: 150, height: 150 }}
+                initialState={{ x: 10, y: 10, width: 250, height: 150 }}
                 minSize={{ width: 80, height: 80 }}
                 //maxSize={{ width: 500, height: 500 }}
                 position={position()}
                 state={state()}
+		
                 boundary={
                     boundaries()
                         ? "window"
-                        : "parent" /*{top: 20, left: 20, right: 20, bottom: 20}*/
+                        : "parent" 
                 }
+		
+                //boundary="parent"
                 dragHandle={handleEnabled() ? ".handle" : undefined}
                 classWhileDragging="currentlyDragging"
                 classWhileResizing="currentlyResizing"
