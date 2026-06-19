@@ -1,8 +1,19 @@
-.App {
+.Menu {
+    /*
     height: 400px;
     width: 800px;
+    */
     /*margin: 400px 80px;*/
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+
     background: grey;
+}
+
+.Button {
+  text-align: start;
 }
 
 .DragAndResize {

@@ -27,10 +27,12 @@ const App: Component = () => {
     /*
         <div class={styles.App}>
         <div >
+        <div >
 */
     return (
-        <div class={styles.App}>
-            <button onClick={() => setEnabled(!enabled())}>
+        <>
+        <div class={styles.Menu}>
+            <button class={styles.Button} onClick={() => setEnabled(!enabled())}>
                 Click to {enabled() ? "disable" : "enable"} overall
             </button>
             <button onClick={() => setSeparateEnabling(!separateEnabling())}>
@@ -78,6 +80,7 @@ const App: Component = () => {
             <button onClick={() => setRightHandlesOnly(!rightHandlesOnly())}>
                 Click to enable {rightHandlesOnly() ? "only the right handle resize handles" : "all of the resize handles"}
             </button>
+        </div>
             <DragAndResize
                 class={styles.DragAndResize + " " + className()}
                 style={{
@@ -155,7 +158,7 @@ const App: Component = () => {
                 <div class={styles.DragHandle} classList={{ handle: true }} />
                 <div id="custom-handle-right" />
             </DragAndResize>
-        </div>
+        </>
     );
 };
 
