@@ -24,73 +24,9 @@ const App: Component = () => {
         }
     });
     const [rightHandlesOnly, setRightHandlesOnly] = createSignal<boolean>(true);
-    /*
-        <div class={styles.App}>
-        <div >
-        <div >
-*/
+
     return (
-        <>
-        <div class={styles.Menu}>
-            <button class={styles.Button} style={{  "background-color": enabled() ? "white" : "lightgray", }} 
-	        onClick={() => setEnabled(!enabled())}>
-                Click to {enabled() ? "disable" : "enable"} overall
-            </button>
-            <button class={styles.Button} style={{  "background-color": separateEnabling() ? "white" : "lightgray", }}
-	        onClick={() => setSeparateEnabling(!separateEnabling())}>
-                Click to {separateEnabling() ? "unseparate" : "separate"} enable/disable functions
-                for drag/resize
-            </button>
-            <button class={styles.Button} style={{  "background-color": dragEnabled() ? "white" : "lightgray", }}
-	        onClick={() => setDragEnabled(!dragEnabled())}>
-                Click to {dragEnabled() ? "disable" : "enable"} drag
-            </button>
-            <button class={styles.Button} style={{  "background-color": resizeEnabled() ? "white" : "lightgray", }}
-	        onClick={() => setResizeEnabled(!resizeEnabled())}>
-                Click to {resizeEnabled() ? "disable" : "enable"} resize
-            </button>
-            <button  class={styles.Button} 
-                onClick={() =>
-                    setPosition({
-                        x: 150,
-                        y: 200,
-                    })
-                }
-            >
-                Click to jump to (150, 200)
-            </button>
-            <button class={styles.Button} 
-                onClick={() =>
-                    setState({
-                        x: 100,
-                        y: 100,
-                        width: 100,
-                        height: 100,
-                    })
-                }
-            >
-                Click to jump to (100, 100) with size (100, 100)
-            </button>
-            <button  class={styles.Button} style={{  "background-color": handleEnabled() ? "white" : "lightgray", }}
-	        onClick={() => setHandleEnabled(!handleEnabled())}>
-                Click to {handleEnabled() ? "disable" : "enable"} the drag handle
-            </button>
-            <button  class={styles.Button} 
-	        onClick={() => console.log(reference)}>Click to console log element ref</button>
-            <button  class={styles.Button} 
-	        onClick={() => setBoundaries(!boundaries())}>
-                Click to toggle parent/window boundaries
-            </button>
-            <button  class={styles.Button} style={{  "background-color": userSelect() ? "white" : "lightgray", }}
-	        onClick={() => setUserSelect(!userSelect())}>
-                Click to {userSelect() ? "disable" : "enable"} user select: none when moving
-            </button>
-            <button  class={styles.Button} style={{  "background-color": rightHandlesOnly() ? "white" : "lightgray", }}
-	        onClick={() => setRightHandlesOnly(!rightHandlesOnly())}>
-                Click to enable {rightHandlesOnly() ? "only the right handle resize handles" : "all of the resize handles"}
-            </button>
-        </div>
-	<div style={{ width:"1000px", height:"500px", "background-color": "lightgray",}} >
+      <div style={{ width:"1000px", height:"500px", "background-color": "lightgray",}} >
             <DragAndResize
                 class={styles.DragAndResize + " " + className()}
                 style={{
@@ -108,7 +44,7 @@ const App: Component = () => {
                 disableUserSelect={userSelect()}
                 initialState={{ x: 10, y: 10, width: 150, height: 150 }}
                 minSize={{ width: 80, height: 80 }}
-                //maxSize={{ width: 500, height: 500 }}
+		//maxSize={{ width: 500, height: 500 }}
                 position={position()}
                 state={state()}
                 boundary={
@@ -125,23 +61,23 @@ const App: Component = () => {
                 }}
                 drag={(e, offset, state) => {
                     console.log("Drag parameters:");
-                    //console.log({ event: e, offset: offset, state: state });
+                    console.log({ event: e, offset: offset, state: state });
                 }}
                 dragEnd={(e, offset, state) => {
                     console.log("Drag ended parameters");
-                    //console.log({ event: e, offset: offset, state: state });
+                    console.log({ event: e, offset: offset, state: state });
                 }}
                 resizeStart={(e) => {
                     console.log("Resize started parameters:");
-                    //console.log({ event: e });
+                    console.log({ event: e });
                 }}
                 resize={(e, dir, action) => {
                     console.log("Resize parameters:");
-                    //console.log({ event: e, direction: dir, action: action });
+                    console.log({ event: e, direction: dir, action: action });
                 }}
                 resizeEnd={(e, dir, action) => {
                     console.log("Resize ended parameters:");
-                    //console.log({ event: e, direction: dir, action: action });
+                    console.log({ event: e, direction: dir, action: action });
                 }}
                 id="DragAndResize"
                 resizeAxes={
@@ -168,8 +104,7 @@ const App: Component = () => {
                 <div class={styles.DragHandle} classList={{ handle: true }} />
                 <div id="custom-handle-right" />
             </DragAndResize>
-         </div>
-        </>
+       </div>
     );
 };
 

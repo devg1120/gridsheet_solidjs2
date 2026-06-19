@@ -90,7 +90,6 @@ const App: Component = () => {
                 Click to enable {rightHandlesOnly() ? "only the right handle resize handles" : "all of the resize handles"}
             </button>
         </div>
-	<div style={{ width:"1000px", height:"500px", "background-color": "lightgray",}} >
             <DragAndResize
                 class={styles.DragAndResize + " " + className()}
                 style={{
@@ -108,7 +107,7 @@ const App: Component = () => {
                 disableUserSelect={userSelect()}
                 initialState={{ x: 10, y: 10, width: 150, height: 150 }}
                 minSize={{ width: 80, height: 80 }}
-                //maxSize={{ width: 500, height: 500 }}
+                maxSize={{ width: 500, height: 500 }}
                 position={position()}
                 state={state()}
                 boundary={
@@ -125,23 +124,23 @@ const App: Component = () => {
                 }}
                 drag={(e, offset, state) => {
                     console.log("Drag parameters:");
-                    //console.log({ event: e, offset: offset, state: state });
+                    console.log({ event: e, offset: offset, state: state });
                 }}
                 dragEnd={(e, offset, state) => {
                     console.log("Drag ended parameters");
-                    //console.log({ event: e, offset: offset, state: state });
+                    console.log({ event: e, offset: offset, state: state });
                 }}
                 resizeStart={(e) => {
                     console.log("Resize started parameters:");
-                    //console.log({ event: e });
+                    console.log({ event: e });
                 }}
                 resize={(e, dir, action) => {
                     console.log("Resize parameters:");
-                    //console.log({ event: e, direction: dir, action: action });
+                    console.log({ event: e, direction: dir, action: action });
                 }}
                 resizeEnd={(e, dir, action) => {
                     console.log("Resize ended parameters:");
-                    //console.log({ event: e, direction: dir, action: action });
+                    console.log({ event: e, direction: dir, action: action });
                 }}
                 id="DragAndResize"
                 resizeAxes={
@@ -168,7 +167,6 @@ const App: Component = () => {
                 <div class={styles.DragHandle} classList={{ handle: true }} />
                 <div id="custom-handle-right" />
             </DragAndResize>
-         </div>
         </>
     );
 };
